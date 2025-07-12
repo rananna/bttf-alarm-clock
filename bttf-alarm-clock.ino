@@ -117,9 +117,49 @@ static int lastexecutedminute=-1;
 // --- Animation Control Variables ---
 // Prevents animations from triggering too frequently and tracks their timing
 unsigned long lastAnimationTriggerTime = 0;  // Timestamp of last animation in milliseconds
+// Structure to hold alarm clock settings. This struct's contents are saved/loaded from NVS.
+struct ClockSettings {
+  int destinationHour;
+  int destinationMinute;
+  bool alarmOnOff;
+  int snoozeMinutes;
+  int departureHour;    // Start hour for 'sleep' mode brightness
+  int departureMinute;
+  int arrivalHour;      // End hour for 'sleep' mode brightness
+  int arrivalMinute;
+  int brightness;       // Overall display brightness (e.g., for LEDs, 0-7)
+  int utcOffset;  // utc offset (-12 to +14)
+  int notificationVolume; // Volume level for alarms/notifications (e.g., 0-30)
+  bool timeTravelSoundToggle; // Renamed: Enable/disable time travel sound effects/alarm sounds
+  bool powerOfLoveToggle; // New: Toggle for "Power of Love" (e.g., Flux Capacitor animation/light)
+  int timeTravelAnimationInterval; // New: Interval in minutes for display animation (0 for disabled)
+  bool displayFormat24h; // True for 24-hour format (HH:MM), false for 12-hour (HH:MM AM/PM)
+  int theme;            // Theme index (e.g., 0 for Green, 1 for Red, 2 for Amber, 3 for Blue)
+};
 
-int UTC = -4;                       // GMT offset for Eastern Daylight Time (EDT) in hours
-const long utcOffsetInSeconds = 3600; // UTC offset in seconds (for NTP client configuration)
+// Initialize with default settings - these values are used if NVS read fails or for first boot.
+ClockSettings defaultSettings = { 
+  .destinationHour = 8,
+  .destinationMinute = 30,
+  .alarmOnOff = false,
+  .snoozeMinutes = 9,
+  .departureHour = 23, // 11 PM (Start of sleep mode)
+  .departureMinute = 0,
+  .arrivalHour = 7,    // 7 AM (End of sleep mode)
+  .arrivalMinute = 0,
+  .brightness = 5,
+  .utcOffset = -4,
+  .notificationVolume = 15,
+  .timeTravelSoundToggle = true, // Default to true
+  .powerOfLoveToggle = false, // Default to false
+  .timeTravelAnimationInterval = 10, // Default: Animate every 10 minutes
+  .displayFormat24h = true,
+  .theme = 0             // Default to the first theme (Green)
+};
+
+ClockSettings currentSettings; // This variable will hold the actively used settings (loaded from NVS or default)
+int UTC = currentSettings.utcOffset;                       // GMT offset for Eastern Daylight Time (EDT) in hours
+const long utcOffsetInSeconds = UTC*3600; // UTC offset in seconds (for NTP client configuration)
 // Note: Module connection pins defined later in the code
 
 bool changesMade = false;           // Flag to track if settings were modified and need saving
@@ -172,47 +212,7 @@ AsyncWebServer server(80);    // AsyncWebServer object, listening on port 80 (st
 Preferences preferences;      // Preferences object for Non-Volatile Storage (NVS)
 // Server-sent events to refresh client browsers
 AsyncEventSource events("/events");
-// Structure to hold alarm clock settings. This struct's contents are saved/loaded from NVS.
-struct ClockSettings {
-  int destinationHour;
-  int destinationMinute;
-  bool alarmOnOff;
-  int snoozeMinutes;
-  int departureHour;    // Start hour for 'sleep' mode brightness
-  int departureMinute;
-  int arrivalHour;      // End hour for 'sleep' mode brightness
-  int arrivalMinute;
-  int brightness;       // Overall display brightness (e.g., for LEDs, 0-7)
-  int sleepBrightness;  // Display brightness during defined 'sleep' hours (0-7)
-  int notificationVolume; // Volume level for alarms/notifications (e.g., 0-30)
-  bool timeTravelSoundToggle; // Renamed: Enable/disable time travel sound effects/alarm sounds
-  bool powerOfLoveToggle; // New: Toggle for "Power of Love" (e.g., Flux Capacitor animation/light)
-  int timeTravelAnimationInterval; // New: Interval in minutes for display animation (0 for disabled)
-  bool displayFormat24h; // True for 24-hour format (HH:MM), false for 12-hour (HH:MM AM/PM)
-  int theme;            // Theme index (e.g., 0 for Green, 1 for Red, 2 for Amber, 3 for Blue)
-};
 
-// Initialize with default settings - these values are used if NVS read fails or for first boot.
-ClockSettings defaultSettings = { 
-  .destinationHour = 8,
-  .destinationMinute = 30,
-  .alarmOnOff = false,
-  .snoozeMinutes = 9,
-  .departureHour = 23, // 11 PM (Start of sleep mode)
-  .departureMinute = 0,
-  .arrivalHour = 7,    // 7 AM (End of sleep mode)
-  .arrivalMinute = 0,
-  .brightness = 5,
-  .sleepBrightness = 1,
-  .notificationVolume = 15,
-  .timeTravelSoundToggle = true, // Default to true
-  .powerOfLoveToggle = false, // Default to false
-  .timeTravelAnimationInterval = 10, // Default: Animate every 10 minutes
-  .displayFormat24h = true,
-  .theme = 0             // Default to the first theme (Green)
-};
-
-ClockSettings currentSettings; // This variable will hold the actively used settings (loaded from NVS or default)
 
 // --- Function Prototypes ---
 // Declaring functions before they are defined allows the compiler to know their signatures.
@@ -339,12 +339,12 @@ const char* INDEX_HTML = R"raw(
                 </div>
             </label>
 
-            <label for="sleepBrightness">
-                Display Brightness (Sleep):
+            <label for="utcOffset">
+                UTC Offset:
                 <div class="slider-with-bar">
-                    <input type="range" id="sleepBrightness" min="0" max="7">
-                    <div id="sleepBrightnessBar" class="visual-bar brightness-bar"></div>
-                    <span id="sleepBrightnessValue">1</span>
+                    <input type="range" id="utcOffset" min="-12" max="14">
+                    <div id="utcOffsetBar" class="visual-bar brightness-bar"></div>
+                    <span id="utcOffsetValue">1</span>
                 </div>
             </label>
 
@@ -944,7 +944,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         { id: 'arrivalHour', valueSpanId: 'arrivalHourValue' },
         { id: 'arrivalMinute', valueSpanId: 'arrivalMinuteValue' },
         { id: 'brightness', valueSpanId: 'brightnessValue', hasBar: true },
-        { id: 'sleepBrightness', valueSpanId: 'sleepBrightnessValue', hasBar: true },
+        { id: 'utcOffset', valueSpanId: 'utcOffsetValue', hasBar: true },
         { id: 'notificationVolume', valueSpanId: 'volumeValue', hasBar: true },
         { id: 'timeTravelAnimationInterval', valueSpanId: 'timeTravelAnimationIntervalValue' }
     ];
@@ -984,8 +984,8 @@ function updateVisualBar(sliderId, currentValue, maxValue) {
         case 'brightness':
             barId = 'brightnessBar';
             break;
-        case 'sleepBrightness':
-            barId = 'sleepBrightnessBar';
+        case 'utcOffset':
+            barId = 'utcOffsetBar';
             break;
         case 'notificationVolume':
             barId = 'volumeBar';
@@ -1144,7 +1144,7 @@ function fetchSettings() {
                 { id: 'arrivalHour', valueSpanId: 'arrivalHourValue', prop: 'arrivalHour' },
                 { id: 'arrivalMinute', valueSpanId: 'arrivalMinuteValue', prop: 'arrivalMinute' },
                 { id: 'brightness', valueSpanId: 'brightnessValue', prop: 'brightness', hasBar: true },
-                { id: 'sleepBrightness', valueSpanId: 'sleepBrightnessValue', prop: 'sleepBrightness', hasBar: true },
+                { id: 'utcOffset', valueSpanId: 'utcOffsetValue', prop: 'utcOffset', hasBar: true },
                 { id: 'notificationVolume', valueSpanId: 'volumeValue', prop: 'notificationVolume', hasBar: true },
                 { id: 'timeTravelAnimationInterval', valueSpanId: 'timeTravelAnimationIntervalValue', prop: 'timeTravelAnimationInterval' }
             ];
@@ -1203,7 +1203,7 @@ function saveSettings() {
         arrivalHour: document.getElementById('arrivalHour').value,
         arrivalMinute: document.getElementById('arrivalMinute').value,
         brightness: document.getElementById('brightness').value,
-        sleepBrightness: document.getElementById('sleepBrightness').value,
+        utcOffset: document.getElementById('utcOffset').value,
         notificationVolume: document.getElementById('notificationVolume').value,
         timeTravelSoundToggle: document.getElementById('timeTravelSoundToggle').checked,
         powerOfLoveToggle: document.getElementById('powerOfLoveToggle').checked,
@@ -1441,7 +1441,7 @@ time_t getNTPtime() {
  */
 void processNTPresponse() {
     time_t epochTime = getNTPtime(); // Attempt to get time from the current NTP server
-    if (epochTime > 0) {
+    if (epochTime > 0) {TZ_INFOoffset
         // If a valid Unix epoch time is received:
         // 1. Set the system's real-time clock. `settimeofday` expects a `timeval` struct (seconds and microseconds).
         struct timeval tv;
@@ -1548,7 +1548,7 @@ void loadSettings() {
     if (currentSettings.arrivalHour < 0 || currentSettings.arrivalHour > 23) currentSettings.arrivalHour = defaultSettings.arrivalHour;
     if (currentSettings.arrivalMinute < 0 || currentSettings.arrivalMinute > 59) currentSettings.arrivalMinute = defaultSettings.arrivalMinute;
     if (currentSettings.brightness < 0 || currentSettings.brightness > 7) currentSettings.brightness = defaultSettings.brightness;
-    if (currentSettings.sleepBrightness < 0 || currentSettings.sleepBrightness > 7) currentSettings.sleepBrightness = defaultSettings.sleepBrightness;
+    if (currentSettings.utcOffset < -12 || currentSettings.utcOffset > 14) currentSettings.utcOffset = defaultSettings.utcOffset;
     if (currentSettings.notificationVolume < 0 || currentSettings.notificationVolume > 30) currentSettings.notificationVolume = defaultSettings.notificationVolume;
     currentSettings.timeTravelSoundToggle = (currentSettings.timeTravelSoundToggle != 0); // Ensure boolean is strictly true/false (Renamed)
     currentSettings.powerOfLoveToggle = (currentSettings.powerOfLoveToggle != 0); // New: Ensure boolean is strictly true/false
@@ -1566,8 +1566,8 @@ void loadSettings() {
     currentSettings.departureHour, currentSettings.departureMinute,
     currentSettings.arrivalHour, currentSettings.arrivalMinute);
 
-  Serial.printf("Brightness: %d, Sleep Brightness: %d, Volume: %d, Time Travel Sound: %d, Power of Love: %d, Animation Interval: %d min, 24h Format: %d, Theme: %d\n",
-    currentSettings.brightness, currentSettings.sleepBrightness,
+  Serial.printf("Brightness: %d, UTC Offset: %d, Volume: %d, Time Travel Sound: %d, Power of Love: %d, Animation Interval: %d min, 24h Format: %d, Theme: %d\n",
+    currentSettings.brightness, currentSettings.utcOffset,
     currentSettings.notificationVolume, currentSettings.timeTravelSoundToggle,
     currentSettings.powerOfLoveToggle, currentSettings.timeTravelAnimationInterval,
     currentSettings.displayFormat24h, currentSettings.theme);
@@ -1673,7 +1673,7 @@ void handleApiSettings(AsyncWebServerRequest *request) {
     doc["arrivalHour"] = currentSettings.arrivalHour;
     doc["arrivalMinute"] = currentSettings.arrivalMinute;
     doc["brightness"] = currentSettings.brightness;
-    doc["sleepBrightness"] = currentSettings.sleepBrightness;
+    doc["utcOffset"] = currentSettings.utcOffset;
     doc["notificationVolume"] = currentSettings.notificationVolume;
     doc["timeTravelSoundToggle"] = currentSettings.timeTravelSoundToggle; // Renamed
     doc["powerOfLoveToggle"] = currentSettings.powerOfLoveToggle; // New
@@ -1710,7 +1710,7 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
     if (request->hasParam("arrivalHour", true)) currentSettings.arrivalHour = request->getParam("arrivalHour", true)->value().toInt();
     if (request->hasParam("arrivalMinute", true)) currentSettings.arrivalMinute = request->getParam("arrivalMinute", true)->value().toInt();
     if (request->hasParam("brightness", true)) currentSettings.brightness = request->getParam("brightness", true)->value().toInt();
-    if (request->hasParam("sleepBrightness", true)) currentSettings.sleepBrightness = request->getParam("sleepBrightness", true)->value().toInt();
+    if (request->hasParam("utcOffset", true)) currentSettings.utcOffset = request->getParam("utcOffset", true)->value().toInt();
     if (request->hasParam("notificationVolume", true)) currentSettings.notificationVolume = request->getParam("notificationVolume", true)->value().toInt();
     if (request->hasParam("timeTravelSoundToggle", true)) currentSettings.timeTravelSoundToggle = (request->getParam("timeTravelSoundToggle", true)->value() == "true"); // Renamed
     if (request->hasParam("powerOfLoveToggle", true)) currentSettings.powerOfLoveToggle = (request->getParam("powerOfLoveToggle", true)->value() == "true"); // New
@@ -1755,7 +1755,7 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
 
     // Display & Sound settings
     PRINT_IF_CHANGED(brightness, "%d");
-    PRINT_IF_CHANGED(sleepBrightness, "%d");
+    PRINT_IF_CHANGED(utcOffset, "%d");
     PRINT_IF_CHANGED(notificationVolume, "%d");
     PRINT_BOOL_IF_CHANGED(timeTravelSoundToggle); // Renamed
     PRINT_BOOL_IF_CHANGED(powerOfLoveToggle); // New
