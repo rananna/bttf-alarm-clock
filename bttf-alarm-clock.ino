@@ -53,7 +53,7 @@
 #define FPSerial Serial1
 
 
-
+struct tm timeinfo;
 
 const byte RXD2 = 16; // Connects to module's TX => 16
 const byte TXD2 = 17; // Connects to module's RX => 17
@@ -153,7 +153,7 @@ byte packetBuffer[NTP_PACKET_SIZE]; // Buffer to hold incoming and outgoing NTP 
 // A UDP instance to let us send and receive packets over UDP for NTP
 WiFiUDP Udp;
 // Create an NTPClient instance, passing the WiFiUDP object and other parameters
-NTPClient timeClient(Udp, "pool.ntp.org", utcOffsetInSeconds); // <--- NTPClient internally calls begin() on ntpUDP
+
 // NTP Sync variables to manage sync status, timing, and retry logic.
 unsigned long lastNtpRequestSent = 0; // Stores the millis() when the last NTP request was sent
 const long NTP_BASE_INTERVAL_MS = 60000;   // Base interval (1 minute) to request new time if successful
@@ -2041,7 +2041,7 @@ else {
   
  
 
-   timeClient.begin();
+ 
    ArduinoOTA.begin();
 //setup the web pagew
    // Static IP Address configuration
@@ -2190,8 +2190,8 @@ else {
     digitalWrite(greenPM, 0);
   }
 
-lastexecutedhour=timeClient.getHours();
-lastexecutedminute=timeClient.getMinutes();
+lastexecutedhour=timeinfo.tm_hour;
+lastexecutedminute=timeinfo.tm_min;
  previoustestMillis = millis();
 
 }
@@ -2267,18 +2267,29 @@ void loop()
         }
     }
     
+    //    Periodically retrieve the current time from the ESP32's system clock.
+    //    `getLocalTime()` converts the UTC time (set by NTP) to local time
+    //    based on the `TZ_INFO` configured earlier.
+       if (timeSynchronized)  getLocalTime(&timeinfo);
+    //       `// Time is available and current
+    //    Use the time components (hour, minute, second) to update the  display.
+     //    timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec, currentSettings.displayFormat24h);
+     //date components:
+    //    timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900);
+
+
 
 
     
     h=1;
     Play_finished = 0;
-    timeClient.update();
+
 
     ArduinoOTA.handle();
 
     //set time variables
-    currenthour=timeClient.getHours();
-    currentminute=timeClient.getMinutes();
+    currenthour=timeinfo.tm_hour;
+    currentminute=timeinfo.tm_min;
     current_time_in_minutes=currenthour*60+currentminute;
     sleeping_time_in_minutes=currentSettings.departureHour*60+currentSettings.departureMinute;
     wake_time_in_minutes=currentSettings.arrivalHour*60+currentSettings.arrivalMinute;
@@ -2380,11 +2391,6 @@ void loop()
 
         if (currentMillis - lastAnimationTriggerTime >= intervalMs) {
             Serial.printf("Triggering Time Travel Animation (every %d min)!\n", currentSettings.timeTravelAnimationInterval);
-
-  //  if ( currenthour != lastexecutedhour) { 
-  // if (timeClient.getMinutes() == 0 && timeClient.getSeconds() == 0) {
- //  if (timeClient.getMinutes() == 5 || timeClient.getMinutes() == 10  || timeClient.getMinutes() == 15|| timeClient.getMinutes() == 20|| timeClient.getMinutes() == 25|| timeClient.getMinutes() == 30|| timeClient.getMinutes() == 35|| timeClient.getMinutes() == 40|| timeClient.getMinutes() == 45 || timeClient.getMinutes() == 50|| timeClient.getMinutes() == 55 || timeClient.getMinutes() == 0){
- //use this conditional instead of the one above for testing
 
 
   previoustestMillis = currenttestMillis;
@@ -2552,9 +2558,9 @@ void loop()
      myDFPlayer.stop();
      digitalWrite(SET_STOP_LED,LOW);
     }
-if (currentSettings.destinationHour == timeClient.getHours() && flag_alarm == 0 && currentSettings.alarmOnOff == 1)
+if (currentSettings.destinationHour == timeinfo.tm_hour && flag_alarm == 0 && currentSettings.alarmOnOff == 1)
 {
-  if (currentSettings.destinationMinute == timeClient.getMinutes()) {
+  if (currentSettings.destinationMinute == timeinfo.tm_min) {
     flag_alarm=1;
     alarm();
     currentSettings.alarmOnOff = 1;
@@ -2566,7 +2572,7 @@ if (currentSettings.destinationHour == timeClient.getHours() && flag_alarm == 0 
 if(currentSettings.alarmOnOff == 1){digitalWrite(SET_STOP_LED,HIGH);}
 else digitalWrite(SET_STOP_LED,LOW);
 
-if(currentSettings.destinationMinute != timeClient.getMinutes() )
+if(currentSettings.destinationMinute != timeinfo.tm_min )
 {flag_alarm=0;}
 
 
@@ -2643,26 +2649,20 @@ showMonth(months[12]);
 
     }
 
- // update the time
- timeClient.getFormattedTime();
- // Serial.println(timeClient.getFormattedTime());
-  unsigned long epochTime = timeClient.getEpochTime();
 
-
-  struct tm *ptm = gmtime ((time_t *)&epochTime); 
-  int currentYear = ptm->tm_year+1900;
+  int currentYear = timeinfo.tm_year+1900;
  // Serial.print("Year: ");
  //Serial.println(currentYear);
-
-  int monthDay = ptm->tm_mday;
+// dates: timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900);
+  int monthDay = timeinfo.tm_mday;
 // Serial.print("Month day: ");
  // Serial.println(monthDay);
 
-  int currentMonth = ptm->tm_mon+1;
+  int currentMonth = timeinfo.tm_mon+1;
  // Serial.print("Month: ");
  //Serial.println(currentMonth);
 
-      if (timeClient.getHours() == 0)
+      if (timeinfo.tm_hour == 0)
   { 
     Hour = 12;
    if (!sleeptimeactive) {
@@ -2673,9 +2673,9 @@ showMonth(months[12]);
     //Serial.write(" =0");
   }
 
-  else if (timeClient.getHours() == 12)
+  else if (timeinfo.tm_hour == 12)
   { 
-    Hour = timeClient.getHours();
+    Hour = timeinfo.tm_hour;
     if (!sleeptimeactive) {
     digitalWrite(greenAM, 0);
     digitalWrite(greenPM, 1);
@@ -2684,12 +2684,12 @@ showMonth(months[12]);
   //  Serial.write(" =12");
   }
   
-  else if (timeClient.getHours() >= 13) {
+  else if (timeinfo.tm_hour >= 13) {
     if (currentSettings.displayFormat24h) {
-        Hour = timeClient.getHours();
+        Hour = timeinfo.tm_hour;
     }
     else {
-         Hour = timeClient.getHours() - 12;
+         Hour = timeinfo.tm_hour - 12;
     }
     if (!sleeptimeactive) {
     digitalWrite(greenAM, 0);
@@ -2700,7 +2700,7 @@ showMonth(months[12]);
   }
 
   else {
-    Hour = timeClient.getHours();
+    Hour = timeinfo.tm_hour;
    if (!sleeptimeactive) {
     digitalWrite(greenAM, 1);
     digitalWrite(greenPM, 0);
@@ -2779,24 +2779,22 @@ showMonth(months[12]);
 
     green2.showNumberDecEx(currentYear,0b00000000,true);
     green3.showNumberDecEx(Hour, colonState ? 0b01000000 : 0b00000000,true,2,0);
-    green3.showNumberDecEx(timeClient.getMinutes(), colonState ? 0b01000000 : 0b00000000,true,2,2);
+    green3.showNumberDecEx(timeinfo.tm_min, colonState ? 0b01000000 : 0b00000000,true,2,2);
     showMonth(months[currentMonth-1]);
   } 
 
 
 
 
-if((currentMonth*30 + monthDay) >= 121 && (currentMonth*30 + monthDay) < 331){
-timeClient.setTimeOffset(utcOffsetInSeconds*UTC);} // Change daylight saving time - Summer
-else {timeClient.setTimeOffset((utcOffsetInSeconds*UTC) - 3600);} // Change daylight saving time - Winter
 
 
-if(timeClient.getHours()>=13){
+
+if(timeinfo.tm_hour>=13){
     digitalWrite(greenAM, 0);
     digitalWrite(greenPM, 1);}
 
   
-else if(timeClient.getHours()==12){
+else if(timeinfo.tm_hour==12){
     digitalWrite(greenAM, 0);
     digitalWrite(greenPM, 1);}
 
@@ -2913,9 +2911,8 @@ void alarm() {
                delay(1000);
    if (!cancelalarm) delay(5000);  //show 88 in the display
     //refresh day display
-     unsigned long epochTime = timeClient.getEpochTime();
-  struct tm *ptm = gmtime ((time_t *)&epochTime); 
-  int monthDay = ptm->tm_mday;
+
+  int monthDay = timeinfo.tm_mday;
         int thousands= (monthDay*10)/1000;
    int hundreds=((monthDay*10)/100) %10;
     int tens= ((monthDay*10)/10) %10;
@@ -2980,9 +2977,9 @@ void alarm() {
 }
 
 void show_hour(){
-timeClient.update();
+
 green3.showNumberDecEx(Hour,0b01000000,true,2,0);
-green3.showNumberDecEx(timeClient.getMinutes(),0b01000000,true,2,2);
+green3.showNumberDecEx(timeinfo.tm_min,0b01000000,true,2,2);
 
 }
 
