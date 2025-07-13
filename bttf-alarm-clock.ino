@@ -1,8 +1,8 @@
 /**
  * Back to the Future Alarm Clock
  * =================================  
- * Author: YourName               // Your name here
- * Version: 1.0.0 (July 7, 2025)  // Version number and release date
+ * Author: Randall North              // Your name here
+ * Version: 1.0.8 (July 7, 2025)  // Version number and release date
  * Board: ESP32 Dev Module        // Target hardware
  * License: MIT                   // Software license
  * 
@@ -19,6 +19,7 @@
  * - Time travel animations and sound effects                   // Movie authenticity
  * - Multiple display themes (Green, Red, Amber, Blue)          // User customization
  * - Power saving mode during specified hours                   // Energy efficiency
+ * - Full time zone support including daylight saving times     // Timekeeping flexibility
  */
 
 #include "Arduino.h"                // Core Arduino functions
@@ -36,7 +37,7 @@
 #include <ArduinoJson.h>            // JSON parsing for web API communication
 #include <time.h>                   // Time functions for clock operations
 #include <WiFiUdp.h>                // UDP protocol for NTP time synchronization
-#include <NTPClient.h>              // NTP client for Internet time synchronization
+//#include <NTPClient.h>              // NTP client for Internet time synchronization
 
 #define green_CLK 13
 #define green1_DIO 18
@@ -63,24 +64,19 @@ DFRobotDFPlayerMini myDFPlayer;
 void printDetail(uint8_t type, int value);
 
 float counter = 0;
-//int notificationVolume'= 30; //Set volume value. From 0 to 30
-//int snooze = 5; // Snooze time in minute
+
 int sound_minutes = 0;
 int sound_hours = 0;
-//int sound_toggle=0;
-//int destinationHour = 0;
-//int destinationMinute = 0;
+
 int flag_alarm = 0 ;
 
 int h=0;
 int Play_finished = 0;
 int easter_egg = 0;
-//int destinationHour=21;
-//int destinationMinute=0;
+
 int sleeping_time_in_minutes;
 
-//int arrivalHour=7;
-//int arrivalMinute=0;
+
 int wake_time_in_minutes;
 
 int currenthour;
@@ -147,8 +143,8 @@ const char* NTP_SERVERS[] = {
 const int NUM_NTP_SERVERS = sizeof(NTP_SERVERS) / sizeof(NTP_SERVERS[0]); // Calculate number of servers
 int currentNtpServerIndex = 0; // Index of the server currently being used for retries
 
-//const int NTP_PACKET_SIZE = 48; // Standard size of an NTP time stamp message (in bytes)
-byte packetBuffer[NTP_PACKET_SIZE]; // Buffer to hold incoming and outgoing NTP packets
+const int NTP_PACKET_SIZE = 48; // Standard size of an NTP time stamp message (in bytes)
+ byte packetBuffer[NTP_PACKET_SIZE]; // Buffer to hold incoming and outgoing NTP packets
 
 // A UDP instance to let us send and receive packets over UDP for NTP
 WiFiUDP Udp;
