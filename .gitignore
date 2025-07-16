@@ -1,0 +1,5 @@
+build/core/esp32-hal-time.c.o
+/build/core
+/build
+/.vscode
+vscode-arduino.vscode-arduino-community-0.7.2-win32-x64.vsix
