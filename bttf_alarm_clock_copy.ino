@@ -1,5 +1,5 @@
 /**
- * a change
+ * 
  * Back to the Future Alarm Clock
  * =================================  
  * Author: Randall North              // Your name here
@@ -188,6 +188,7 @@ struct ClockSettings {
   int timeTravelAnimationInterval; // New: Interval in minutes for display animation (0 for disabled)
   bool displayFormat24h; // True for 24-hour format (HH:MM), false for 12-hour (HH:MM AM/PM)
   int theme;            // Theme index (e.g., 0 for Green, 1 for Red, 2 for Amber, 3 for Blue)
+
 };
 
 // Initialize with default settings - these values are used if NVS read fails or for first boot.
