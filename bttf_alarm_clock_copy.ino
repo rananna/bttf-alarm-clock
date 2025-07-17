@@ -2231,11 +2231,11 @@ if (currentSettings.timeTravelSoundToggle==0) {
 
    ht16k33_display.clear();
     ht16k33_display.writeDisplay();
-  green1.setBrightness(0, true);
+  green1.setBrightness(currentSettings.brightness, true);
   green1.showNumberDecEx(0, 0b00000000, true);
-  green2.setBrightness(currentSettings.brightness, true);
+  green2.setBrightness(0,false);
   green2.showNumberDecEx(0, 0b00000000, true);
-  green3.setBrightness(0, true);
+  green3.setBrightness(0, false);
   green3.showNumberDecEx(0, 0b00000000, true);
  
   monthdayupdate(88);
