@@ -54,7 +54,7 @@
 #define MINUTE_BUTTON 32          // Input pin for incrementing the minute in settings mode
 #define FPSerial Serial1            // Serial port used for communication with the DFPlayer Mini MP3 module
 
-
+static bool nighttimeonlyonce=true;
 struct tm timeinfo;
 
 const byte RXD2 = 16;           // RX pin connected to the DFPlayer Mini's TX pin
@@ -188,7 +188,7 @@ struct ClockSettings {
   int timeTravelAnimationInterval; // New: Interval in minutes for display animation (0 for disabled)
   bool displayFormat24h; // True for 24-hour format (HH:MM), false for 12-hour (HH:MM AM/PM)
   int theme;            // Theme index (e.g., 0 for Green, 1 for Red, 2 for Amber, 3 for Blue)
-
+  String timezoneString;  // String to store the selected timezone
 };
 
 // Initialize with default settings - these values are used if NVS read fails or for first boot.
@@ -207,7 +207,8 @@ ClockSettings defaultSettings = {
   .powerOfLoveToggle = false, // Default to false
   .timeTravelAnimationInterval = 10, // Default: Animate every 10 minutes
   .displayFormat24h = true,
-  .theme = 0             // Default to the first theme (Green)
+  .theme = 0,             // Default to the first theme (Green)
+  .timezoneString = "EST5EDT,M3.2.0,M11.1.0"  // Default timezone Canada/Eastern
 };
 
 ClockSettings currentSettings; // This variable will hold the actively used settings (loaded from NVS or default)
@@ -288,9 +289,12 @@ const char* INDEX_HTML = R"raw(
                 <span class="slider round"></span>
             </label>
             <br>
-            <label for="snoozeMinutes">Snooze Time (min):</label>
-            <input type="range" id="snoozeMinutes" min="1" max="59">
-            <span id="snoozeMinutesValue">9</span>
+            <label for="snoozeMinutes">Snooze Time (min):
+                <div class="slider-with-bar">
+                    <input type="range" id="snoozeMinutes" min="1" max="59" value="9">
+                    <span id="snoozeMinutesValue">9</span>
+                </div>
+            </label>
         </div>
 
         <div class="setting-group">
@@ -327,7 +331,7 @@ const char* INDEX_HTML = R"raw(
         </div>
 
         <div class="setting-group">
-            <h3>Display & Sound</h3>
+            <h3>Display & Sound Settings</h3>
             <label for="brightness">
                 Display Brightness:
                 <div class="slider-with-bar">
@@ -366,11 +370,7 @@ const char* INDEX_HTML = R"raw(
                 <span class="slider round"></span>
             </label><br>
 
-            <label for="displayFormat24h">24 Hour Format:</label>
-            <label class="toggle-switch">
-                <input type="checkbox" id="displayFormat24h">
-                <span class="slider round"></span>
-            </label>
+
 
             <label for="themeSelect">Theme:</label>
             <select id="themeSelect">
@@ -379,6 +379,44 @@ const char* INDEX_HTML = R"raw(
                 <option value="2">Amber</option>
                 <option value="3">Blue</option>
             </select>
+        </div>
+
+        <div class="setting-group">
+            <h3>Time Settings</h3>
+            <label for="timezoneSelect">Timezone:</label>
+            <select id="timezoneSelect">
+                <option value="EST5EDT,M3.2.0,M11.1.0" selected>Canada/Eastern</option>
+                <option value="PST8PDT,M3.2.0,M11.1.0">USA/Pacific</option>
+                <option value="MST7MDT,M3.2.0,M11.1.0">USA/Mountain</option>
+                <option value="CST6CDT,M3.2.0,M11.1.0">USA/Central</option>
+                <option value="GMT0">Europe/London</option>
+                <option value="CET-1CEST,M3.5.0,M10.5.0">Europe/Berlin</option>
+                <option value="EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Athens</option>
+                <option value="WST-8">Australia/Perth</option>
+                <option value="CET-1CEST,M3.5.0,M10.5.0">Europe/Berlin</option>
+                <option value="EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Athens</option>
+                <option value="WST-8">Australia/Perth</option>
+                <option value="ACT-9:30AEDT-10:30,M10.1.0,M4.1.0">Australia/Adelaide</option>
+                <option value="AEST-10">Australia/Brisbane</option>
+                <option value="GST-10">Australia/Sydney</option>
+                <option value="NZST-12NZDT-13,M9.5.0,M4.1.0/3">New Zealand/Auckland</option>
+                <option value="HST10">US/Hawaii</option>
+                <option value="AKST9AKDT8,M3.2.0,M11.1.0">US/Alaska</option>
+                <option value="America/Sao_Paulo">America/Sao_Paulo</option>
+                <option value="Asia/Dubai">Asia/Dubai</option>
+                <option value="Asia/Kolkata">Asia/Kolkata</option>
+                <option value="Africa/Cairo">Africa/Cairo</option>
+                <option value="JST-9">Japan/Tokyo</option>
+            </select> 
+
+
+            <label for="displayFormat24h">24 Hour Format:</label>
+            <label class="toggle-switch">
+                <input type="checkbox" id="displayFormat24h">
+                <span class="slider round"></span>
+            </label>
+            
+
         </div>
 
         <button id="saveSettingsBtn" onclick="saveSettings()">Save All Settings</button>
@@ -1193,8 +1231,13 @@ function fetchSettings() {
                 themeSelect.value = data.theme;
                 applyTheme(data.theme);
             }
+      // Set the selected theme in the dropdown
+            const timezoneSelect = document.getElementById('timezoneSelect');
+            if (timezoneSelect) {
 
-            // Re-validate all inputs after populating, though for sliders this mainly ensures button is enabled.
+                timezoneSelect.value = data.timezoneString;
+           }
+              // Re-validate all inputs after populating, though for sliders this mainly ensures button is enabled.
             validateAllNumberInputs(); 
         })
         .catch(error => {
@@ -1226,8 +1269,10 @@ function saveSettings() {
         powerOfLoveToggle: document.getElementById('powerOfLoveToggle').checked,
         timeTravelAnimationInterval: document.getElementById('timeTravelAnimationInterval').value,
         displayFormat24h: document.getElementById('displayFormat24h').checked,
-        theme: document.getElementById('themeSelect').value
-    };
+        theme: document.getElementById('themeSelect').value,
+        timezoneString: document.getElementById('timezoneSelect').value
+        
+   };
 
     fetch('/api/saveSettings', {
         method: 'POST',
@@ -1570,25 +1615,27 @@ void loadSettings() {
     currentSettings.powerOfLoveToggle = (currentSettings.powerOfLoveToggle != 0); // New: Ensure boolean is strictly true/false
     if (currentSettings.timeTravelAnimationInterval < 0 || currentSettings.timeTravelAnimationInterval > 60) currentSettings.timeTravelAnimationInterval = defaultSettings.timeTravelAnimationInterval; // New: Validate interval
     currentSettings.displayFormat24h = (currentSettings.displayFormat24h != 0); // Ensure boolean is strictly true/false
+            // No validation needed for timezoneString as it's a string, but ensure it's not too long to avoid buffer overflows
     if (currentSettings.theme < 0 || currentSettings.theme > 3) currentSettings.theme = defaultSettings.theme; // Assuming 4 themes (0-3)
   }
-
   // Print the active settings to Serial for debugging purposes, regardless of whether they were loaded or defaulted.
-  Serial.println("Active Settings:");
+    Serial.println("Active Settings:");
   Serial.printf("Destination: %02d:%02d, Alarm On: %d, Snooze: %d min\n",
     currentSettings.destinationHour, currentSettings.destinationMinute,
     currentSettings.alarmOnOff, currentSettings.snoozeMinutes);
   Serial.printf("Departure: %02d:%02d, Arrival: %02d:%02d\n",
     currentSettings.departureHour, currentSettings.departureMinute,
     currentSettings.arrivalHour, currentSettings.arrivalMinute);
-
- Serial.printf("Brightness: %d, Volume: %d, Time Travel Sound: %d, Power of Love: %d, Animation Interval: %d min, 24h Format: %d, Theme: %d\n",
-    currentSettings.brightness, 
+  Serial.println("---------------------------------\n");
+Serial.printf("Brightness: %d, Volume: %d, Time Travel Sound: %d, Power of Love: %d, Animation Interval: %d min, 24h Format: %d, Theme: %d\n",
+     currentSettings.brightness,
     currentSettings.notificationVolume, currentSettings.timeTravelSoundToggle,
     currentSettings.powerOfLoveToggle, currentSettings.timeTravelAnimationInterval,
     currentSettings.displayFormat24h, currentSettings.theme);
-}
 
+
+  Serial.printf("Timezone: %s\n", currentSettings.timezoneString.c_str());
+}
 /**
  * @brief Saves the current `currentSettings` structure to NVS.
  * This should be called whenever settings are modified (e.g., after receiving updates from the web UI).
@@ -1604,6 +1651,7 @@ void saveSettings() {
  */
 void resetDefaultSettings() {
   currentSettings = defaultSettings; // Copy all values from `defaultSettings` to `currentSettings`
+  currentSettings.timezoneString = "EST5EDT,M3.2.0,M11.1.0";
   saveSettings(); // Immediately save these new default settings to NVS
   Serial.println("Settings reset to defaults and saved.");
 }
@@ -1694,6 +1742,7 @@ void handleApiSettings(AsyncWebServerRequest *request) {
     doc["powerOfLoveToggle"] = currentSettings.powerOfLoveToggle; // New
     doc["timeTravelAnimationInterval"] = currentSettings.timeTravelAnimationInterval; // New
     doc["displayFormat24h"] = currentSettings.displayFormat24h;
+    doc["timezoneString"] = currentSettings.timezoneString;
     doc["theme"] = currentSettings.theme; // Existing
 
     String jsonString;
@@ -1730,8 +1779,9 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
     if (request->hasParam("powerOfLoveToggle", true)) currentSettings.powerOfLoveToggle = (request->getParam("powerOfLoveToggle", true)->value() == "true"); // New
     if (request->hasParam("timeTravelAnimationInterval", true)) currentSettings.timeTravelAnimationInterval = request->getParam("timeTravelAnimationInterval", true)->value().toInt(); // New
     if (request->hasParam("displayFormat24h", true)) currentSettings.displayFormat24h = (request->getParam("displayFormat24h", true)->value() == "true");
+     if (request->hasParam("timezoneString", true)) currentSettings.timezoneString = request->getParam("timezoneString", true)->value();
     if (request->hasParam("theme", true)) currentSettings.theme = request->getParam("theme", true)->value().toInt(); // Existing
-
+    nighttimeonlyonce = true;
     // 2. Compare `oldSettings` with `currentSettings` and print any changed values to Serial Monitor.
     Serial.println("\n--- Settings Changes Detected ---");
     
@@ -1741,11 +1791,16 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
     // (long) cast is used for printf's %d to avoid potential warnings with int types, especially on different architectures.
     #define PRINT_IF_CHANGED(settingName, format) \
         if (currentSettings.settingName != oldSettings.settingName) { \
-            Serial.printf("  " #settingName ": " format " -> " format "\n", \
-                         (long)oldSettings.settingName, (long)currentSettings.settingName); \
+                     Serial.printf("  " #settingName ": " format " -> " format "\n", \
+                                             oldSettings.settingName, currentSettings.settingName); \
             changesMade = true; \
         }
-
+    // Macro for cleaner comparison and printing of boolean settings or String settings that have changed.
+ #define PRINT_STRING_IF_CHANGED(settingName) \
+        if (currentSettings.settingName != oldSettings.settingName) { \
+            Serial.printf("  " #settingName ": %s -> %s\n", oldSettings.settingName.c_str(), currentSettings.settingName.c_str()); \
+            changesMade = true; \
+        }
     // Macro for cleaner comparison and printing of boolean settings that have changed.
     // Uses ternary operator to print "On" or "Off".
     #define PRINT_BOOL_IF_CHANGED(settingName) \
@@ -1755,7 +1810,12 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
                          (currentSettings.settingName ? "On" : "Off")); \
             changesMade = true; \
         }
-
+// Macro for cleaner comparison and printing of string settings that have changed.
+    #define PRINT_STRING_IF_CHANGED(settingName) \
+        if (currentSettings.settingName != oldSettings.settingName) { \
+            Serial.printf("  " #settingName ": %s -> %s\n", oldSettings.settingName.c_str(), currentSettings.settingName.c_str()); \
+            changesMade = true; \
+        }
     // Apply the macros to check and print each setting:
     // Time-related settings
     PRINT_IF_CHANGED(destinationHour, "%d");
@@ -1775,8 +1835,23 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
     PRINT_BOOL_IF_CHANGED(powerOfLoveToggle); // New
     PRINT_IF_CHANGED(timeTravelAnimationInterval, "%d"); // New
     PRINT_BOOL_IF_CHANGED(displayFormat24h);
+   PRINT_STRING_IF_CHANGED(timezoneString);
     PRINT_IF_CHANGED(theme, "%d"); // Existing
+    
+        if (currentSettings.timezoneString != oldSettings.timezoneString) {
+              Serial.print("New Timezone String: ");
+          Serial.println(currentSettings.timezoneString);
+          changesMade = true;
+        }
+        if (currentSettings.theme != oldSettings.theme) {
+          changesMade = true;
+        }
 
+      if(currentSettings.timezoneString != oldSettings.timezoneString) {
+             nighttimeonlyonce = true;
+             Serial.println("reset nighttimeonlyonce");
+              changesMade = true;
+        }
     if (!changesMade) {
         Serial.println("  No observable changes in settings.");
     }
@@ -1964,6 +2039,9 @@ server.addHandler(&events);
     processNTPresponse(); 
 
     // --- Web Server Route Definitions ---
+     // Function to set the timezone
+    setenv("TZ", currentSettings.timezoneString.c_str(), 1);
+    tzset();
     // Define how the AsyncWebServer responds to different URL paths (endpoints).
 
     // Root URL: Serve the main HTML page.
@@ -2015,6 +2093,8 @@ server.addHandler(&events);
   preferences.begin("alarm-settings", false);
   Serial.println("Preferences initialized.");
   loadSettings(); // Load previously saved settings or initialize default
+   Serial.print("Loaded timezone string: ");
+    Serial.println(currentSettings.timezoneString);
  
  
  
@@ -2247,7 +2327,7 @@ void loop()
     unsigned long currenttestMillis = millis();
     unsigned long lastYieldTime = millis();
     static bool colonState = false;
-    static bool nighttimeonlyonce=true;
+    
   // Handle watchdog
   if (millis() - lastYieldTime > 50) {
     yield();
@@ -2299,42 +2379,50 @@ void loop()
 
     ArduinoOTA.handle();
 
-    //set time variables
-    currenthour=timeinfo.tm_hour;
-    currentminute=timeinfo.tm_min;
-    current_time_in_minutes=currenthour*60+currentminute;
-    sleeping_time_in_minutes=currentSettings.departureHour*60+currentSettings.departureMinute;
-    wake_time_in_minutes=currentSettings.arrivalHour*60+currentSettings.arrivalMinute;
-    bool sleeptimeactive=false;
-  // determine if time is within the sleeping range
-    sleeptimeactive=false; 
-  if (sleeping_time_in_minutes > wake_time_in_minutes) { // Handle range that spans midnight
-    if (current_time_in_minutes >= sleeping_time_in_minutes || current_time_in_minutes < wake_time_in_minutes) {
-          sleeptimeactive=true;
- //          Serial.println("sleeptimeactive1");
-   //        Serial.println(sleeping_time_in_minutes);
-     //      Serial.println(wake_time_in_minutes);
-       //    Serial.println(current_time_in_minutes);
-         //  Serial.println(currenthour);
-         //  Serial.println(currentminute);
-          
-      }
-            
-   }
-   else
-   {
-     if (current_time_in_minutes >= sleeping_time_in_minutes && current_time_in_minutes < wake_time_in_minutes) {
-        sleeptimeactive=true;
-//       Serial.println("sleeptimeactive2"); 
-  //         Serial.println(sleeping_time_in_minutes);
-     //    Serial.println(wake_time_in_minutes);
-       //  Serial.println(current_time_in_minutes);
-         //  Serial.println(currenthour);
-           //Serial.println(currentminute);
-          
-     }
-    
-   }  
+       //CHECK IF sleep time
+  
+ 
+   // set time variables
+    bool sleeptimeactive = false;
+
+    if (timeSynchronized) {
+        // Create a time_t value for the current time
+        time_t current_time = mktime(&timeinfo);
+
+        // Create time_t values for departure and arrival times on the current day
+        struct tm departure_tm = timeinfo;
+        departure_tm.tm_hour = currentSettings.departureHour;
+        departure_tm.tm_min = currentSettings.departureMinute;
+        departure_tm.tm_sec = 0;
+        time_t departure_time = mktime(&departure_tm);
+
+        struct tm arrival_tm = timeinfo;
+        arrival_tm.tm_hour = currentSettings.arrivalHour;
+        arrival_tm.tm_min = currentSettings.arrivalMinute;
+        arrival_tm.tm_sec = 0;
+        time_t arrival_time = mktime(&arrival_tm);
+
+        // Adjust for crossing midnight
+        if (departure_time > arrival_time) {
+            // If departure time is later than arrival time, it means the sleep period crosses midnight.
+            // We check if the current time is either after the departure time OR before the arrival time.
+            sleeptimeactive = (current_time >= departure_time || current_time < arrival_time);
+        } else {
+            // If departure time is earlier than arrival time, the sleep period is within the same day.
+            // We check if the current time is between the departure and arrival times.
+            sleeptimeactive = (current_time >= departure_time && current_time < arrival_time);
+        }
+
+        Serial.print("Current time: ");
+        Serial.println(current_time);
+        Serial.print("Departure time: ");
+        Serial.println(departure_time);
+        Serial.print("Arrival time: ");
+        Serial.println(arrival_time);
+        Serial.print("Sleep time active: ");
+        Serial.println(sleeptimeactive);
+
+    }
     
     //CHECK IF sleep time
   
@@ -2347,6 +2435,9 @@ void loop()
   if (changesMade) {
     // Apply new settings
            Serial.println("Web page settings were updated! Performing actions...");
+              
+              setenv("TZ", currentSettings.timezoneString.c_str(), 1);
+            tzset();
    //change the player volume
     myDFPlayer.volume(currentSettings.notificationVolume);  
     //CHECK TO SEE IF alarmOnOff HAS CHANGED, IF SO CHANGE THE LED STATUS
@@ -2744,6 +2835,7 @@ showMonth(months[12]);
      green2.setBrightness(0,0);
     green3.setBrightness(0,0);
  //ht16k33_green1.setBrightness(1);
+ Serial.println("else not sleeptimeactive and set nighttimeonlyonce=true");
    ht16k33_display.clear();
     ht16k33_display.writeDisplay();
 
