@@ -1638,7 +1638,7 @@ Serial.printf("Brightness: %d, Volume: %d, Time Travel Sound: %d, Power of Love:
     currentSettings.displayFormat24h, currentSettings.theme);
 
 
-  Serial.printf("Timezone: %s\n", currentSettings.timezoneString.c_str());
+ Serial.print("Timezone: ");
 }
 /**
  * @brief Saves the current `currentSettings` structure to NVS.
@@ -1661,7 +1661,7 @@ void resetDefaultSettings() {
 }
 
 // --- API Handler Functions for Web Server ---
-
+char timezone[64];
 /**
  * @brief Handles GET requests to the `/api/time` endpoint.
  * Returns the current time, date, NTP synchronization status, last sync time, and sync message as a JSON object.
@@ -1795,17 +1795,11 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
     // (long) cast is used for printf's %d to avoid potential warnings with int types, especially on different architectures.
     #define PRINT_IF_CHANGED(settingName, format) \
         if (currentSettings.settingName != oldSettings.settingName) { \
-                     Serial.printf("  " #settingName ": " format " -> " format "\n", \
-                                             oldSettings.settingName, currentSettings.settingName); \
+            Serial.printf("  " #settingName ": " format " -> " format "\n", \
+                    (long)oldSettings.settingName, (long)currentSettings.settingName); \
             changesMade = true; \
         }
-    // Macro for cleaner comparison and printing of boolean settings or String settings that have changed.
- #define PRINT_STRING_IF_CHANGED(settingName) \
-        if (currentSettings.settingName != oldSettings.settingName) { \
-            Serial.printf("  " #settingName ": %s -> %s\n", oldSettings.settingName, currentSettings.settingName); \
-            changesMade = true; \
-        }
-        
+     
     // Macro for cleaner comparison and printing of boolean settings that have changed.
     // Uses ternary operator to print "On" or "Off".
     #define PRINT_BOOL_IF_CHANGED(settingName) \
@@ -1813,13 +1807,13 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
             Serial.printf("  " #settingName ": %s -> %s\n", \
                          (oldSettings.settingName ? "On" : "Off"), \
                          (currentSettings.settingName ? "On" : "Off")); \
-            changesMade = true; \
-        }
-// Macro for cleaner comparison and printing of string settings that have changed.
+           changesMade = true; \
+         }
+    // Macro for cleaner comparison and printing of string settings that have changed.
     #define PRINT_STRING_IF_CHANGED(settingName) \
-        if (currentSettings.settingName != oldSettings.settingName) { \
-            Serial.printf("  " #settingName ": %s -> %s\n", oldSettings.settingName.c_str(), currentSettings.settingName.c_str()); \
-            changesMade = true; \
+        if (strcmp(currentSettings.settingName, oldSettings.settingName) != 0) { \
+            Serial.printf("  " #settingName ": %s -> %s\n", oldSettings.settingName, currentSettings.settingName); \
+          changesMade = true; \
         }
     // Apply the macros to check and print each setting:
     // Time-related settings
@@ -1840,12 +1834,11 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
     PRINT_BOOL_IF_CHANGED(powerOfLoveToggle); // New
     PRINT_IF_CHANGED(timeTravelAnimationInterval, "%d"); // New
     PRINT_BOOL_IF_CHANGED(displayFormat24h);
-   PRINT_STRING_IF_CHANGED(timezoneString);
+    PRINT_STRING_IF_CHANGED(timezoneString);
     PRINT_IF_CHANGED(theme, "%d"); // Existing
-    
-        if (strcmp(currentSettings.timezoneString, oldSettings.timezoneString) != 0) {
+       if (strcmp(currentSettings.timezoneString, oldSettings.timezoneString) != 0) {
               Serial.print("New Timezone String: ");
-           Serial.println(currentSettings.timezoneString);
+          Serial.println(currentSettings.timezoneString);
           changesMade = true;
         }
         if (currentSettings.theme != oldSettings.theme) {
@@ -1867,7 +1860,7 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
 }
 
 /**
- * @brief Handles GET requests to the `/api/status` endpoint.
+ *  @brief Handles GET requests to the `/api/status` endpoint
  * Returns general WiFi and network status information (connected status, IP, RSSI) as JSON.
  * * @param request Pointer to the AsyncWebServerRequest object.
  */
@@ -2441,7 +2434,7 @@ void loop()
     // Apply new settings
            Serial.println("Web page settings were updated! Performing actions...");
               
-              setenv("TZ", currentSettings.timezoneString.c_str(), 1);
+               setenv("TZ", currentSettings.timezoneString, 1);
             tzset();
    //change the player volume
     myDFPlayer.volume(currentSettings.notificationVolume);  
