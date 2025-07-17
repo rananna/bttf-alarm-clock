@@ -155,7 +155,7 @@ WiFiUDP Udp;
 
 // NTP Sync variables to manage sync status, timing, and retry logic.
 unsigned long lastNtpRequestSent = 0; // Stores the millis() when the last NTP request was sent
-const long NTP_BASE_INTERVAL_MS = 30000;   // Base interval (30 seconds) to request new time if successful
+const long NTP_BASE_INTERVAL_MS = 60000;   // Base interval (60 seconds) to request new time if successful
 unsigned long currentNtpInterval = NTP_BASE_INTERVAL_MS; // Current interval, adjusted by exponential backoff on failure
 const unsigned long NTP_MAX_INTERVAL_MS = 30 * 60 * 1000; // Max interval (30 minutes) for exponential backoff
 unsigned int ntpFailedAttempts = 0; // Counter for consecutive failed NTP sync attempts, used for backoff
@@ -1847,6 +1847,7 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
 
       if(currentSettings.timezoneString != oldSettings.timezoneString) {
              nighttimeonlyonce = true;
+             processNTPresponse();
              Serial.println("reset nighttimeonlyonce");
               changesMade = true;
         }
