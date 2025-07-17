@@ -155,7 +155,7 @@ WiFiUDP Udp;
 
 // NTP Sync variables to manage sync status, timing, and retry logic.
 unsigned long lastNtpRequestSent = 0; // Stores the millis() when the last NTP request was sent
-const long NTP_BASE_INTERVAL_MS = 60000;   // Base interval (1 minute) to request new time if successful
+const long NTP_BASE_INTERVAL_MS = 30000;   // Base interval (30 seconds) to request new time if successful
 unsigned long currentNtpInterval = NTP_BASE_INTERVAL_MS; // Current interval, adjusted by exponential backoff on failure
 const unsigned long NTP_MAX_INTERVAL_MS = 30 * 60 * 1000; // Max interval (30 minutes) for exponential backoff
 unsigned int ntpFailedAttempts = 0; // Counter for consecutive failed NTP sync attempts, used for backoff
@@ -188,7 +188,7 @@ struct ClockSettings {
   int timeTravelAnimationInterval; // New: Interval in minutes for display animation (0 for disabled)
   bool displayFormat24h; // True for 24-hour format (HH:MM), false for 12-hour (HH:MM AM/PM)
   int theme;            // Theme index (e.g., 0 for Green, 1 for Red, 2 for Amber, 3 for Blue)
-  String timezoneString;  // String to store the selected timezone
+  char timezoneString[64];  // String to store the selected timezone
 };
 
 // Initialize with default settings - these values are used if NVS read fails or for first boot.
@@ -1234,6 +1234,10 @@ function fetchSettings() {
       // Set the selected theme in the dropdown
             const timezoneSelect = document.getElementById('timezoneSelect');
             if (timezoneSelect) {
+            // Check if data.timezoneString is undefined or null, and if so, set it to the default timezone string
+                if (!data.timezoneString) {
+                  data.timezoneString = "EST5EDT,M3.2.0,M11.1.0"; // Set to default timezone
+               }
 
                 timezoneSelect.value = data.timezoneString;
            }
@@ -1651,7 +1655,7 @@ void saveSettings() {
  */
 void resetDefaultSettings() {
   currentSettings = defaultSettings; // Copy all values from `defaultSettings` to `currentSettings`
-  currentSettings.timezoneString = "EST5EDT,M3.2.0,M11.1.0";
+ strncpy(currentSettings.timezoneString, defaultSettings.timezoneString, sizeof(currentSettings.timezoneString) - 1); // Copy the string
   saveSettings(); // Immediately save these new default settings to NVS
   Serial.println("Settings reset to defaults and saved.");
 }
@@ -1779,7 +1783,7 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
     if (request->hasParam("powerOfLoveToggle", true)) currentSettings.powerOfLoveToggle = (request->getParam("powerOfLoveToggle", true)->value() == "true"); // New
     if (request->hasParam("timeTravelAnimationInterval", true)) currentSettings.timeTravelAnimationInterval = request->getParam("timeTravelAnimationInterval", true)->value().toInt(); // New
     if (request->hasParam("displayFormat24h", true)) currentSettings.displayFormat24h = (request->getParam("displayFormat24h", true)->value() == "true");
-     if (request->hasParam("timezoneString", true)) currentSettings.timezoneString = request->getParam("timezoneString", true)->value();
+    if (request->hasParam("timezoneString", true)) strncpy(currentSettings.timezoneString, request->getParam("timezoneString", true)->value().c_str(), sizeof(currentSettings.timezoneString) - 1);
     if (request->hasParam("theme", true)) currentSettings.theme = request->getParam("theme", true)->value().toInt(); // Existing
     nighttimeonlyonce = true;
     // 2. Compare `oldSettings` with `currentSettings` and print any changed values to Serial Monitor.
@@ -1798,9 +1802,10 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
     // Macro for cleaner comparison and printing of boolean settings or String settings that have changed.
  #define PRINT_STRING_IF_CHANGED(settingName) \
         if (currentSettings.settingName != oldSettings.settingName) { \
-            Serial.printf("  " #settingName ": %s -> %s\n", oldSettings.settingName.c_str(), currentSettings.settingName.c_str()); \
+            Serial.printf("  " #settingName ": %s -> %s\n", oldSettings.settingName, currentSettings.settingName); \
             changesMade = true; \
         }
+        
     // Macro for cleaner comparison and printing of boolean settings that have changed.
     // Uses ternary operator to print "On" or "Off".
     #define PRINT_BOOL_IF_CHANGED(settingName) \
@@ -1838,9 +1843,9 @@ void handleApiSaveSettings(AsyncWebServerRequest *request) {
    PRINT_STRING_IF_CHANGED(timezoneString);
     PRINT_IF_CHANGED(theme, "%d"); // Existing
     
-        if (currentSettings.timezoneString != oldSettings.timezoneString) {
+        if (strcmp(currentSettings.timezoneString, oldSettings.timezoneString) != 0) {
               Serial.print("New Timezone String: ");
-          Serial.println(currentSettings.timezoneString);
+           Serial.println(currentSettings.timezoneString);
           changesMade = true;
         }
         if (currentSettings.theme != oldSettings.theme) {
@@ -2040,7 +2045,7 @@ server.addHandler(&events);
 
     // --- Web Server Route Definitions ---
      // Function to set the timezone
-    setenv("TZ", currentSettings.timezoneString.c_str(), 1);
+       setenv("TZ", currentSettings.timezoneString, 1);
     tzset();
     // Define how the AsyncWebServer responds to different URL paths (endpoints).
 
@@ -2281,7 +2286,7 @@ if (currentSettings.timeTravelSoundToggle==0) {
     digitalWrite(greenAM, 1);
     digitalWrite(greenPM, 0);
   }
-
+Serial.printf("Timezone: %s\n", currentSettings.timezoneString);
 lastexecutedhour=timeinfo.tm_hour;
 lastexecutedminute=timeinfo.tm_min;
  previoustestMillis = millis();
@@ -2413,13 +2418,13 @@ void loop()
             sleeptimeactive = (current_time >= departure_time && current_time < arrival_time);
         }
 
-        Serial.print("Current time: ");
-        Serial.println(current_time);
-        Serial.print("Departure time: ");
-        Serial.println(departure_time);
-        Serial.print("Arrival time: ");
-        Serial.println(arrival_time);
-        Serial.print("Sleep time active: ");
+       // Serial.print("Current time: ");
+       // Serial.println(current_time);
+       // Serial.print("Departure time: ");
+       // Serial.println(departure_time);
+       // Serial.print("Arrival time: ");
+       // Serial.println(arrival_time);
+       // Serial.print("Sleep time active: ");
         Serial.println(sleeptimeactive);
 
     }
