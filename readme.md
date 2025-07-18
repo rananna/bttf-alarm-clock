@@ -142,7 +142,8 @@ Wire all the components together as described in the **Wiring Guide**. Double-ch
 
 1.  Format a MicroSD card to **FAT16** or **FAT32**.
 2.  Create a folder named `mp3` in the root of the SD card.
-3.  Place your sound effect files inside the `mp3` folder. The files must be named in a specific four-digit format: `0001.mp3`, `0002.mp3`, etc.
+3.  Copy your sound effect files into the `mp3` folder. The files must be named in a specific four-digit format: `0001.mp3`, `0002.mp3`, etc.
+    *   **Important**: Due to how the DFPlayer Mini module indexes files, you must copy the files to the SD card **one by one, in numerical order**. Start with `0001.mp3`, then `0002.mp3`, and so on. Do not copy them all at once, as this can cause the wrong sounds to play.
     *   `0002.mp3`: Time travel / primary alarm sound
     *   `0008.mp3`: "Power of Love" easter egg sound
     *   `0010.mp3`: Sleep mode activation sound
