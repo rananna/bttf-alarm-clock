@@ -62,12 +62,12 @@ This project requires a handful of common electronics components. Below is a det
 | [DFPlayer Mini MP3 Module](https://www.aliexpress.com/item/1005008228039985.html)     |    1     | For playing sound effects.                                                                          |
 | [MicroSD Card](https://www.aliexpress.com/item/1005008978876553.html)                 |    1     | 10MB or larger, formatted to FAT16 or FAT32. For storing MP3 files.                                  |
 | [20mm diameter Speaker](https://www.aliexpress.com/item/1005006682079525.html)                      |    1     | A small 8 Ohm speaker (e.g., 0.5W or 1W) for sound output.                                          |
-| Lighted Tactile Push Buttons |    2     | For the Set/Stop and Sound/Toggle functions. The built-in LED replaces a separate status LED.       |
-| Tactile Push Buttons         |    2     | For the Hour and Minute functions.                                                                  |
-| 5mm LEDs                     |    2     | For the AM/PM indicators.                                                                           |
-| 10kΩ Resistors               |    4     | Used as pull-down resistors for the push buttons to ensure stable readings.                         |
-| 220Ω Resistors               |    2     | Current-limiting for the AM/PM LEDs. Lighted buttons may have built-in resistors; check specs.      |
-| Breadboard & Jumper Wires    |    1     | For prototyping and making connections. A half-size or full-size breadboard is recommended.         |
+| [Lighted Tactile Push Buttons](https://www.aliexpress.com/item/1005007163972572.html) |    2     | For the Set/Stop and Sound/Toggle functions. The built-in LED replaces a separate status LED.       |
+| [Tactile Push Buttons](https://www.aliexpress.com/item/1005002622143638.html)         |    2     | For the Hour and Minute functions.                                                                  |
+| [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html)                     |    2     | For the AM/PM indicators.                                                                           |
+| [10kΩ Resistors](https://www.aliexpress.com/item/1005007447212056.html)               |    4     | Used as pull-down resistors for the push buttons to ensure stable readings.                         |
+| [220Ω Resistors](https://www.aliexpress.com/item/1005007447212056.html)               |    2     | Current-limiting for the AM/PM LEDs. Lighted buttons may have built-in resistors; check specs.      |
+| [Breadboard](https://www.aliexpress.com/item/1005007085965483.html) & [Jumper Wires](https://www.aliexpress.com/item/1005003641187997.html])    |    1     | For prototyping and making connections. A half-size or full-size breadboard is recommended.         |
 | 5V Power Supply              |    1     | A reliable power supply capable of at least 1A (e.g., a standard USB phone charger and cable).      |
 
 ## Software & Libraries
