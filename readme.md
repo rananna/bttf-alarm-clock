@@ -142,7 +142,7 @@ The buttons require pull-down resistors (e.g., 10kΩ) to prevent floating inputs
 
 A custom-designed housing is available to give your clock an authentic, finished look. The 3D model is provided as a Bambu Studio project file (`bambu studio clock.3mf`).
 
-This project's housing is based on the incredible "Back to the Future Single Time Circuit" model by The-Pro-Contrarian on MakerWorld. A huge thank you to them for their original work! You can find the original model here.
+This project's housing is based on the incredible "Back to the Future Single Time Circuit" model by The-Pro-Contrarian on MakerWorld. A huge thank you to them for their original work! You can find the original model [here](https://makerworld.com/en/models/1154106-back-to-the-future-single-time-circuit#profileId-1537667).
 
 *   **File**: `bambu studio clock.3mf`
 *   **Recommended Filament**: For a realistic metallic look, use a metallic grey or silver PLA/PETG filament.
