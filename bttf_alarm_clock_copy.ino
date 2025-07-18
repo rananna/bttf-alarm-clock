@@ -375,9 +375,9 @@ const char* INDEX_HTML = R"raw(
             <label for="themeSelect">Theme:</label>
             <select id="themeSelect">
                 <option value="0">Time Circuits (Green)</option>
-                <option value="1">Biff Tannen (Red)</option>
+                <option value="1">Biff's Casino (Red)</option>
                 <option value="2">1955 (Amber)</option>
-                <option value="3">DeLorean (Blue)</option>
+                <option value="3">DeL
             </select>
         </div>
 
@@ -830,201 +830,158 @@ button:disabled {
 
 /* --- Theme Definitions --- */
 
-/* Note: The default theme (Flux Capacitor Blue) could be defined in :root. */
+/* Note: The default theme (Green) is defined in :root. */
 
-/*
- * Theme: Biff Tannen's Pleasure Paradise (1985A)
- * A gaudy, tacky theme of money green, brassy gold, and dark, smoky rooms.
-*/
 body.theme-biff-tannen {
-    --border-color: #DAA520; /* Gaudy Gold */
-    --shadow-color: rgba(218, 165, 32, 0.6);
-    --heading-color: #DAA520;
-    --heading-shadow-color: rgba(46, 139, 87, 0.7);
-    --text-color: #F5F5DC; /* Beige (like a cheap suit) */
-    --highlight-text-color: #006400; /* Money Green */
-    --main-time-color: #2E8B57; /* Sea Green */
-    --main-time-shadow-color: rgba(46, 139, 87, 0.8);
-    --setting-group-border: #8B4513; /* Saddle Brown (wood paneling) */
-    --setting-group-shadow: rgba(0, 0, 0, 0.4);
-    --input-border: #DAA520;
-    --slider-thumb-color: #DAA520;
-    --slider-thumb-shadow: rgba(218, 165, 32, 0.8);
-    --slider-track-color: #006400;
-    --slider-track-border: #DAA520;
-    --visual-bar-color-1: #DAA520; /* Gold */
-    --visual-bar-shadow-1: rgba(218, 165, 32, 0.7);
-    --visual-bar-color-2: #2E8B57; /* Green */
-    --visual-bar-shadow-2: rgba(46, 139, 87, 0.7);
-    --toggle-slider-border: #DAA520;
-    --toggle-slider-before: #F5F5DC;
-    --toggle-slider-checked-bg: #2E8B57;
-    --button-bg: #006400;
-    --button-color: #F5F5DC;
-    --button-border: #DAA520;
-    --button-hover-bg: #2E8B57;
-    --button-hover-shadow: rgba(218, 165, 32, 0.9);
-    --success-banner-bg: #006400;
-    --success-banner-color: #F5F5DC;
-    --success-banner-border: #DAA520;
+    --border-color: #ff0000;
+    --shadow-color: rgba(255, 0, 0, 0.7);
+    --heading-color: #ff9900; /* Orange-red */
+    --heading-shadow-color: rgba(255, 153, 0, 0.7);
+    --text-color: #ff0000;
+    --highlight-text-color: #ffddaa; /* Lighter amber */
+    --main-time-color: #ff0077; /* Deep pink */
+    --main-time-shadow-color: rgba(255, 0, 119, 0.7);
+    --setting-group-border: #aa0000;
+    --setting-group-shadow: rgba(255, 0, 0, 0.3);
+    --input-border: #aa0000;
+    --slider-thumb-color: #ff9900;
+    --slider-thumb-shadow: rgba(255, 153, 0, 0.8);
+    --slider-track-color: #550000;
+    --slider-track-border: #ff0000;
+    --visual-bar-color-1: #ff6600; /* Orange */
+    --visual-bar-shadow-1: rgba(255, 102, 0, 0.7);
+    --visual-bar-color-2: #cc00cc; /* Purple */
+    --visual-bar-shadow-2: rgba(204, 0, 204, 0.7);
+    --toggle-slider-border: #ff0000;
+    --toggle-slider-before: #ff9900;
+    --toggle-slider-checked-bg: #ff0000;
+    --button-bg: #aa0000;
+    --button-color: #ff0000;
+    --button-border: #ff0000;
+    --button-hover-bg: #cc0000;
+    --button-hover-shadow: rgba(255, 0, 0, 0.9);
+    --success-banner-bg: #aa0000;
+    --success-banner-color: #ffe0e0;
+    --success-banner-border: #ff0000;
 }
 
-/*
- * Theme: Hill Valley (1955)
- * Inspired by the Enchantment Under the Sea dance and 50s diners.
- * Seafoam greens, creamy whites, and a pop of cherry red.
-*/
 body.theme-1955 {
-    --border-color: #5F9EA0; /* Cadet Blue / Seafoam */
-    --shadow-color: rgba(95, 158, 160, 0.6);
-    --heading-color: #FFF8DC; /* Cornsilk */
-    --heading-shadow-color: rgba(95, 158, 160, 0.8);
-    --text-color: #5F9EA0;
-    --highlight-text-color: #DC143C; /* Crimson Red */
-    --main-time-color: #FFF8DC;
-    --main-time-shadow-color: rgba(220, 20, 60, 0.7);
-    --setting-group-border: #5F9EA0;
-    --setting-group-shadow: rgba(0, 0, 0, 0.2);
-    --input-border: #5F9EA0;
-    --slider-thumb-color: #FFF8DC;
-    --slider-thumb-shadow: rgba(255, 248, 220, 0.8);
-    --slider-track-color: #008080; /* Teal */
-    --slider-track-border: #5F9EA0;
-    --visual-bar-color-1: #FFF8DC;
-    --visual-bar-shadow-1: rgba(255, 248, 220, 0.7);
-    --visual-bar-color-2: #E9967A; /* Dark Salmon (Pink) */
-    --visual-bar-shadow-2: rgba(233, 150, 122, 0.7);
-    --toggle-slider-border: #5F9EA0;
-    --toggle-slider-before: #FFF8DC;
-    --toggle-slider-checked-bg: #E9967A;
-    --button-bg: #008080;
-    --button-color: #FFF8DC;
-    --button-border: #5F9EA0;
-    --button-hover-bg: #5F9EA0;
-    --button-hover-shadow: rgba(220, 20, 60, 0.7);
-    --success-banner-bg: #5F9EA0;
-    --success-banner-color: #FFF8DC;
-    --success-banner-border: #FFF8DC;
+    --border-color: #ffaa00;
+    --shadow-color: rgba(255, 170, 0, 0.7);
+    --heading-color: #ffddaa;
+    --heading-shadow-color: rgba(255, 221, 170, 0.7);
+    --text-color: #ffaa00;
+    --highlight-text-color: #ffffff;
+    --main-time-color: #ff8800;
+    --main-time-shadow-color: rgba(255, 136, 0, 0.7);
+    --setting-group-border: #aa6600;
+    --setting-group-shadow: rgba(255, 170, 0, 0.3);
+    --input-border: #aa6600;
+    --slider-thumb-color: #ffddaa;
+    --slider-thumb-shadow: rgba(255, 221, 170, 0.8);
+    --slider-track-color: #553300;
+    --slider-track-border: #ffaa00;
+    --visual-bar-color-1: #ffffff;
+    --visual-bar-shadow-1: rgba(255, 255, 255, 0.7);
+    --visual-bar-color-2: #ff4400;
+    --visual-bar-shadow-2: rgba(255, 68, 0, 0.7);
+    --toggle-slider-border: #ffaa00;
+    --toggle-slider-before: #ffddaa;
+    --toggle-slider-checked-bg: #ffaa00;
+    --button-bg: #aa6600;
+    --button-color: #ffaa00;
+    --button-border: #ffaa00;
+    --button-hover-bg: #cc8800;
+    --button-hover-shadow: rgba(255, 170, 0, 0.9);
+    --success-banner-bg: #aa6600;
+    --success-banner-color: #ffeedd;
+    --success-banner-border: #ffaa00;
 }
 
-/*
- * Theme: The DeLorean
- * Brushed stainless steel grays with highlights from the red, yellow,
- * and green time circuit displays.
-*/
 body.theme-delorean {
-    --border-color: #BCC6CC; /* Steel Blue-Gray */
-    --shadow-color: rgba(0, 204, 255, 0.7); /* Flux Capacitor Glow */
-    --heading-color: #FFFF00; /* Destination Time Yellow */
-    --heading-shadow-color: rgba(255, 255, 0, 0.6);
-    --text-color: #D3D3D3; /* Light Gray */
-    --highlight-text-color: #00FF00; /* Present Time Green */
-    --main-time-color: #FF0000; /* Last Time Departed Red */
-    --main-time-shadow-color: rgba(255, 0, 0, 0.7);
-    --setting-group-border: #848482; /* Dark Steel */
-    --setting-group-shadow: rgba(0, 0, 0, 0.5);
-    --input-border: #848482;
-    --slider-thumb-color: #FFFF00;
-    --slider-thumb-shadow: rgba(255, 255, 0, 0.8);
-    --slider-track-color: #43464B; /* Darker Metal */
-    --slider-track-border: #848482;
-    --visual-bar-color-1: #FFFF00; /* Yellow */
-    --visual-bar-shadow-1: rgba(255, 255, 0, 0.7);
-    --visual-bar-color-2: #00FF00; /* Green */
-    --visual-bar-shadow-2: rgba(0, 255, 0, 0.7);
-    --toggle-slider-border: #848482;
-    --toggle-slider-before: #D3D3D3;
-    --toggle-slider-checked-bg: #00FF00;
-    --button-bg: #43464B;
-    --button-color: #D3D3D3;
-    --button-border: #848482;
-    --button-hover-bg: #848482;
+    --border-color: #00ccff;
+    --shadow-color: rgba(0, 204, 255, 0.7);
+    --heading-color: #66eeff;
+    --heading-shadow-color: rgba(102, 238, 255, 0.7);
+    --text-color: #00ccff;
+    --highlight-text-color: #ccddff;
+    --main-time-color: #33bbff;
+    --main-time-shadow-color: rgba(51, 187, 255, 0.7);
+    --setting-group-border: #0088bb;
+    --setting-group-shadow: rgba(0, 204, 255, 0.3);
+    --input-border: #0088bb;
+    --slider-thumb-color: #66eeff;
+    --slider-thumb-shadow: rgba(102, 238, 255, 0.8);
+    --slider-track-color: #003355;
+    --slider-track-border: #00ccff;
+    --visual-bar-color-1: #66bbff;
+    --visual-bar-shadow-1: rgba(102, 187, 255, 0.7);
+    --visual-bar-color-2: #9966ff;
+    --visual-bar-shadow-2: rgba(153, 102, 255, 0.7);
+    --toggle-slider-border: #00ccff;
+    --toggle-slider-before: #66eeff;
+    --toggle-slider-checked-bg: #00ccff;
+    --button-bg: #0088bb;
+    --button-color: #00ccff;
+    --button-border: #00ccff;
+    --button-hover-bg: #00aadd;
     --button-hover-shadow: rgba(0, 204, 255, 0.9);
-    --success-banner-bg: #848482;
-    --success-banner-color: #FFFF00;
-    --success-banner-border: #00FF00;
+    --success-banner-bg: #0088bb;
+    --success-banner-color: #e0f0ff;
+    --success-banner-border: #00ccff;
 }
-
-/*
- * Theme: Doc Brown's Workshop
- * The brilliant, chaotic mind of Emmett Brown. Tweed, brass, glowing vacuum tubes,
- * and chalkboard diagrams. GREAT SCOTT!
-*/
 body.theme-doc-brown {
-    --bg-color: #3D2B1F; /* Dark Tweed */
-    --container-bg-color: #654321; /* Dark Oak */
-    --border-color: #B8860B; /* Dark Goldenrod (Brass) */
-    --shadow-color: rgba(212, 160, 23, 0.6);
+    --bg-color: #332200; /* Dark brown */
+    --container-bg-color: #554422; /* Medium brown */
+    --border-color: #D4A017; /* Gold */
+    --shadow-color: rgba(212, 160, 23, 0.7); /* Gold with transparency */
     --heading-color: #FFD700; /* Gold */
-    --heading-shadow-color: rgba(255, 215, 0, 0.7);
-    --text-color: #FFFFE0; /* Light Yellow (Old Paper) */
-    --highlight-text-color: #FFFFFF; /* White (Chalk) */
-    --main-time-color: #FFFF00; /* Vacuum Tube Yellow */
-    --main-time-shadow-color: rgba(255, 255, 0, 0.8);
-    --setting-group-bg: #664400;
-    --setting-group-border: #B8860B;
-    --setting-group-shadow: rgba(212, 175, 55, 0.3);
-    --input-bg: #443311;
-    --input-color: #FFFFFF;
-    --input-border: #B8860B;
-    --slider-thumb-color: #FFD700;
-    --slider-thumb-shadow: rgba(255, 215, 0, 0.8);
-    --slider-track-color: #775500;
-    --slider-track-border: #D4A017;
+    --heading-shadow-color: rgba(255, 215, 0, 0.7); /* Gold with transparency */
+    --text-color: #FFFFE0; /* Light yellow */
+    --highlight-text-color: #FFFFFF; /* White */
+    --main-time-color: #FFFF00; /* Yellow */
+    --main-time-shadow-color: rgba(255, 255, 0, 0.7); /* Yellow with transparency */
+    --setting-group-bg: #664400; /* Darker brown */
+    --setting-group-border: #B8860B; /* Dark goldenrod */
+    --setting-group-shadow: rgba(212, 175, 55, 0.3); /* Dark goldenrod with transparency */
+    --input-bg: #443311; /* Very dark brown */
+    --input-color: #FFFFFF; /* White */
+    --input-border: #B8860B; /* Dark goldenrod */
+    --slider-thumb-color: #FFD700; /* Gold */
+    --slider-thumb-shadow: rgba(255, 215, 0, 0.8); /* Gold with transparency */
+    --slider-track-color: #775500; /* Darker brown */
+    --slider-track-border: #D4A017; /* Gold */
     --visual-bar-color-1: #FFD700; /* Gold */
-    --visual-bar-shadow-1: rgba(255, 215, 0, 0.7);
+    --visual-bar-shadow-1: rgba(255, 215, 0, 0.7); /* Gold with transparency */
     --visual-bar-color-2: #FFFF00; /* Yellow */
-    --visual-bar-shadow-2: rgba(255, 255, 0, 0.7);
-    --toggle-slider-bg: #554422;
-    --toggle-slider-border: #B8860B;
-    --toggle-slider-before: #FFD700;
-    --toggle-slider-checked-bg: #D4A017;
-    --button-bg: #664400;
-    --button-color: #FFFFE0;
-    --button-border: #B8860B;
-    --button-hover-bg: #775500;
-    --button-hover-shadow: rgba(212, 160, 23, 0.9);
-    --success-banner-bg: #B8860B;
-    --success-banner-color: #3D2B1F;
-    --success-banner-border: #D4A017;
+    --visual-bar-shadow-2: rgba(255, 255, 0, 0.7); /* Yellow with transparency */
+    --toggle-slider-bg: #554422; /* Medium brown */
+    --toggle-slider-border: #B8860B; /* Dark goldenrod */
+    --toggle-slider-before: #FFD700; /* Gold */
+    --toggle-slider-checked-bg: #D4A017; /* Gold */
+    --button-bg: #664400; /* Darker brown */
+    --button-color: #FFFFE0; /* Light yellow */
+    --button-border: #B8860B; /* Dark goldenrod */
+    --button-hover-bg: #775500; /* Slightly lighter brown */
+    --button-hover-shadow: rgba(212, 160, 23, 0.9); /* Gold with transparency */
+    --reset-button-bg: #8B4513; /* Saddle brown */
+    --reset-button-border: #A0522D; /* Sienna */
+    --reset-button-color: #FFFAF0; /* Floral white */
+    --reset-button-shadow: rgba(139, 69, 19, 0.5); /* Saddle brown with transparency */
+    --reset-button-hover-bg: #A0522D; /* Sienna */
+    --reset-button-hover-shadow: rgba(160, 82, 45, 0.9); /* Sienna with transparency */
+    --message-banner-bg: #554422; /* Medium brown */
+    --message-banner-color: #FFFFE0; /* Light yellow */
+    --success-banner-bg: #B8860B; /* Dark goldenrod */
+    --success-banner-color: #FFFAF0; /* Floral white */
+    --success-banner-border: #D4A017; /* Gold */
+    --error-banner-bg: #8B4513; /* Saddle brown */
+    --error-banner-color: #FFFAF0; /* Floral white */
+    --error-banner-border: #A0522D; /* Sienna */
 }
-
-/*
- * Theme: Hill Valley (2015)
- * The future is now! Neons, holograms, and iridescent materials.
- * Pinks, purples, and cyans rule this high-contrast future.
-*/
-body.theme-2015 {
-    --border-color: #FF00FF; /* Magenta */
-    --shadow-color: rgba(255, 0, 255, 0.6);
-    --heading-color: #00FFFF; /* Cyan */
-    --heading-shadow-color: rgba(0, 255, 255, 0.7);
-    --text-color: #D8BFD8; /* Thistle (Light Purple) */
-    --highlight-text-color: #FFFFFF;
-    --main-time-color: #00FFFF;
-    --main-time-shadow-color: rgba(0, 255, 255, 0.8);
-    --setting-group-border: #8A2BE2; /* Blue Violet */
-    --setting-group-shadow: rgba(0, 0, 0, 0.5);
-    --input-border: #8A2BE2;
-    --slider-thumb-color: #00FFFF;
-    --slider-thumb-shadow: rgba(0, 255, 255, 0.8);
-    --slider-track-color: #4B0082; /* Indigo */
-    --slider-track-border: #8A2BE2;
-    --visual-bar-color-1: #FF00FF; /* Magenta */
-    --visual-bar-shadow-1: rgba(255, 0, 255, 0.7);
-    --visual-bar-color-2: #9932CC; /* Dark Orchid */
-    --visual-bar-shadow-2: rgba(153, 50, 204, 0.7);
-    --toggle-slider-border: #8A2BE2;
-    --toggle-slider-before: #D8BFD8;
-    --toggle-slider-checked-bg: #FF00FF;
-    --button-bg: #4B0082;
-    --button-color: #00FFFF;
-    --button-border: #8A2BE2;
-    --button-hover-bg: #8A2BE2;
-    --button-hover-shadow: rgba(255, 0, 255, 0.9);
-    --success-banner-bg: #4B0082;
-    --success-banner-color: #00FFFF;
-    --success-banner-border: #FF00FF;
+body.theme-purple {
+    --border-color: #9966ff;
+    --shadow-color: rgba(153, 102, 255, 0.7);
 }
 
 /* Ensure reset buttons maintain consistent look */
@@ -1247,23 +1204,15 @@ function validateAllNumberInputs() {
 // Function to apply the selected theme by adding a CSS class to the <body> element.
 function applyTheme(themeIndex) {
     const body = document.body;
- // Remove all possible theme classes first to prevent conflicts
-body.classList.remove(
-    'theme-delorean', 
-    'theme-1955', 
-    'theme-2015', 
-    'theme-doc-brown', 
-    'theme-biff-tannen'
-);
+    body.classList.remove('theme-green', 'theme-red', 'theme-amber', 'theme-blue'); 
 
-// Add the correct theme class based on the index
-switch(themeIndex) {
-    // case 0 is the default (defined in :root), so no class is added.
-    case 1: body.classList.add('theme-delorean'); break;
-    case 2: body.classList.add('theme-1955'); break;
-    case 3: body.classList.add('theme-2015'); break;
-    case 4: body.classList.add('theme-doc-brown'); break;
-    case 5: body.classList.add('theme-biff-tannen'); break;
+    switch(themeIndex) {
+        case 0: body.classList.add('theme-green'); break;
+        case 1: body.classList.add('theme-red'); break;
+        case 2: body.classList.add('theme-amber'); break;
+        case 3: body.classList.add('theme-delorean'); break;
+        default: body.classList.add('theme-green'); break;
+    }
 }
 
 // Fetches current time, date, and NTP synchronization status from the ESP32's /api/time endpoint.
