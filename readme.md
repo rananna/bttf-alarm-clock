@@ -138,7 +138,7 @@ The buttons require pull-down resistors (e.g., 10kΩ) to prevent floating inputs
 | Set/Sound LED      |     2      | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220-330Ω resistor. |
 ## Installation & Setup
 
-### 1. 3D Print the Housing (Optional)
+### 1. 3D Print the Housing
 
 A custom-designed housing is available to give your clock an authentic, finished look. The 3D model is provided as a Bambu Studio project file (`bambu studio clock.3mf`).
 
