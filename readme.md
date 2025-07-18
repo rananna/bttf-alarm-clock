@@ -176,7 +176,7 @@ Wire all the components together as described in the **Wiring Guide**. Double-ch
 
 ### 4. Flash the Firmware
 
-1.  **Install Your Development Environment**: You can compile and upload this sketch using either the traditional **Arduino IDE** or **Visual Studio Code** with the [Arduino for VS Code](https://marketplace.visualstudio.com/items?itemName=TheLastOutpostWorkshop.arduino-maker-workshop) extension. After setting up your chosen IDE, make sure to install the ESP32 board definitions.
+1.  **Install Your Development Environment**: You can compile and upload this sketch using either the traditional **Arduino IDE** or **Visual Studio Code** with the [Arduino Maker Workshop](https://marketplace.visualstudio.com/items?itemName=TheLastOutpostWorkshop.arduino-maker-workshop) extension. After setting up your chosen IDE, make sure to install the ESP32 board definitions.
 2.  **Install Libraries**: Using the Library Manager in your IDE, install all the libraries listed in the [Software & Libraries](#software--libraries) section.
 3.  **Configure Default Time Zone (Optional)**: The time zone can be set from the web interface later. However, to set the initial default, open the `.ino` file and find the `timezoneString` in the `defaultSettings` struct. Change it to match your local time zone. You can find a list of valid POSIX TZ strings online.
 4.  **Upload Code**: Select your ESP32 board and the correct COM port, then upload the sketch.
