@@ -251,6 +251,76 @@ The clock can also be operated using the four physical buttons for core function
 *   **Easter Egg**:
     *   Press the **HOUR** and **MINUTE** buttons simultaneously to trigger the "Power of Love" sound effect!
 
+## Example Usage
+
+Let's walk through a common scenario: setting up the clock for a typical weekday morning.
+
+**Goal:**
+*   Wake up at **7:30 AM**.
+*   The displays should turn off at night, from **11:00 PM** to **6:30 AM**.
+*   The clock is located in **New York (Eastern Time)**.
+*   The display brightness and alarm volume should be at a comfortable, medium level.
+*   The "Time Travel" animation should play every **15 minutes**.
+*   Both the alarm and general sound effects should be enabled.
+
+Here’s how you would configure this using the web interface at `http://bttf-alarmclock.local/`:
+
+1.  **Set the Alarm Time**
+    In the "Destination (Alarm) Time" section, adjust the sliders to your desired wake-up time.
+    ```
+    Destination Hour: 7
+    Destination Minute: 30
+    ```
+
+2.  **Enable the Alarm**
+    Ensure the main alarm is active by flipping the toggle switch. The `SET/STOP` LED on the clock will light up.
+    ```
+    Alarm On/Off: On
+    ```
+
+3.  **Set the Sleep Period**
+    In the "Departure/Arrival (Sleep) Times" section, define when the displays should turn off and on.
+    ```
+    Departure (Sleep): 23:00
+    Arrival (Wake): 6:30
+    ```
+
+4.  **Set the Timezone**
+    In the "Temporal Controls" section, select the correct timezone from the dropdown menu to ensure accurate time, including DST changes.
+    ```
+    Timezone: Canada/Eastern
+    ```
+
+5.  **Adjust Display Brightness**
+    In "Console Controls," set the `Display Brightness` slider to a medium level, like `4`.
+    ```
+    Display Brightness: 4
+    ```
+
+6.  **Adjust Sound Volume**
+    Set the `Notification Volume` slider to a moderate level, such as `20`.
+    ```
+    Notification Volume: 20
+    ```
+
+7.  **Configure Animation Frequency**
+    Set how often the time travel animation plays. A 15-minute interval is a good starting point.
+    ```
+    Time Travel Animation Every: 15 min
+    ```
+
+8.  **Enable All Sounds**
+    Make sure the `Time Travel Sound FX On` toggle is enabled. The `SET/SOUND` LED on the clock will light up.
+    ```
+    Time Travel Sound FX On: On
+    ```
+
+9.  **Save Your Settings**
+    Click the **Engage! (Save Settings)** button at the bottom of the page to apply all your changes.
+
+10. **All Set!**
+    Your clock is now configured. It will wake you up at 7:30 AM, stay dark overnight, and provide some fun temporal displacement effects throughout the day.
+
 ---
 
 ## License
