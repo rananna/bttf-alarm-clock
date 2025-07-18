@@ -138,11 +138,20 @@ The buttons require pull-down resistors (e.g., 10kΩ) to prevent floating inputs
 | Set/Sound LED      |     2      | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220-330Ω resistor. |
 ## Installation & Setup
 
-### 1. Hardware Assembly
+### 1. 3D Print the Housing (Optional)
+
+A custom-designed housing is available to give your clock an authentic, finished look. The 3D model is provided as a Bambu Studio project file (`bambu studio clock.3mf`).
+
+*   **File**: `bambu studio clock.3mf`
+*   **Recommended Filament**: For a realistic metallic look, use a metallic grey or silver PLA/PETG filament.
+*   **Build Plate**: Printing on a patterned or textured PEI build plate can enhance the metallic effect and give the surface a unique finish.
+*   **Infill**: Use an infill of **50% or higher** to ensure the housing is sturdy and durable.
+
+### 2. Hardware Assembly
 
 Wire all the components together as described in the **Wiring Guide**. Double-check all your connections, especially power and ground, before applying power.
 
-### 2. Prepare the SD Card
+### 3. Prepare the SD Card
 
 1.  Format a MicroSD card to **FAT16** or **FAT32**.
 2.  Create a folder named `mp3` in the root of the SD card.
@@ -156,13 +165,13 @@ Wire all the components together as described in the **Wiring Guide**. Double-ch
     *   ... and other random sounds for the alarm (`0001.mp3` - `0009.mp3`)
 4.  Insert the SD card into the DFPlayer Mini module.
 
-### 3. Flash the Firmware
+### 4. Flash the Firmware
 
 1.  **Install Arduino IDE/PlatformIO**: Set up your preferred development environment and install the ESP32 board definitions.
 2.  **Install Libraries**: Using the Library Manager, install all the libraries listed in the Software & Libraries section.
 3.  **Configure Default Time Zone (Optional)**: The time zone can be set from the web interface later. However, to set the initial default, open the `.ino` file and find the `timezoneString` in the `defaultSettings` struct. Change it to match your local time zone. You can find a list of valid POSIX TZ strings online.
 4.  **Upload Code**: Select your ESP32 board and the correct COM port, then upload the sketch.
-### 4. WiFi Configuration
+### 5. WiFi Configuration
 
 1.  On the first boot (or after resetting WiFi credentials), the clock will create its own WiFi network with the SSID `bttf-clock`.
 2.  Connect to this network with your phone or computer.
