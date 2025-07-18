@@ -13,6 +13,7 @@
 
 - [Features](#features)
 - [Hardware Requirements](#hardware-requirements)
+- [Bill of Materials (BOM)](#bill-of-materials-bom)
 - [Software & Libraries](#software--libraries)
 - [Wiring Guide](#wiring-guide)
 - [Installation & Setup](#installation--setup)
@@ -49,19 +50,24 @@ This project is packed with features to create an authentic and highly functiona
     *   **Physical Button Controls**: Full control over core functions without needing the web UI.
     ## Hardware Requirements
 
-| Component                 | Quantity | Notes                                                              |
-| ------------------------- | :------: | ------------------------------------------------------------------ |
-| **ESP32 Dev Module**      |    1     | The core of the project.                                           |
-| TM1637 7-Segment Display  |    3     | For the three main time circuit readouts.                          |
-| Adafruit AlphaNum4 Display|    1     | 14-segment I2C display for showing the month.                      |
-| DFPlayer Mini MP3 Module  |    1     | For playing sound effects.                                         |
-| MicroSD Card              |    1     | For storing MP3 sound files for the DFPlayer.                      |
-| Speaker                   |    1     | 8 Ohm, small speaker for sound output.                             |
-| Push Buttons              |    4     | For physical interaction (Set/Stop, Sound/Toggle, Hour, Minute).   |
-| LEDs                      |    4     | 2 for AM/PM, 2 for status indicators.                              |
-| Resistors                 |  ~4-8    | Pull-down for buttons, current-limiting for LEDs. (e.g., 10kΩ, 220Ω) |
-| Breadboard & Jumper Wires |          | For prototyping and connections.                                   |
-| 5V Power Supply           |    1     | To power the ESP32 and components (e.g., USB adapter).             |
+This project requires a handful of common electronics components. Below is a detailed Bill of Materials (BOM) for everything you'll need to assemble the clock.
+
+## Bill of Materials (BOM)
+
+| Component                    | Quantity | Notes                                                                                               |
+| ---------------------------- | :------: | --------------------------------------------------------------------------------------------------- |
+| **ESP32 Dev Module**         |    1     | The core of the project. A 30-pin or 38-pin version will work.                                      |
+| TM1637 7-Segment Display     |    3     | 4-digit displays for Day, Year, and Time.                                                           |
+| Adafruit AlphaNum4 Display   |    1     | 14-segment I2C display for showing the month. Any HT16K33-based alphanumeric display should work.   |
+| DFPlayer Mini MP3 Module     |    1     | For playing sound effects.                                                                          |
+| MicroSD Card                 |    1     | 1GB or larger, formatted to FAT16 or FAT32. For storing MP3 files.                                  |
+| Speaker                      |    1     | A small 8 Ohm speaker (e.g., 0.5W or 1W) for sound output.                                          |
+| Tactile Push Buttons         |    4     | For physical interaction (Set/Stop, Sound/Toggle, Hour, Minute).                                    |
+| 5mm LEDs                     |    4     | 2 for AM/PM indicators, 2 for status indicators. Any color will do.                                 |
+| 10kΩ Resistors               |    4     | Used as pull-down resistors for the push buttons to ensure stable readings.                         |
+| 220Ω Resistors               |    4     | Used as current-limiting resistors for the LEDs. Value can be adjusted based on desired brightness. |
+| Breadboard & Jumper Wires    |    1     | For prototyping and making connections. A half-size or full-size breadboard is recommended.         |
+| 5V Power Supply              |    1     | A reliable power supply capable of at least 1A (e.g., a standard USB phone charger and cable).      |
 
 ## Software & Libraries
 
@@ -253,4 +259,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ## Acknowledgements
 
-This project wouldn't be possible without the hard work of the open-source community and the creators of the fantastic libraries used. Special thanks to the teams behind the ESP32 Arduino core, WiFiManager, and all the Adafruit and DFRobot libraries.
+This project wouldn't be possible without the hard work of the open-source community and the creators of the fantastic libraries used. Special thanks to the teams behind the ESP32 Arduino core, WiFiManager, and all the Adafruit and DFRobot libraries. A huge thank you to TerryB on MakerWorld for the original 3D model design and for making modifications upon request.
