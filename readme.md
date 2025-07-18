@@ -1,30 +1,60 @@
 # Back to the Future - ESP32 Alarm Clock
 
- <!-- Replace with a GIF or image of your clock in action! -->
+<p align="center">
+  <!-- Replace with a GIF or image of your clock in action! -->
+  <img src="https://via.placeholder.com/600x300.png?text=BTTF+Clock+in+Action" alt="BTTF Alarm Clock">
+</p>
 
-A WiFi-connected, triple-display alarm clock inspired by the iconic Back to the Future time circuits. Built using an ESP32, this clock automatically synchronizes time over the internet and offers full configuration through a web interface.
-
-This project uses three 7-segment displays to show the "Present Time" (current date and time), "Destination Time" (alarm time), and "Last Time Departed" (user-configurable sleep/wake times). It features authentic sound effects and time travel animations, making it a perfect project for any BTTF fan.
+> **Great Scott!** It appears you've stumbled upon the schematics for a temporal displacement alarm clock. While this device can't actually travel through time (flux capacitor technology is still a bit tricky), it brings the iconic look and feel of the DeLorean's time circuits right to your nightstand. Using the power of an ESP32 and a little bit of 1.21-gigawatt... I mean, 5-volt... ingenuity, this clock connects to your local WiFi network to display the precise current time, your designated "destination" alarm time, and even tracks your "last time departed" for power-saving sleep modes. So, fire it up, but be warned: once this baby hits 88 miles per hour on the display, you're going to see some serious stuff!
 
 ---
 
+### Table of Contents
+
+- [Features](#features)
+- [Hardware Requirements](#hardware-requirements)
+- [Software & Libraries](#software--libraries)
+- [Wiring Guide](#wiring-guide)
+  - [Power Distribution](#power-distribution)
+  - [Display Connections](#display-connections)
+  - [Audio Connections](#audio-connections)
+  - [Button & LED Connections](#button--led-connections)
+- [Installation & Setup](#installation--setup)
+  - [1. Hardware Assembly](#1-hardware-assembly)
+  - [2. Prepare the SD Card](#2-prepare-the-sd-card)
+  - [3. Flash the Firmware](#3-flash-the-firmware)
+  - [4. WiFi Configuration](#4-wifi-configuration)
+- [Usage](#usage)
+  - [Web Interface](#web-interface)
+  - [Physical Buttons](#physical-buttons)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 ## Features
 
-*   **Triple Time Circuit Displays**: Shows current, destination (alarm), and departure/arrival times.
-*   **NTP Time Synchronization**: Automatically fetches and syncs time from multiple fallback NTP servers for high reliability.
-*   **Full Time Zone Support**: Includes automatic Daylight Saving Time adjustments.
-*   **Web Configuration Portal**: Configure all settings easily from any device on your network via a web browser at `http://bttf-clock.local`.
-*   **WiFi Manager**: Simple initial WiFi setup using a captive portal. No need to hardcode credentials.
-*   **Configurable Alarm**: Set alarm time, toggle on/off, and configure snooze duration.
-*   **Sound Effects**: Plays iconic sounds from the movie for alarms and animations using a DFPlayer Mini MP3 module.
-*   **Time Travel Animations**: Watch the displays go haywire and the speedometer hit 88 MPH at configurable intervals!
-*   **Power Saving Mode**: Displays automatically turn off during user-defined "sleep" hours.
-*   **Over-The-Air (OTA) Updates**: Update the firmware wirelessly without needing a physical connection.
-*   **Customizable Themes**: Change the color of the displays (Green, Red, Amber, Blue) from the web UI.
+This project is packed with features to create an authentic and highly functional alarm clock:
 
----
-
-## Hardware Requirements
+*   **Triple Time Circuit Displays**: Three distinct display sections show:
+    *   **Destination Time (Top)**: A green 7-segment display for your alarm time.
+    *   **Present Time (Middle)**: A red 7-segment display for the current time, and a 14-segment alphanumeric display for the current month.
+    *   **Last Time Departed (Bottom)**: A yellow 7-segment display showing the current date (day and year).
+*   **Accurate & Automatic Time**:
+    *   **NTP Time Synchronization**: Automatically fetches and syncs time from multiple fallback NTP servers for high reliability.
+    *   **Full Time Zone Support**: Includes automatic Daylight Saving Time adjustments, configurable via the web UI.
+*   **Complete Web Interface**:
+    *   **Web Configuration Portal**: Configure all settings easily from any device on your network via a web browser at `http://bttf-clock.local`.
+    *   **WiFi Manager**: Simple initial WiFi setup using a captive portal. No need to hardcode credentials.
+*   **Advanced Alarm System**:
+    *   **Configurable Alarm**: Set alarm time, toggle on/off, and configure snooze duration from the web UI or physical buttons.
+    *   **Snooze Functionality**: Snooze the alarm with a press of a button.
+*   **Authentic Experience**:
+    *   **Sound Effects**: Plays iconic sounds from the movie for alarms and animations using a DFPlayer Mini MP3 module.
+    *   **Time Travel Animations**: Watch the displays go haywire and the speedometer hit 88 MPH at configurable intervals!
+*   **Customization & Convenience**:
+    *   **Power Saving Mode**: Displays automatically turn off during user-defined "sleep" hours to save power and avoid nighttime glare.
+    *   **Over-The-Air (OTA) Updates**: Update the firmware wirelessly without needing a physical connection.
+    *   **Customizable Themes**: Change the display colors and web UI theme.
+    *   **Physical Button Controls**: Full control over core functions without needing the web UI.
+    ## Hardware Requirements
 
 | Component                 | Quantity | Notes                                                              |
 | ------------------------- | :------: | ------------------------------------------------------------------ |
@@ -44,72 +74,84 @@ This project uses three 7-segment displays to show the "Present Time" (current d
 
 This project is built using the Arduino framework for the ESP32. You will need to install the following libraries through the Arduino IDE Library Manager or PlatformIO:
 
-*   `WiFiManager` by tzapu
-*   `Adafruit GFX Library`
-*   `Adafruit LED Backpack Library`
-*   `DFRobotDFPlayerMini` by DFRobot
-*   `ESPAsyncWebServer`
-*   `AsyncTCP`
-*   `ArduinoJson`
-*   `TM1637` by Avishay Orpaz
-
-The following libraries are typically included with the ESP32 core installation:
-
-*   `WiFi.h`
-*   `ArduinoOTA.h`
-*   `ESPmDNS.h`
-*   `Wire.h`
-*   `Preferences.h`
-
----
-
+| Library                       | Author              | Purpose                               |
+| ----------------------------- | ------------------- | ------------------------------------- |
+| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       |
+| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                |
+| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         |
+| `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       |
+| `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.|
+| `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        |
+| `ArduinoJson`                 | Benoit Blanchon     | Handles data for the web API.         |
+| `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        |
 ## Wiring Guide
 
-Connect the components to the ESP32 according to the pin definitions in the code.
+This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering.
 
-### Displays
+### Power Distribution
+
+All components require a connection to power (VCC) and ground (GND).
+*   **5V Power**: Connect the **VIN** pin of the ESP32 to the positive (5V) rail of your breadboard. Connect the VCC pins of all three TM1637 displays, the Adafruit AlphaNum4 display, and the DFPlayer Mini to this 5V rail.
+*   **Ground**: Connect a **GND** pin from the ESP32 to the ground rail of your breadboard. Connect the GND pins of all displays, the DFPlayer Mini, all buttons, and the negative (cathode) side of all LEDs (via their current-limiting resistors) to this ground rail.
+### Display Connections
+
+The clock uses four separate displays that are controlled differently.
+
+#### TM1637 7-Segment Displays
+These three displays share a common clock (CLK) line to save pins, but each has a unique data (DIO) line.
+
 | Component                 | Pin | ESP32 GPIO |
 | ------------------------- |:---:| :--------: |
 | **TM1637 Displays (Shared)** | CLK |    13    |
 | TM1637 Display 1 (Month/Day) | DIO |    18    |
 | TM1637 Display 2 (Year)     | DIO |    15    |
 | TM1637 Display 3 (Time)     | DIO |    14    |
+
+#### Adafruit AlphaNum4 Alphanumeric Display
+This display uses the I2C communication protocol.
+
+| Component                 | Pin | ESP32 GPIO |
+| ------------------------- |:---:| :--------: |
 | **Adafruit AlphaNum4 (I2C)** | SDA |    21    |
 |                           | SCL |    22    |
+### Audio Connections
 
-### Audio (DFPlayer Mini)
-| Component        | Pin | ESP32 GPIO |
-| ---------------- |:---:| :--------: |
-| **DFPlayer Mini**| RX  |  17 (TXD2) |
-|                  | TX  |  16 (RXD2) |
+The DFPlayer Mini module communicates with the ESP32 using a serial (UART) connection.
 
-### Buttons & LEDs
+| Component        | Pin | ESP32 GPIO | Notes                                  |
+| ---------------- |:---:| :--------: | -------------------------------------- |
+| **DFPlayer Mini**| RX  |  17 (TXD2) | Connects to the ESP32's **TX** pin.    |
+|                  | TX  |  16 (RXD2) | Connects to the ESP32's **RX** pin.    |
+|                  | SPK_1 | Speaker +  | Connect one speaker wire here.         |
+|                  | SPK_2 | Speaker -  | Connect the other speaker wire here.   |
+
+### Button & LED Connections
+
+The buttons require pull-down resistors (e.g., 10kΩ) to prevent floating inputs. The LEDs require current-limiting resistors (e.g., 220Ω) to prevent them from burning out.
+
 | Component          | ESP32 GPIO | Notes                                  |
 | ------------------ | :--------: | -------------------------------------- |
-| Set/Stop Button    |     34     | Connect to GND with a pull-down resistor. |
-| Set/Sound Button   |     4      | Connect to GND with a pull-down resistor. |
-| Hour Button        |     33     | Connect to GND with a pull-down resistor. |
-| Minute Button      |     32     | Connect to GND with a pull-down resistor. |
-| **AM LED**         |     27     | Connect to GND with a resistor.        |
-| **PM LED**         |     12     | Connect to GND with a resistor.        |
-| Set/Stop LED       |     26     | Connect to GND with a resistor.        |
-| Set/Sound LED      |     2      | Connect to GND with a resistor.        |
-
----
-
+| Set/Stop Button    |     34     | Connect to 3.3V. Add a 10kΩ pull-down resistor to GND. |
+| Set/Sound Button   |     4      | Connect to 3.3V. Add a 10kΩ pull-down resistor to GND. |
+| Hour Button        |     33     | Connect to 3.3V. Add a 10kΩ pull-down resistor to GND. |
+| Minute Button      |     32     | Connect to 3.3V. Add a 10kΩ pull-down resistor to GND. |
+| **AM LED**         |     27     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220Ω resistor. |
+| **PM LED**         |     12     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220Ω resistor. |
+| Set/Stop LED       |     26     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220Ω resistor. |
+| Set/Sound LED      |     2      | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220Ω resistor. |
 ## Installation & Setup
 
 ### 1. Hardware Assembly
 
-Wire all the components together as shown in the Wiring Guide. It's recommended to start on a breadboard before soldering a permanent circuit.
+Wire all the components together as described in the **Wiring Guide**. Double-check all your connections, especially power and ground, before applying power.
 
 ### 2. Prepare the SD Card
 
-1.  Format a MicroSD card to FAT16 or FAT32.
+1.  Format a MicroSD card to **FAT16** or **FAT32**.
 2.  Create a folder named `mp3` in the root of the SD card.
-3.  Place your sound effect files inside the `mp3` folder. The files must be named in a specific way: `0001.mp3`, `0002.mp3`, etc.
-    *   `0002.mp3`: Time travel / alarm sound
-    *   `0008.mp3`: Power of Love easter egg
+3.  Place your sound effect files inside the `mp3` folder. The files must be named in a specific four-digit format: `0001.mp3`, `0002.mp3`, etc.
+    *   `0002.mp3`: Time travel / primary alarm sound
+    *   `0008.mp3`: "Power of Love" easter egg sound
     *   `0010.mp3`: Sleep mode activation sound
     *   `0013.mp3`: "On" or positive confirmation sound
     *   `0014.mp3`: "Off" or negative confirmation sound
@@ -120,13 +162,8 @@ Wire all the components together as shown in the Wiring Guide. It's recommended 
 
 1.  **Install Arduino IDE/PlatformIO**: Set up your preferred development environment and install the ESP32 board definitions.
 2.  **Install Libraries**: Using the Library Manager, install all the libraries listed in the Software & Libraries section.
-3.  **Configure Time Zone**: Open the `bttf_alarm_clock_copy.ino` file. Find the `TZ_INFO` constant and change it to match your local time zone. You can find the correct format string from this list.
-    ```cpp
-    // Example for New York (Eastern Time)
-    const char* TZ_INFO = "EST5EDT,M3.2.0,M11.1.0"; 
-    ```
+3.  **Configure Default Time Zone (Optional)**: The time zone can be set from the web interface later. However, to set the initial default, open the `.ino` file and find the `timezoneString` in the `defaultSettings` struct. Change it to match your local time zone. You can find a list of valid POSIX TZ strings online.
 4.  **Upload Code**: Select your ESP32 board and the correct COM port, then upload the sketch.
-
 ### 4. WiFi Configuration
 
 1.  On the first boot (or after resetting WiFi credentials), the clock will create its own WiFi network with the SSID `bttf-clock`.
@@ -135,48 +172,65 @@ Wire all the components together as shown in the Wiring Guide. It's recommended 
 4.  Click "Configure WiFi", select your home WiFi network from the list, and enter your password.
 5.  Click "Save". The clock will restart and automatically connect to your network.
 
----
-
 ## Usage
 
 ### Web Interface
 
 Once connected to your WiFi, you can access the full configuration panel by navigating to **http://bttf-clock.local/** in your web browser.
 
- <!-- Replace with a screenshot of your web UI -->
+<!-- Replace with a screenshot of your web UI -->
+<p align="center">
+  <img src="https://via.placeholder.com/600x400.png?text=Web+UI+Screenshot" alt="Web UI">
+</p>
 
-From here, you can control all aspects of the clock:
-*   **Destination Time**: Set the alarm time.
-*   **Alarm On/Off**: Enable or disable the alarm.
-*   **Snooze Time**: Set the duration for the snooze function.
-*   **Departure/Arrival Times**: Define the "sleep" period where the displays will turn off to save power and prevent light disturbance.
-*   **Display Brightness & Volume**: Adjust the brightness of the LEDs and the volume of the sound effects.
-*   **Time Travel Animation**: Set how often (in minutes) the animation plays, or turn it off (0).
-*   **Sound FX & Power of Love**: Toggle sound effects and trigger the "Power of Love" easter egg sound.
-*   **24 Hour Format & Theme**: Customize the time format and display color.
-*   **Device Management**: Refresh status, reset settings to default, or reset WiFi credentials.
+From here, you can control all aspects of the clock.
+#### Time Circuit Settings
+*   **Destination (Alarm) Time**: Use the sliders to set the hour and minute for your alarm.
+*   **Alarm On/Off**: A toggle switch to enable or disable the alarm. The `SET/STOP` LED on the clock will light up when the alarm is enabled.
+*   **Snooze Time**: A slider to set the snooze duration in minutes (1-59).
 
+#### Departure/Arrival (Sleep) Times
+*   These settings define a "sleep" period where the displays will turn off to save power and prevent light disturbance at night.
+*   **Departure**: The time the displays will turn off.
+*   **Arrival**: The time the displays will turn back on.
+
+#### Display & Sound Settings
+*   **Display Brightness**: Adjusts the brightness of all LED displays.
+*   **Notification Volume**: Sets the volume for all sound effects from the DFPlayer Mini.
+*   **Time Travel Animation Every (min, 0=Off)**: Sets how often (in minutes) the "time travel" animation plays. Set to 0 to disable it.
+*   **Time Travel Sound FX On**: A toggle to enable or disable all sound effects, including the alarm. The `SET/SOUND` LED on the clock will light up when sound is enabled.
+*   **Power of Love (Flux Capacitor)**: A toggle that triggers the "Power of Love" easter egg sound. This is a one-time trigger and will turn itself off after being activated.
+*   **Theme**: A dropdown to change the color scheme of the web interface.
+
+#### Time Settings
+*   **Timezone**: Select your local timezone from the dropdown list. This is crucial for correct time display and automatic Daylight Saving Time adjustments.
+*   **24 Hour Format**: A toggle to switch the time display between 24-hour format (e.g., 14:30) and 12-hour AM/PM format (e.g., 02:30 PM).
+
+#### Device Management
+*   **Save All Settings**: Saves all your changes to the ESP32's memory.
+*   **Reset to Default Settings**: Resets all clock settings to their original values and reboots the device.
+*   **Reset WiFi Credentials**: Clears the saved WiFi network, reboots the device, and puts it back into AP mode for new WiFi configuration.
 ### Physical Buttons
 
-The clock can also be operated using the four physical buttons.
+The clock can also be operated using the four physical buttons for core functions.
 
 *   **SET/STOP Button**:
-    *   **Single Press**: Toggles the alarm On/Off.
-    *   **Press and Hold**: Enters alarm setting mode. Use the HOUR/MINUTE buttons to adjust the alarm time. Release to save.
-    *   **During Alarm**: Stops the alarm.
+    *   **Single Press**: Toggles the main alarm On or Off. A confirmation sound will play, and the corresponding LED will turn on or off.
+    *   **Press and Hold**: Enters alarm setting mode. The time display will show the current alarm time. While holding this button, use the **HOUR** and **MINUTE** buttons to adjust the alarm time. Release the button to save the new alarm time.
+    *   **During Alarm**: Stops the currently sounding alarm.
 
 *   **SET/SOUND Button**:
-    *   **Single Press**: Toggles the sound effects On/Off.
+    *   **Single Press**: Toggles all sound effects On or Off. A confirmation sound will play, and the corresponding LED will turn on or off.
 
 *   **HOUR Button**:
-    *   **When Idle**: Decreases the volume by one step.
-    *   **In Setup Mode**: Increments the hour.
-    *   **During Alarm**: Activates Snooze.
+    *   **When Idle**: Decreases the sound effect volume by one step.
+    *   **In Alarm Setup Mode**: Increments the alarm hour.
+    *   **During Alarm**: Activates the **Snooze** function, silencing the alarm for the configured snooze duration.
 
 *   **MINUTE Button**:
-    *   **When Idle**: Increases the volume by one step.
-    *   **In Setup Mode**: Increments the minute.
-    *   **During Alarm**: Activates Snooze.
+    *   **When Idle**: Increases the sound effect volume by one step.
+    *   **In Alarm Setup Mode**: Increments the alarm minute.
+    *   **During Alarm**: Activates the **Snooze** function.
 
 *   **Easter Egg**:
     *   Press the **HOUR** and **MINUTE** buttons simultaneously to trigger the "Power of Love" sound effect!
@@ -192,5 +246,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ## Acknowledgements
 
 This project wouldn't be possible without the hard work of the open-source community and the creators of the fantastic libraries used. Special thanks to the teams behind the ESP32 Arduino core, WiFiManager, and all the Adafruit and DFRobot libraries.
+
 
 
