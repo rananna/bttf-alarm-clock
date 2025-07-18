@@ -79,7 +79,11 @@ This project is built using the Arduino framework for the ESP32. You will need t
 | `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        |
 ## Wiring Guide
 
-This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering. A detailed schematic can be found in the project files.
+This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering.
+
+<p align="center">
+  <img src="circuit.jpg" alt="Wiring Schematic" width="800">
+</p>
 
 ### Power Distribution
 
