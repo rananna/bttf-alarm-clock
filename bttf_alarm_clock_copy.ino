@@ -374,10 +374,10 @@ const char* INDEX_HTML = R"raw(
 
             <label for="themeSelect">Theme:</label>
             <select id="themeSelect">
-                <option value="0">Green (Default)</option>
-                <option value="1">Red</option>
-                <option value="2">Amber</option>
-                <option value="3">Blue</option>
+                <option value="0">Time Circuits (Green)</option>
+                <option value="1">Biff Tannen (Red)</option>
+                <option value="2">1955 (Amber)</option>
+                <option value="3">DeLorean (Blue)</option>
             </select>
         </div>
 
@@ -402,10 +402,10 @@ const char* INDEX_HTML = R"raw(
                 <option value="NZST-12NZDT-13,M9.5.0,M4.1.0/3">New Zealand/Auckland</option>
                 <option value="HST10">US/Hawaii</option>
                 <option value="AKST9AKDT8,M3.2.0,M11.1.0">US/Alaska</option>
-                <option value="America/Sao_Paulo">America/Sao_Paulo</option>
-                <option value="Asia/Dubai">Asia/Dubai</option>
-                <option value="Asia/Kolkata">Asia/Kolkata</option>
-                <option value="Africa/Cairo">Africa/Cairo</option>
+                <option value="BRT3">America/Sao_Paulo</option>
+                <option value="GST-4">Asia/Dubai</option>
+                <option value="IST-5:30">Asia/Kolkata</option>
+                <option value="EET-2EEST,M4.5.5/0,M10.5.4/0">Africa/Cairo</option>
                 <option value="JST-9">Japan/Tokyo</option>
             </select> 
 
@@ -832,7 +832,7 @@ button:disabled {
 
 /* Note: The default theme (Green) is defined in :root. */
 
-body.theme-red {
+body.theme-biff-tannen {
     --border-color: #ff0000;
     --shadow-color: rgba(255, 0, 0, 0.7);
     --heading-color: #ff9900; /* Orange-red */
@@ -865,7 +865,7 @@ body.theme-red {
     --success-banner-border: #ff0000;
 }
 
-body.theme-amber {
+body.theme-1955 {
     --border-color: #ffaa00;
     --shadow-color: rgba(255, 170, 0, 0.7);
     --heading-color: #ffddaa;
@@ -898,7 +898,7 @@ body.theme-amber {
     --success-banner-border: #ffaa00;
 }
 
-body.theme-blue {
+body.theme-delorean {
     --border-color: #00ccff;
     --shadow-color: rgba(0, 204, 255, 0.7);
     --heading-color: #66eeff;
@@ -929,6 +929,59 @@ body.theme-blue {
     --success-banner-bg: #0088bb;
     --success-banner-color: #e0f0ff;
     --success-banner-border: #00ccff;
+}
+body.theme-doc-brown {
+    --bg-color: #332200; /* Dark brown */
+    --container-bg-color: #554422; /* Medium brown */
+    --border-color: #D4A017; /* Gold */
+    --shadow-color: rgba(212, 160, 23, 0.7); /* Gold with transparency */
+    --heading-color: #FFD700; /* Gold */
+    --heading-shadow-color: rgba(255, 215, 0, 0.7); /* Gold with transparency */
+    --text-color: #FFFFE0; /* Light yellow */
+    --highlight-text-color: #FFFFFF; /* White */
+    --main-time-color: #FFFF00; /* Yellow */
+    --main-time-shadow-color: rgba(255, 255, 0, 0.7); /* Yellow with transparency */
+    --setting-group-bg: #664400; /* Darker brown */
+    --setting-group-border: #B8860B; /* Dark goldenrod */
+    --setting-group-shadow: rgba(212, 175, 55, 0.3); /* Dark goldenrod with transparency */
+    --input-bg: #443311; /* Very dark brown */
+    --input-color: #FFFFFF; /* White */
+    --input-border: #B8860B; /* Dark goldenrod */
+    --slider-thumb-color: #FFD700; /* Gold */
+    --slider-thumb-shadow: rgba(255, 215, 0, 0.8); /* Gold with transparency */
+    --slider-track-color: #775500; /* Darker brown */
+    --slider-track-border: #D4A017; /* Gold */
+    --visual-bar-color-1: #FFD700; /* Gold */
+    --visual-bar-shadow-1: rgba(255, 215, 0, 0.7); /* Gold with transparency */
+    --visual-bar-color-2: #FFFF00; /* Yellow */
+    --visual-bar-shadow-2: rgba(255, 255, 0, 0.7); /* Yellow with transparency */
+    --toggle-slider-bg: #554422; /* Medium brown */
+    --toggle-slider-border: #B8860B; /* Dark goldenrod */
+    --toggle-slider-before: #FFD700; /* Gold */
+    --toggle-slider-checked-bg: #D4A017; /* Gold */
+    --button-bg: #664400; /* Darker brown */
+    --button-color: #FFFFE0; /* Light yellow */
+    --button-border: #B8860B; /* Dark goldenrod */
+    --button-hover-bg: #775500; /* Slightly lighter brown */
+    --button-hover-shadow: rgba(212, 160, 23, 0.9); /* Gold with transparency */
+    --reset-button-bg: #8B4513; /* Saddle brown */
+    --reset-button-border: #A0522D; /* Sienna */
+    --reset-button-color: #FFFAF0; /* Floral white */
+    --reset-button-shadow: rgba(139, 69, 19, 0.5); /* Saddle brown with transparency */
+    --reset-button-hover-bg: #A0522D; /* Sienna */
+    --reset-button-hover-shadow: rgba(160, 82, 45, 0.9); /* Sienna with transparency */
+    --message-banner-bg: #554422; /* Medium brown */
+    --message-banner-color: #FFFFE0; /* Light yellow */
+    --success-banner-bg: #B8860B; /* Dark goldenrod */
+    --success-banner-color: #FFFAF0; /* Floral white */
+    --success-banner-border: #D4A017; /* Gold */
+    --error-banner-bg: #8B4513; /* Saddle brown */
+    --error-banner-color: #FFFAF0; /* Floral white */
+    --error-banner-border: #A0522D; /* Sienna */
+}
+body.theme-purple {
+    --border-color: #9966ff;
+    --shadow-color: rgba(153, 102, 255, 0.7);
 }
 
 /* Ensure reset buttons maintain consistent look */
@@ -1151,14 +1204,14 @@ function validateAllNumberInputs() {
 // Function to apply the selected theme by adding a CSS class to the <body> element.
 function applyTheme(themeIndex) {
     const body = document.body;
-    body.classList.remove('theme-green', 'theme-red', 'theme-amber', 'theme-blue'); 
+    // Remove all possible theme classes first
+    body.classList.remove('theme-biff-tannen', 'theme-1955', 'theme-delorean');
 
     switch(themeIndex) {
-        case 0: body.classList.add('theme-green'); break;
-        case 1: body.classList.add('theme-red'); break;
-        case 2: body.classList.add('theme-amber'); break;
-        case 3: body.classList.add('theme-blue'); break;
-        default: body.classList.add('theme-green'); break;
+        // case 0 is the default (defined in :root), so no class is needed.
+        case 1: body.classList.add('theme-biff-tannen'); break;
+        case 2: body.classList.add('theme-1955'); break;
+        case 3: body.classList.add('theme-delorean'); break;
     }
 }
 
