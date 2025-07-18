@@ -59,7 +59,7 @@ This project requires a handful of common electronics components. Below is a det
 | **[ESP32 Dev Module](https://www.aliexpress.com/item/1005004571486357.html?spm=a2g0o.order_list.order_list_main.105.77ff1802BW3kIe)**         |    1     | The core of the project. A 30-pin or 38-pin version will work.                                      |
 | [TM1637 7-Segment Display](https://www.aliexpress.com/item/1005001582129952.html)     |    3     | 4-digit displays for Day, Year, and Time.                                                           |
 | [Adafruit AlphaNum4 Display](https://www.aliexpress.com/item/1005001593666162.html)   |    1     | 14-segment I2C display for showing the month. Any HT16K33-based alphanumeric display should work.   |
-| DFPlayer Mini MP3 Module     |    1     | For playing sound effects.                                                                          |
+| [DFPlayer Mini MP3 Module](https://www.aliexpress.com/item/1005008228039985.html)     |    1     | For playing sound effects.                                                                          |
 | MicroSD Card                 |    1     | 1GB or larger, formatted to FAT16 or FAT32. For storing MP3 files.                                  |
 | Speaker                      |    1     | A small 8 Ohm speaker (e.g., 0.5W or 1W) for sound output.                                          |
 | Tactile Push Buttons         |    4     | For physical interaction (Set/Stop, Sound/Toggle, Hour, Minute).                                    |
