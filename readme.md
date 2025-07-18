@@ -20,6 +20,7 @@
 - [Usage](#usage)
   - [Web Interface](#web-interface)
   - [Physical Buttons](#physical-buttons)
+- [Example Usage](#example-usage)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 ## Features
