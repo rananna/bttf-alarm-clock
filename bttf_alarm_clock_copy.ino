@@ -260,7 +260,7 @@ const char* INDEX_HTML = R"raw(
             <p>Last Sync Time: <span id="lastSyncTime">Never</span></p>
             <p>Sync Status: <span id="syncStatusMessage">Initializing...</span></p>
             <p>Last NTP Server: <span id="lastNtpServer">N/A</span></p>
-            <button id="fetchStatusBtn" onclick="fetchStatus()">Refresh Status</button>
+            <button id="fetchStatusBtn" onclick="fetchStatus()">Refresh time circuits</button>
             <div id="status"></div>
         </div>
 
@@ -331,7 +331,7 @@ const char* INDEX_HTML = R"raw(
         </div>
 
         <div class="setting-group">
-            <h3>Display & Sound Settings</h3>
+            <h3>Console Controls (Display & Sound)</h3>
             <label for="brightness">
                 Display Brightness:
                 <div class="slider-with-bar">
@@ -375,14 +375,14 @@ const char* INDEX_HTML = R"raw(
             <label for="themeSelect">Theme:</label>
             <select id="themeSelect">
                 <option value="0">Time Circuits (Green)</option>
-                <option value="1">Biff's Casino (Red)</option>
+                <option value="1">Biff Tannen (Red)</option>
                 <option value="2">1955 (Amber)</option>
-                <option value="3">DeL
+                <option value="3">DeLorean (Blue)</option>
             </select>
         </div>
 
         <div class="setting-group">
-            <h3>Time Settings</h3>
+            <h3>Temporal Controls</h3>
             <label for="timezoneSelect">Timezone:</label>
             <select id="timezoneSelect">
                 <option value="EST5EDT,M3.2.0,M11.1.0" selected>Canada/Eastern</option>
@@ -419,9 +419,9 @@ const char* INDEX_HTML = R"raw(
 
         </div>
 
-        <button id="saveSettingsBtn" onclick="saveSettings()">Save All Settings</button>
-        <button id="resetDefaultsBtn" onclick="resetToDefaults()" class="reset-button">Reset to Default Settings</button>
-        <button id="resetWifiBtn" onclick="resetWifi()" class="reset-button">Reset WiFi Credentials</button>
+        <button id="saveSettingsBtn" onclick="saveSettings()">Engage! (Save Settings)</button>
+        <button id="resetDefaultsBtn" onclick="resetToDefaults()" class="reset-button">Return to 1985 (Reset Settings)</button>
+        <button id="resetWifiBtn" onclick="resetWifi()" class="reset-button">Forget Destination (Reset WiFi)</button>
     </div>
 
     <script src="/script.js"></script>
@@ -1204,14 +1204,14 @@ function validateAllNumberInputs() {
 // Function to apply the selected theme by adding a CSS class to the <body> element.
 function applyTheme(themeIndex) {
     const body = document.body;
-    body.classList.remove('theme-green', 'theme-red', 'theme-amber', 'theme-blue'); 
+    // Remove all possible theme classes to ensure a clean slate
+    body.classList.remove('theme-biff-tannen', 'theme-1955', 'theme-delorean');
 
-    switch(themeIndex) {
-        case 0: body.classList.add('theme-green'); break;
-        case 1: body.classList.add('theme-red'); break;
-        case 2: body.classList.add('theme-amber'); break;
+    switch(parseInt(themeIndex)) { // Use parseInt for safety
+        // case 0 is the default (Green) and requires no class.
+        case 1: body.classList.add('theme-biff-tannen'); break;
+        case 2: body.classList.add('theme-1955'); break;
         case 3: body.classList.add('theme-delorean'); break;
-        default: body.classList.add('theme-green'); break;
     }
 }
 
