@@ -35,7 +35,7 @@ This project is packed with features to create an authentic and highly functiona
     *   **NTP Time Synchronization**: Automatically fetches and syncs time from multiple fallback NTP servers for high reliability.
     *   **Full Time Zone Support**: Includes automatic Daylight Saving Time adjustments, configurable via the web UI.
 *   **Complete Web Interface**:
-    *   **Web Configuration Portal**: Configure all settings easily from any device on your network via a web browser at `http://bttf-clock.local`.
+    *   **Web Configuration Portal**: Configure all settings easily from any device on your network via a web browser at `http://bttf-alarmclock.local`.
     *   **WiFi Manager**: Simple initial WiFi setup using a captive portal. No need to hardcode credentials.
 *   **Advanced Alarm System**:
     *   **Configurable Alarm**: Set alarm time, toggle on/off, and configure snooze duration from the web UI or physical buttons.
@@ -155,6 +155,7 @@ This project's housing is based on the incredible "Back to the Future Single Tim
 *   **Recommended Filament**: For a realistic metallic look, use a metallic grey or silver PLA/PETG filament.
 *   **Build Plate**: Printing on a patterned or textured PEI build plate can enhance the metallic effect and give the surface a unique finish.
 *   **Infill**: Use an infill of **50% or higher** to ensure the housing is sturdy and durable.
+*   **Labels**: The labels for the displays and buttons can be printed using the included `bttf-labels.3mf` Bambu Studio project file. To achieve the white text on the black background, you will need to set a filament color change to **white** at the correct layer height within Bambu Studio.
 
 ### 2. Hardware Assembly
 
@@ -192,7 +193,7 @@ Wire all the components together as described in the **Wiring Guide**. Double-ch
 
 ### Web Interface
 
-Once connected to your WiFi, you can access the full configuration panel by navigating to **http://bttf-clock.local/** in your web browser.
+Once connected to your WiFi, you can access the full configuration panel by navigating to **http://bttf-alarmclock.local/** in your web browser.
 
 <p align="center">
   <img src="webui.png" alt="Web UI">

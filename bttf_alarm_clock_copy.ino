@@ -16,7 +16,7 @@
  * - Configurable alarm with snooze functionality               // Wake-up capability
  * - OTA updates for easy firmware upgrades                     // Remote updating
  * - Display brightness control with day/night settings         // Eye comfort
- * - Full web configuration interface (http://bttf-clock.local) // Easy configuration
+ * - Full web configuration interface (http://bttf-alarmclock.local) // Easy configuration
  * - Time travel animations and sound effects                   // Movie authenticity
  * - Multiple display themes (Green, Red, Amber, Blue)          // User customization
  * - Power saving mode during specified hours                   // Energy efficiency
@@ -120,7 +120,7 @@ const long utcOffsetInSeconds = 3600; // Unused constant, likely intended for UT
 bool changesMade = false;           // Flag to track if settings were modified and need saving
 
 // --- Configuration ---
-#define MDNS_HOSTNAME "bttf-clock"   // Hostname for mDNS, allowing access via http://bttf-clock.local/
+#define MDNS_HOSTNAME "bttf-alarmclock"   // Hostname for mDNS, allowing access via http://bttf-alarmclock.local/
 
 
 
@@ -2071,7 +2071,7 @@ server.addHandler(&events);
     Serial.println(WiFi.dnsIP(0));      // Print the primary DNS server IP
 
     // --- mDNS (Multicast DNS) Responder ---
-    // mDNS allows you to access the ESP32 by a friendly hostname (e.g., http://bttf-clock.local/)
+    // mDNS allows you to access the ESP32 by a friendly hostname (e.g., http://bttf-alarmclock.local/)
     // in your web browser, instead of requiring its dynamic IP address.
     if (MDNS.begin(MDNS_HOSTNAME)) {
         Serial.printf("mDNS responder started: http://%s.local/\n", MDNS_HOSTNAME);
