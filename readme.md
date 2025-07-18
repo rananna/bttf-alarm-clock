@@ -67,7 +67,7 @@ This project requires a handful of common electronics components. Below is a det
 | [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html)                     |    2     | For the AM/PM indicators.                                                                           |
 | [10kΩ Resistors](https://www.aliexpress.com/item/1005007447212056.html)               |    4     | Used as pull-down resistors for the push buttons to ensure stable readings.                         |
 | [220Ω Resistors](https://www.aliexpress.com/item/1005007447212056.html)               |    2     | Current-limiting for the AM/PM LEDs. Lighted buttons may have built-in resistors; check specs.      |
-| [Breadboard](https://www.aliexpress.com/item/1005007085965483.html) & [Jumper Wires]https://www.aliexpress.com/item/1005007298861842.html])    |    1     | For prototyping and making connections. A half-size or full-size breadboard is recommended.         |
+| [Breadboard](https://www.aliexpress.com/item/1005007085965483.html) & [Jumper Wires](https://www.aliexpress.com/item/1005007298861842.html])    |    1     | For prototyping and making connections. A half-size or full-size breadboard is recommended.         |
 | 5V Power Supply              |    1     | A reliable power supply capable of at least 1A (e.g., a standard USB phone charger and cable).      |
 
 ## Software & Libraries
