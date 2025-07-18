@@ -187,9 +187,8 @@ Wire all the components together as described in the **Wiring Guide**. Double-ch
 
 Once connected to your WiFi, you can access the full configuration panel by navigating to **http://bttf-clock.local/** in your web browser.
 
-<!-- Replace with a screenshot of your web UI -->
 <p align="center">
-  <img src="https://via.placeholder.com/600x400.png?text=Web+UI+Screenshot" alt="Web UI">
+  <img src="webui.png" alt="Web UI">
 </p>
 
 From here, you can control all aspects of the clock.
