@@ -5,7 +5,7 @@
   <img src="https://via.placeholder.com/600x300.png?text=BTTF+Clock+in+Action" alt="BTTF Alarm Clock">
 </p>
 
-> **Great Scott!** It appears you've stumbled upon the schematics for a temporal displacement alarm clock. While this device can't actually travel through time (flux capacitor technology is still a bit tricky), it brings the iconic look and feel of the DeLorean's time circuits right to your nightstand. Using the power of an ESP32 and a little bit of 1.21-gigawatt... I mean, 5-volt... ingenuity, this clock connects to your local WiFi network to display the precise current time, your designated "destination" alarm time, and even tracks your "last time departed" for power-saving sleep modes. So, fire it up, but be warned: once this baby hits 88 miles per hour on the display, you're going to see some serious stuff!
+> **Great Scott!** It appears you've stumbled upon the schematics for a temporal displacement alarm clock. While this device can't actually travel through time (flux capacitor technology is still a bit tricky), it brings the iconic look and feel of the DeLorean's time circuits right to your nightstand. Using the power of an ESP32 and a little bit of 1.21-gigawatt... I mean, 5-volt... ingenuity, this clock connects to your local WiFi network to display the precise date and time. You can set a "Destination Time" alarm and a "Last Time Departed" sleep schedule, all configurable from a web interface. So, fire it up, but be warned: once this baby hits 88 miles per hour on the display, you're going to see some serious stuff!
 
 ---
 
@@ -15,15 +15,7 @@
 - [Hardware Requirements](#hardware-requirements)
 - [Software & Libraries](#software--libraries)
 - [Wiring Guide](#wiring-guide)
-  - [Power Distribution](#power-distribution)
-  - [Display Connections](#display-connections)
-  - [Audio Connections](#audio-connections)
-  - [Button & LED Connections](#button--led-connections)
 - [Installation & Setup](#installation--setup)
-  - [1. Hardware Assembly](#1-hardware-assembly)
-  - [2. Prepare the SD Card](#2-prepare-the-sd-card)
-  - [3. Flash the Firmware](#3-flash-the-firmware)
-  - [4. WiFi Configuration](#4-wifi-configuration)
 - [Usage](#usage)
   - [Web Interface](#web-interface)
   - [Physical Buttons](#physical-buttons)
@@ -33,10 +25,11 @@
 
 This project is packed with features to create an authentic and highly functional alarm clock:
 
-*   **Triple Time Circuit Displays**: Three distinct display sections show:
-    *   **Destination Time (Top)**: A green 7-segment display for your alarm time.
-    *   **Present Time (Middle)**: A red 7-segment display for the current time, and a 14-segment alphanumeric display for the current month.
-    *   **Last Time Departed (Bottom)**: A yellow 7-segment display showing the current date (day and year).
+*   **BTTF-Themed Display Layout**: Four displays work together to show the current date and time.
+    *   **Month**: An alphanumeric display shows the three-letter month abbreviation (e.g., `JUL`).
+    *   **Day**: A 7-segment display shows the day of the month.
+    *   **Year**: A 7-segment display shows the full year.
+    *   **Time**: A 7-segment display shows the current hour and minute, with a blinking colon.
 *   **Accurate & Automatic Time**:
     *   **NTP Time Synchronization**: Automatically fetches and syncs time from multiple fallback NTP servers for high reliability.
     *   **Full Time Zone Support**: Includes automatic Daylight Saving Time adjustments, configurable via the web UI.
@@ -52,7 +45,7 @@ This project is packed with features to create an authentic and highly functiona
 *   **Customization & Convenience**:
     *   **Power Saving Mode**: Displays automatically turn off during user-defined "sleep" hours to save power and avoid nighttime glare.
     *   **Over-The-Air (OTA) Updates**: Update the firmware wirelessly without needing a physical connection.
-    *   **Customizable Themes**: Change the display colors and web UI theme.
+    *   **Web UI Themes**: Change the color scheme of the web interface to match your favorite BTTF aesthetic.
     *   **Physical Button Controls**: Full control over core functions without needing the web UI.
     ## Hardware Requirements
 
@@ -86,13 +79,13 @@ This project is built using the Arduino framework for the ESP32. You will need t
 | `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        |
 ## Wiring Guide
 
-This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering.
+This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering. A detailed schematic can be found in the project files.
 
 ### Power Distribution
 
 All components require a connection to power (VCC) and ground (GND).
-*   **5V Power**: Connect the **VIN** pin of the ESP32 to the positive (5V) rail of your breadboard. Connect the VCC pins of all three TM1637 displays, the Adafruit AlphaNum4 display, and the DFPlayer Mini to this 5V rail.
-*   **Ground**: Connect a **GND** pin from the ESP32 to the ground rail of your breadboard. Connect the GND pins of all displays, the DFPlayer Mini, all buttons, and the negative (cathode) side of all LEDs (via their current-limiting resistors) to this ground rail.
+*   **5V Power**: Connect the **VIN** pin of the ESP32 to the positive (5V) rail of your power source. Connect the VCC pins of all three TM1637 displays, the Adafruit AlphaNum4 display, and the DFPlayer Mini to this 5V rail.
+*   **Ground**: Connect a **GND** pin from the ESP32 to the common ground rail. Connect the GND pins of all displays, the DFPlayer Mini, all buttons, and the negative (cathode) side of all LEDs (via their current-limiting resistors) to this ground rail.
 ### Display Connections
 
 The clock uses four separate displays that are controlled differently.
@@ -100,12 +93,12 @@ The clock uses four separate displays that are controlled differently.
 #### TM1637 7-Segment Displays
 These three displays share a common clock (CLK) line to save pins, but each has a unique data (DIO) line.
 
-| Component                 | Pin | ESP32 GPIO |
-| ------------------------- |:---:| :--------: |
-| **TM1637 Displays (Shared)** | CLK |    13    |
-| TM1637 Display 1 (Month/Day) | DIO |    18    |
-| TM1637 Display 2 (Year)     | DIO |    15    |
-| TM1637 Display 3 (Time)     | DIO |    14    |
+| Display Function            | Pin | ESP32 GPIO |
+| --------------------------- |:---:| :--------: |
+| **All TM1637s (Shared)**    | CLK |    13    |
+| Day of Month                | DIO |    18    |
+| Year                        | DIO |    15    |
+| Time (HH:MM)                | DIO |    14    |
 
 #### Adafruit AlphaNum4 Alphanumeric Display
 This display uses the I2C communication protocol.
@@ -127,18 +120,18 @@ The DFPlayer Mini module communicates with the ESP32 using a serial (UART) conne
 
 ### Button & LED Connections
 
-The buttons require pull-down resistors (e.g., 10kΩ) to prevent floating inputs. The LEDs require current-limiting resistors (e.g., 220Ω) to prevent them from burning out.
+The buttons require pull-down resistors (e.g., 10kΩ) to prevent floating inputs. The LEDs require current-limiting resistors (e.g., 220-330Ω) to prevent them from burning out.
 
 | Component          | ESP32 GPIO | Notes                                  |
 | ------------------ | :--------: | -------------------------------------- |
-| Set/Stop Button    |     34     | Connect to 3.3V. Add a 10kΩ pull-down resistor to GND. |
-| Set/Sound Button   |     4      | Connect to 3.3V. Add a 10kΩ pull-down resistor to GND. |
-| Hour Button        |     33     | Connect to 3.3V. Add a 10kΩ pull-down resistor to GND. |
-| Minute Button      |     32     | Connect to 3.3V. Add a 10kΩ pull-down resistor to GND. |
-| **AM LED**         |     27     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220Ω resistor. |
-| **PM LED**         |     12     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220Ω resistor. |
-| Set/Stop LED       |     26     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220Ω resistor. |
-| Set/Sound LED      |     2      | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220Ω resistor. |
+| Set/Stop Button    |     34     | Connect one side to 3.3V and the other to the GPIO pin. Add a 10kΩ pull-down resistor from the GPIO pin to GND. |
+| Set/Sound Button   |     4      | Connect one side to 3.3V and the other to the GPIO pin. Add a 10kΩ pull-down resistor from the GPIO pin to GND. |
+| Hour Button        |     33     | Connect one side to 3.3V and the other to the GPIO pin. Add a 10kΩ pull-down resistor from the GPIO pin to GND. |
+| Minute Button      |     32     | Connect one side to 3.3V and the other to the GPIO pin. Add a 10kΩ pull-down resistor from the GPIO pin to GND. |
+| **AM LED**         |     27     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220-330Ω resistor. |
+| **PM LED**         |     12     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220-330Ω resistor. |
+| Set/Stop LED       |     26     | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220-330Ω resistor. |
+| Set/Sound LED      |     2      | Connect the anode (+) to this pin. Connect cathode (-) to GND via a 220-330Ω resistor. |
 ## Installation & Setup
 
 ### 1. Hardware Assembly
@@ -246,6 +239,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ## Acknowledgements
 
 This project wouldn't be possible without the hard work of the open-source community and the creators of the fantastic libraries used. Special thanks to the teams behind the ESP32 Arduino core, WiFiManager, and all the Adafruit and DFRobot libraries.
-
-
-
