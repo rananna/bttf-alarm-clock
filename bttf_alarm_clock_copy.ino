@@ -2291,34 +2291,14 @@ if (currentSettings.timeTravelSoundToggle==0) {
   green3.setBrightness(0, false);
   green3.showNumberDecEx(0, 0b00000000, true);
  
-  monthdayupdate(88);
-   delay(300);
-   monthdayupdate(75);
-    delay(300);
-    monthdayupdate(63);
-     delay(300);
-     monthdayupdate(51);
-      delay(300);
-      monthdayupdate(45);
-       delay(300);
-       monthdayupdate(35);
-        delay(300);
-        monthdayupdate(30);
-         delay(300);
-         monthdayupdate(25);
-         delay(300);
-         monthdayupdate(20);
-         delay(300);
-         monthdayupdate(11);
-         delay(300);
-         monthdayupdate(8);
-         delay(300);
-         monthdayupdate(5);
-         delay(300);
-         monthdayupdate(3);
-         delay(300);
-         monthdayupdate(0);
-         delay(300);
+  // Store your values in an array
+int updateValues[] = {88, 75, 63, 51, 45, 35, 30, 25, 20, 11, 8, 5, 3, 0};
+
+// The loop automatically goes through each 'value' in the 'updateValues' array
+for (int value : updateValues) {
+  monthdayupdate(value);
+  delay(300);
+}
 
   
                  delay(1000);
@@ -2617,35 +2597,14 @@ void loop()
   green2.showNumberDecEx(0, 0b00000000, false);
   green3.setBrightness(0,0);
   green3.showNumberDecEx(0, 0b00000000, true);
-  monthdayupdate(88);
-   delay(300);
-   monthdayupdate(75);
-    delay(300);
-    monthdayupdate(63);
-     delay(300);
-     monthdayupdate(51);
-      delay(300);
-      monthdayupdate(45);
-       delay(300);
-       monthdayupdate(35);
-        delay(300);
-        monthdayupdate(30);
-         delay(300);
-         monthdayupdate(25);
-         delay(300);
-         monthdayupdate(20);
-         delay(300);
-         monthdayupdate(11);
-         delay(300);
-         monthdayupdate(8);
-         delay(300);
-         monthdayupdate(5);
-         delay(300);
-         monthdayupdate(3);
-         delay(300);
-         monthdayupdate(0);
-         delay(300);
+ // Store your values in an array
+int updateValues[] = {88, 75, 63, 51, 45, 35, 30, 25, 20, 11, 8, 5, 3, 0};
 
+// The loop automatically goes through each 'value' in the 'updateValues' array
+for (int value : updateValues) {
+  monthdayupdate(value);
+  delay(300);
+}
   
                  delay(1000);
                  green1.setBrightness(0,0);
@@ -2990,178 +2949,154 @@ void showMonth(const char* month) {
 }
 
 
-void alarm() {
-
-  bool cancelalarm=false;
- //put 'alm' in the display
- showMonth(months[14]);
-  myDFPlayer.play(2); //Playing the alarm sound
-    // count 0 to 88 m/h
-  for(int u=0; u<89;u++){
-    
-   // green1.showNumberDecEx(00,0b01000000,false,2,0);
-   // green1.showNumberDecEx(u*10,0b00000000,true);
-   monthdayupdate(u);
-    //Flux capacitor acceleration
-   // pixels.clear();
-    for(int i=0; i<8;i++){
-   // pixels.setPixelColor(i, pixels.Color(255,(110+h),13+h));
-   // pixels.setPixelColor((i+8), pixels.Color(255,(110+h),13+h));
-  //  pixels.setPixelColor((i+16), pixels.Color(255,(110+h),13+h));
-    delay(12-(h/8));
-   // pixels.setBrightness(20+h);
-   // pixels.show();
-
-    
-    if(digitalRead(SET_STOP_BUTTON) == true)
-    {
-      u=89;
-      cancelalarm=true;
-      myDFPlayer.stop();
-      }
-
-    if(digitalRead(MINUTE_BUTTON) == true || digitalRead(HOUR_BUTTON) == true ) // Snooze if you push MIN or HOUR button
-      { 
-      Snooze();
-      }
-
-    }
-    h=h+1;
-
+// A helper function to check all relevant buttons at once
+// Returns: 0 = no button, 1 = stop button, 2 = snooze button
+int checkButtons() {
+  if (digitalRead(SET_STOP_BUTTON) == true) {
+    return 1; // Stop
   }
-  delay (3000);
-     monthdayupdate(88);
-   delay(300);
-   monthdayupdate(75);
-    delay(300);
-    monthdayupdate(63);
-     delay(300);
-     monthdayupdate(51);
-      delay(300);
-      monthdayupdate(45);
-       delay(300);
-       monthdayupdate(35);
-        delay(300);
-        monthdayupdate(30);
-         delay(300);
-         monthdayupdate(25);
-         delay(300);
-         monthdayupdate(20);
-         delay(300);
-         monthdayupdate(11);
-         delay(300);
-         monthdayupdate(8);
-         delay(300);
-         monthdayupdate(5);
-         delay(300);
-         monthdayupdate(3);
-         delay(300);
-         monthdayupdate(0);
-         delay(300);
-
-  
-                 delay(1000);
-                 green1.setBrightness(0,0);
-                   monthdayupdate(0);
-         
-
-               delay(1000);
-   if (!cancelalarm) delay(5000);  //show 88 in the display
-    //refresh day display
-
-  int monthDay = timeinfo.tm_mday;
-        int thousands= (monthDay*10)/1000;
-   int hundreds=((monthDay*10)/100) %10;
-    int tens= ((monthDay*10)/10) %10;
-    int units= (monthDay*10) %10;
-    segments[0]=0x00;
-    segments[3]=0x00;
-    segments[1]=green1.encodeDigit(hundreds);
-    segments[2]=green1.encodeDigit(tens);
-     green1.setSegments(segments);
-    
-    // if (currentSettings.timeTravelSoundToggle==1) myDFPlayer.play(random(1,9)); //Playing the alarm sound
-    //delay(2000);
-
-   if(!cancelalarm) {
-    while(digitalRead(SET_STOP_BUTTON) == false)
-    { 
-      h=1;
-      show_hour();
-     Serial.println("in the loop");
-      digitalWrite(SET_STOP_LED,HIGH);
-
-    
-    // If you're not wake-up at the first song, it plays the next one
-      if (myDFPlayer.available())
-      {
-      printDetail(myDFPlayer.readType(), myDFPlayer.read());
-      if(Play_finished == 1) {
-      Play_finished = 0;
-      Serial.println("Next song");
-       myDFPlayer.play(random(1,9)); //Playing the alarm sound
-      }
-     
-      }
-
-    //That's bzzzz the Neopixel  
-  //  pixels.clear();
-  //    for(int i=0; i<8;i++){
-  //    pixels.setPixelColor(i, pixels.Color(255,200,105));
- //     pixels.setPixelColor((i+8), pixels.Color(255,200,105));
-  //    pixels.setPixelColor((i+16), pixels.Color(255,200,105));
-   //   delay(5);
-  //    pixels.setBrightness(110);
-  //    pixels.show();
-      //Serial.println("neopixel loop");
-  //  }
-
-    if(digitalRead(MINUTE_BUTTON) == true || digitalRead(HOUR_BUTTON) == true ) // Snooze if you push MIN or HOUR button
-      { 
-      Snooze();
-      }
-
-    }
-   
-   // wait for alarm button press to stop
-     while(digitalRead(SET_STOP_BUTTON) == true)
-      {
-        Serial.println("alarm cancel");
-        myDFPlayer.stop();
-            delay(500);
-      }
-   }
+  if (digitalRead(MINUTE_BUTTON) == true || digitalRead(HOUR_BUTTON) == true) {
+    return 2; // Snooze
+  }
+  return 0; // No button pressed
 }
 
-void show_hour(){
+/**
+ * @brief Waits for a specific duration without blocking the CPU.
+ * * This function continuously checks for button presses during the wait period.
+ * It's a non-blocking alternative to delay().
+ *
+ * @param ms The number of milliseconds to wait.
+ * @return int The result of checkButtons() if a button is pressed (1 for STOP, 2 for SNOOZE), 
+ * or 0 if the delay completes without any button press.
+ */
+int responsiveDelay(unsigned long ms) {
+  unsigned long start = millis();
+  while (millis() - start < ms) {
+    int buttonState = checkButtons();
+    if (buttonState != 0) {
+      return buttonState; // A button was pressed, so return immediately.
+    }
+    // You can add other repeating tasks here if needed, like updating a display.
+    delay(1); // A tiny delay to prevent the loop from overwhelming the CPU.
+  }
+  return 0; // The full delay time has passed without interruption.
+}
 
+void alarm() {
+  bool alarmFullyStopped = false;
+
+  // This outer loop allows the alarm to restart after a snooze.
+  while (!alarmFullyStopped) {
+    int buttonState = 0;
+
+    // --- Start of Alarm Sequence ---
+    showMonth(months[14]); // Display "alm"
+    myDFPlayer.play(2);    // Play the initial alarm sound
+
+    // --- 88 MPH Acceleration Sequence (Now fully responsive) ---
+    for (int u = 0; u < 89; u++) {
+      monthdayupdate(u);
+      buttonState = responsiveDelay(20);
+      if (buttonState != 0) break; // Exit loop if a button is pressed
+    }
+
+    // Handle button press from the sequence above
+    if (buttonState == 1) { alarmFullyStopped = true; break; }
+    if (buttonState == 2) { Snooze(); continue; }
+
+    // --- Countdown Sequence (Now fully responsive) ---
+    int countdownValues[] = {88, 75, 63, 51, 45, 35, 30, 25, 20, 11, 8, 5, 3, 0};
+
+    buttonState = responsiveDelay(3000);
+    if (buttonState == 1) { alarmFullyStopped = true; break; }
+    if (buttonState == 2) { Snooze(); continue; }
+
+    for (int val : countdownValues) {
+      monthdayupdate(val);
+      buttonState = responsiveDelay(300);
+      if (buttonState != 0) break; // Exit loop if a button is pressed
+    }
+    if (buttonState == 1) { alarmFullyStopped = true; break; }
+    if (buttonState == 2) { Snooze(); continue; }
+
+    buttonState = responsiveDelay(1000);
+    if (buttonState == 1) { alarmFullyStopped = true; break; }
+    if (buttonState == 2) { Snooze(); continue; }
+    
+    green1.setBrightness(0, 0);
+    monthdayupdate(0);
+    
+    buttonState = responsiveDelay(1000);
+    if (buttonState == 1) { alarmFullyStopped = true; break; }
+    if (buttonState == 2) { Snooze(); continue; }
+
+    // --- Main Alarm Loop (already quite responsive, no change needed here) ---
+    digitalWrite(SET_STOP_LED, HIGH);
+    myDFPlayer.play(random(1, 9));
+
+    while (true) {
+      show_hour();
+      if (myDFPlayer.available() && myDFPlayer.readType() == DFPlayerPlayFinished) {
+        myDFPlayer.play(random(1, 9));
+      }
+
+      buttonState = checkButtons();
+      if (buttonState == 1) { // STOP
+        alarmFullyStopped = true;
+        break;
+      }
+      if (buttonState == 2) { // SNOOZE
+        Snooze();
+        break; // Exits this inner loop, outer loop will restart alarm
+      }
+      delay(50); // Small delay here is fine for loop pacing
+    }
+  }
+
+  // --- Cleanup after alarm is fully stopped ---
+  myDFPlayer.stop();
+  digitalWrite(SET_STOP_LED, LOW);
+  Serial.println("Alarm stopped.");
+  while (digitalRead(SET_STOP_BUTTON) == true) {
+    delay(20);
+  }
+}
+// Snooze if you'd like to sleep a few minutes more 
+void Snooze() {
+  myDFPlayer.stop();
+  showMonth(months[16]); // Display "snz" or similar message
+  Serial.println("SNOOZING... time will update on display.");
+
+  // This loop runs once per second for the total snooze duration.
+  for (int i = 0; i < currentSettings.snoozeMinutes * 60; i++) {
+    
+    // Check if the user wants to cancel the snooze and stop the alarm completely
+    if (digitalRead(SET_STOP_BUTTON) == true) {
+      break; 
+    }
+    
+    // --- Update the time display ---
+    // This function is called every second to keep the clock current.
+    show_hour(); 
+     green1.setBrightness(0,0);
+     green1.showNumberDecEx(0, 0b00000000, true);
+     green2.setBrightness(0,0);
+     green2.showNumberDecEx(0, 0b00000000, true);
+
+
+    
+    delay(1000); // Wait for 1 second before the next update
+  }
+}
+void show_hour(){
+  green3.setBrightness(currentSettings.brightness,1);
 green3.showNumberDecEx(Hour,0b01000000,true,2,0);
 green3.showNumberDecEx(timeinfo.tm_min,0b01000000,true,2,2);
 
 }
 
-// Snooze if you'd like to sleep few minutes more 
-// You can set the snooze time with the "snooze" variable at the beginning of the code
-void Snooze(){
 
-     myDFPlayer.stop();
-  //   pixels.setBrightness(5);
- //    pixels.show();
-     showMonth(months[16]);
-       for(int i=0; i<(currentSettings.snoozeMinutes*600);i++)
-      {
-      waitMilliseconds(68);
-      show_hour();
-        Serial.println("SNOOZE");
-      Serial.println("currentSettings.snoozeMinutes");
-      Serial.println(i);
-      if(digitalRead(SET_STOP_BUTTON) == true){i=currentSettings.snoozeMinutes*600;}
-     
-      }
-
-      alarm();
-      Play_finished = 0;
-}
 void Setup_sound() {
 //toggle the sound
 if (currentSettings.timeTravelSoundToggle==0) {
