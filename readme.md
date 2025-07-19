@@ -71,18 +71,26 @@ This project is packed with features to create an authentic and highly functiona
 
 This project requires a handful of common electronics components. Below is a detailed Bill of Materials (BOM) for everything you'll need to assemble the clock. The links provided are examples; feel free to source components from your preferred supplier.
 
-| [TM1637 7-Segment Display](https://www.aliexpress.com/item/1005001582129952.html)     |    3     | 4-digit displays for Day, Year, and Time.                                                           |
-| [Adafruit AlphaNum4 Display](https://www.aliexpress.com/item/1005001593666162.html)   |    1     | 14-segment I2C display for showing the month. Any HT16K33-based alphanumeric display should work.   |
-| [DFPlayer Mini MP3 Module](https://www.aliexpress.com/item/1005008228039985.html)     |    1     | For playing sound effects.                                                                          |
-| [MicroSD Card](https://www.aliexpress.com/item/1005008978876553.html)                 |    1     | 10MB or larger, formatted to FAT16 or FAT32. For storing MP3 files.                                  |
-| [20mm diameter Speaker](https://www.aliexpress.com/item/1005006682079525.html)                      |    1     | A small 8 Ohm speaker (e.g., 0.5W or 1W) for sound output.                                          |
-| [Lighted Tactile Push Buttons](https://www.aliexpress.com/item/1005007163972572.html) |    2     | For the Set/Stop and Sound/Toggle functions. The built-in LED replaces a separate status LED.       |
-| [Tactile Push Buttons](https://www.aliexpress.com/item/1005002622143638.html)         |    2     | For the Hour and Minute functions.                                                                  |
-| [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html)                     |    2     | For the AM/PM indicators.                                                                           |
-| [10kΩ Resistors](https://www.aliexpress.com/item/1005007447212056.html)               |    4     | Used as pull-down resistors for the push buttons to ensure stable readings.                         |
-| [220Ω Resistors](https://www.aliexpress.com/item/1005007447212056.html)               |    2     | Current-limiting for the AM/PM LEDs. Lighted buttons may have built-in resistors; check specs.      |
-| [Breadboard](https://www.aliexpress.com/item/1005007085965483.html) & [Jumper Wires](https://www.aliexpress.com/item/1005007298861842.html)    |    1     | For prototyping and making connections. A half-size or full-size breadboard is recommended.         |
-| 5V Power Supply              |    1     | A reliable power supply capable of at least 1A (e.g., a standard USB phone charger and cable).      |
+### Core Components
+| Component | Qty | Notes |
+| :--- | :---: | :--- |
+| [ESP32 Dev Module](https://www.aliexpress.com/item/1005005798934433.html) | 1 | The brain of the project. Any ESP32 with enough GPIO pins will work. |
+| [DFPlayer Mini MP3 Module](https://www.aliexpress.com/item/1005008228039985.html) | 1 | For playing sound effects. |
+| [MicroSD Card](https://www.aliexpress.com/item/1005008978876553.html) | 1 | 10MB or larger, formatted to FAT16 or FAT32. For storing MP3 files. |
+
+### Displays & Indicators
+| Component | Qty | Notes |
+| :--- | :---: | :--- |
+| [TM1637 7-Segment Display](https://www.aliexpress.com/item/1005001582129952.html) | 3 | 4-digit displays for Day, Year, and Time. |
+| [Adafruit AlphaNum4 Display](https://www.aliexpress.com/item/1005001593666162.html) | 1 | 14-segment I2C display for the month. Any HT16K33-based display should work. |
+| [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html) | 2 | For the AM/PM indicators. |
+
+### Audio & User Input
+| Component | Qty | Notes |
+| :--- | :---: | :--- |
+| [20mm diameter Speaker](https://www.aliexpress.com/item/1005006682079525.html) | 1 | A small 8 Ohm speaker (e.g., 0.5W or 1W) for sound output. |
+| [Lighted Tactile Push Buttons](https://www.aliexpress.com/item/1005007163972572.html) | 2 | For Set/Stop and Sound/Toggle. The built-in LED is used for status. |
+| [Tactile Push Buttons
 
 ## Software & Libraries
 
@@ -90,8 +98,8 @@ This project is built using the Arduino framework for the ESP32. You will need t
 
 | Library                       | Author              | Purpose                               | Link                                                                    |
 | ----------------------------- | ------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
-| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | GitHub                          |
-| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | GitHub              |
+| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | [GitHub](https://github.com/tzapu/)WiFiManager)                          |
+| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | [GitHub](https://learn.adafruit.com/adafruit-gfx-graphics-library/overview)              |
 | `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub     |
 | `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | GitHub                |
 | `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| GitHub                |
