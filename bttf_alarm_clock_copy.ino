@@ -3071,6 +3071,9 @@ void Snooze() { // This function is called from within the blocking alarm() func
   // Turn off other displays during snooze
   green1.setBrightness(0, 0);
   green2.setBrightness(0, 0);
+  green1.showNumberDecEx(0,0b01000000,true,2,0);
+  green1.showNumberDecEx(0,0b01000000,true,2,2);
+  green2.showNumberDecEx(0,0b00000000,true);
 
   unsigned long snoozeStartTime = millis();
   unsigned long snoozeDurationMs = (unsigned long)currentSettings.snoozeMinutes * 60 * 1000;
