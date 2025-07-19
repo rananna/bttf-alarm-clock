@@ -95,7 +95,7 @@ This project is built using the Arduino framework for the ESP32. You will need t
 | ----------------------------- | ------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
 | `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | GitHub                          |
 | `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | GitHub              |
-| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub     |
+| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub             |
 | `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | GitHub                |
 | `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| GitHub                |
 | `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        | GitHub                         |
