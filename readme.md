@@ -109,7 +109,7 @@ This project is built using the Arduino framework for the ESP32. You will need t
 This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering.
 
 <p align="center">
-  <img src="circuit.jpg" alt="Wiring Schematic (Replace with your diagram!)" width="800">
+  <img src="circuit.jpg" alt="Wiring Schematic " width="800">
 </p>
 
 ### Power Distribution
