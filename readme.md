@@ -1,8 +1,13 @@
 # Back to the Future - ESP32 Alarm Clock
 
 <p align="center">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg">
+  <img alt="ESP32" src="https://img.shields.io/badge/Platform-ESP32-purple.svg">
+</p>
+
+<p align="center">
   <!-- Replace with a GIF or image of your clock in action! -->
-  <img src="https://via.placeholder.com/600x300.png?text=BTTF+Clock+in+Action" alt="BTTF Alarm Clock">
+  <img src="https://via.placeholder.com/600x300.png?text=Replace+with+a+GIF+of+your+clock!" alt="BTTF Alarm Clock">
 </p>
 
 > **Great Scott!** It appears you've stumbled upon the schematics for a temporal displacement alarm clock. While this device can't actually travel through time (flux capacitor technology is still a bit tricky), it brings the iconic look and feel of the DeLorean's time circuits right to your nightstand. Using the power of an ESP32 and a little bit of 1.21-gigawatt... I mean, 5-volt... ingenuity, this clock connects to your local WiFi network to display the precise date and time. You can set a "Destination Time" alarm and a "Last Time Departed" sleep schedule, all configurable from a web interface. So, fire it up, but be warned: once this baby hits 88 miles per hour on the display, you're going to see some serious stuff!
@@ -12,7 +17,6 @@
 ### Table of Contents
 
 - [Features](#features)
-- [Hardware Requirements](#hardware-requirements)
 - [Bill of Materials (BOM)](#bill-of-materials-bom)
 - [Software & Libraries](#software--libraries)
 - [Wiring Guide](#wiring-guide)
@@ -20,6 +24,7 @@
 - [Usage](#usage)
   - [Web Interface](#web-interface)
   - [Physical Buttons](#physical-buttons)
+- [Troubleshooting](#troubleshooting)
 - [Example Usage](#example-usage)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
@@ -50,10 +55,8 @@ This project is packed with features to create an authentic and highly functiona
     *   **Web UI Themes**: Change the color scheme of the web interface to match your favorite BTTF aesthetic.
     *   **Physical Button Controls**: Full control over core functions without needing the web UI.
     ## Hardware Requirements
-
-This project requires a handful of common electronics components. Below is a detailed Bill of Materials (BOM) for everything you'll need to assemble the clock.
-
-## Bill of Materials (BOM)
+    
+This project requires a handful of common electronics components. Below is a detailed Bill of Materials (BOM) for everything you'll need to assemble the clock. The links provided are examples; feel free to source components from your preferred supplier.
 
 | Component                    | Quantity | Notes                                                                                               |
 | ---------------------------- | :------: | --------------------------------------------------------------------------------------------------- |
@@ -75,21 +78,23 @@ This project requires a handful of common electronics components. Below is a det
 
 This project is built using the Arduino framework for the ESP32. You will need to install the following libraries through the Arduino IDE Library Manager or PlatformIO:
 
-| Library                       | Author              | Purpose                               |
-| ----------------------------- | ------------------- | ------------------------------------- |
-| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       |
-| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                |
-| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         |
-| `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       |
-| `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.|
-| `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        |
-| `ArduinoJson`                 | Benoit Blanchon     | Handles data for the web API.         |
-| `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        |
+| Library                       | Author              | Purpose                               | Link                                                              |
+| ----------------------------- | ------------------- | ------------------------------------- | ----------------------------------------------------------------- |
+| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | GitHub                    |
+| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | GitHub        |
+| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub       |
+| `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | GitHub          |
+| `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| GitHub          |
+| `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        | GitHub                   |
+| `ArduinoJson`                 | Benoit Blanchon     | Handles data for the web API.         | GitHub                |
+| `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        | GitHub                      |
+
 ## Wiring Guide
 
 This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering.
 
 <p align="center">
+  <!-- TODO: Replace this placeholder with a real wiring diagram (e.g., from Fritzing or a clear photo) -->
   <img src="circuit.jpg" alt="Wiring Schematic" width="800">
 </p>
 
@@ -250,7 +255,35 @@ The clock can also be operated using the four physical buttons for core function
     *   **During Alarm**: Activates the **Snooze** function.
 
 *   **Easter Egg**:
-    *   Press the **HOUR** and **MINUTE** buttons simultaneously to trigger the "Power of Love" sound effect!
+    *   Press and hold the **HOUR** and **MINUTE** buttons simultaneously to trigger the "Power of Love" sound effect!
+
+## Troubleshooting
+
+Having trouble? Here are some common issues and how to solve them.
+
+*   **Web Interface Not Loading (`bttf-alarmclock.local` doesn't work)**
+    *   **mDNS Issues**: Not all networks or operating systems handle `.local` addresses well. Find the clock's IP address from your router's connected devices list or by watching the Serial Monitor in the Arduino IDE when the clock boots up. You can then access the UI by typing the IP address directly into your browser.
+    *   **WiFi Connection**: Ensure the ESP32 is connected to your WiFi. If not, it will revert to AP mode (`bttf-clock` network).
+
+*   **Displays Are Not Working or Showing Gibberish**
+    *   **TM1637s (Day, Year, Time)**: Double-check the `CLK` and `DIO` wiring. All three displays share the same `CLK` pin, but each must have its own unique `DIO` pin connected to the correct GPIO on the ESP32.
+    *   **AlphaNum4 (Month)**: This is an I2C device. Verify that `SDA` and `SCL` are not swapped. You can run an "I2C Scanner" sketch on the ESP32 to confirm the display is detected at address `0x70`.
+    *   **Power**: Ensure all displays are receiving a stable 5V.
+
+*   **No Sound from DFPlayer Mini**
+    *   **Wiring**: The most common issue is swapping the RX/TX lines. The DFPlayer's `RX` pin must connect to the ESP32's **TX** pin (`GPIO 17`), and the DFPlayer's `TX` pin must connect to the ESP32's **RX** pin (`GPIO 16`).
+    *   **SD Card Format**: The card **must** be formatted as FAT16 or FAT32.
+    *   **File Structure**: Ensure there is a folder named `mp3` in the root of the SD card and that your sound files are inside it.
+    *   **File Naming & Copying**: Files must be named `0001.mp3`, `0002.mp3`, etc. **Crucially**, you must copy them to the SD card one by one, in numerical order. If you copy them all at once, the player's file index will be incorrect.
+
+*   **Time is Incorrect**
+    *   **WiFi**: The clock needs an internet connection to sync with NTP servers.
+    *   **Timezone**: Make sure you have selected the correct timezone in the web UI and saved the settings.
+    *   **Firewall**: Some restrictive networks may block NTP traffic (UDP port 123).
+
+*   **Buttons Are Unresponsive or Behave Erratically**
+    *   **Pull-Down Resistors**: Each button requires a 10kΩ pull-down resistor connecting its GPIO pin to Ground (GND). Without these, the input pin is "floating" and can trigger randomly.
+    *   **Wiring**: Double-check that one side of the button is connected to 3.3V and the other side is connected to both the GPIO pin and the pull-down resistor.
 
 ## Example Usage
 
