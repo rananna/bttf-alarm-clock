@@ -90,8 +90,7 @@ This project requires a handful of common electronics components. Below is a det
 | :--- | :---: | :--- |
 | [20mm diameter Speaker](https://www.aliexpress.com/item/1005006682079525.html) | 1 | A small 8 Ohm speaker (e.g., 0.5W or 1W) for sound output. |
 | [Lighted Tactile Push Buttons](https://www.aliexpress.com/item/1005007163972572.html) | 2 | For Set/Stop and Sound/Toggle. The built-in LED is used for status. |
-| [Tactile Push Buttons](https://www.aliexpress.com/item/1005002622143638.html)  | 3 | 
-for Hour, Minute, and Easter Egg.  /
+| [Tactile Push Buttons](https://www.aliexpress.com/item/1005002622143638.html)  | 3 | For Hour, Minute, and Easter Egg.  /
 
 ## Software & Libraries
 
