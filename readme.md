@@ -98,14 +98,14 @@ This project is built using the Arduino framework for the ESP32. You will need t
 
 | Library                       | Author              | Purpose                               | Link                                                                    |
 | ----------------------------- | ------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
-| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | [GitHub](https://github.com/tzapu/)WiFiManager)                          |
-| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | [GitHub](https://learn.adafruit.com/adafruit-gfx-graphics-library/overview)              |
-| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub     |
-| `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | GitHub                |
-| `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| GitHub                |
-| `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        | GitHub                         |
-| `ArduinoJson`                 | Benoit Blanchon     | Handles data for the web API.         | GitHub                      |
-| `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        | GitHub                            |
+| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | [GitHub](https://github.com/tzapu/WiFiManager)                          |
+| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | [GitHub](https://github.com/adafruit/Adafruit-GFX-Library)              |
+| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | [GitHub](https://github.com/adafruit/Adafruit_LED_Backpack)             |
+| `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | [GitHub](https://github.com/DFRobot/DFRobotDFPlayerMini)                |
+| `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| [GitHub](https://github.com/me-no-dev/ESPAsyncWebServer)                |
+| `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        | [GitHub](https://github.com/me-no-dev/AsyncTCP)                         |
+| `  | Handles data for the web API.         | [GitHub](https://github.com/bblanchon/ArduinoJson)                      |
+| `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        | [GitHub](https://github.com/avishorp/TM1637)                            |
 
 ## Wiring Guide
 
