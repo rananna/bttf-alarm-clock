@@ -3063,30 +3063,43 @@ void alarm() {
   }
 }
 // Snooze if you'd like to sleep a few minutes more 
-void Snooze() {
+void Snooze() { // This function is called from within the blocking alarm() function
   myDFPlayer.stop();
-  showMonth(months[16]); // Display "snz" or similar message
+  showMonth(months[16]); // Display "snz"
   Serial.println("SNOOZING... time will update on display.");
 
-  // This loop runs once per second for the total snooze duration.
-  for (int i = 0; i < currentSettings.snoozeMinutes * 60; i++) {
-    
-    // Check if the user wants to cancel the snooze and stop the alarm completely
-    if (digitalRead(SET_STOP_BUTTON) == true) {
-      break; 
+  // Turn off other displays during snooze
+  green1.setBrightness(0, 0);
+  green2.setBrightness(0, 0);
+
+  unsigned long snoozeStartTime = millis();
+  unsigned long snoozeDurationMs = (unsigned long)currentSettings.snoozeMinutes * 60 * 1000;
+
+  // Non-blocking snooze loop
+  while (millis() - snoozeStartTime < snoozeDurationMs) {
+    // Check if the user wants to cancel the snooze and stop the alarm
+    if (checkButtons() == 1) { // 1 is the STOP button
+      break; // Exit the snooze loop early
     }
-    
-    // --- Update the time display ---
-    // This function is called every second to keep the clock current.
-    show_hour(); 
-     green1.setBrightness(0,0);
-     green1.showNumberDecEx(0, 0b00000000, true);
-     green2.setBrightness(0,0);
-     green2.showNumberDecEx(0, 0b00000000, true);
 
+    // **THE FIX:** Get fresh time data and recalculate Hour INSIDE the loop
+    getLocalTime(&timeinfo);
 
-    
-    delay(1000); // Wait for 1 second before the next update
+    if (currentSettings.displayFormat24h) {
+      Hour = timeinfo.tm_hour;
+    } else {
+      Hour = timeinfo.tm_hour % 12;
+      if (Hour == 0) {
+        Hour = 12; // Handle 12 AM/PM
+      }
+    }
+
+    show_hour(); // Now displays the updated time
+
+    // Wait for 1 second before the next update, while still checking buttons
+    if (responsiveDelay(1000) == 1) {
+      break;
+    }
   }
 }
 void show_hour(){
