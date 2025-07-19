@@ -100,6 +100,8 @@ This guide provides a detailed overview of how to connect all components to the 
 
 ### Power Distribution
 
+**Pro-Tip for Power Rails:** Managing multiple power and ground connections on a breadboard can get messy. For a much cleaner and more reliable setup, consider using **[Wago-style lever-nut connectors](https://www.aliexpress.com/item/1005006962828705.html)**. You can run a single wire from your 5V source to one connector, and another from your GND source to a second connector. Then, you can easily plug all the individual component VCC and GND wires into their respective connectors. This creates solid, secure power rails without soldering.
+
 All components require a connection to power (VCC) and ground (GND).
 *   **5V Power**: Connect the **VIN** pin of the ESP32 to the positive (5V) rail of your power source. Connect the VCC pins of all three TM1637 displays, the Adafruit AlphaNum4 display, and the DFPlayer Mini to this 5V rail.
 *   **Ground**: Connect a **GND** pin from the ESP32 to the common ground rail. Connect the GND pins of all displays, the DFPlayer Mini, all buttons, and the negative (cathode) side of all LEDs (via their current-limiting resistors) to this ground rail.
@@ -167,7 +169,7 @@ This project's housing is based on the incredible "Back to the Future Single Tim
 
 Wire all the components together as described in the **Wiring Guide**. Double-check all your connections, especially power and ground, before applying power.
 
-**Pro-Tip:** To make assembly much easier and avoid the need for soldering (especially during prototyping), it's highly recommended to use **Dupont plug-in jumper wires**. These wires have connectors that plug directly into the ESP32, breadboard, and most of the component modules, making the process clean and reversible.
+**Pro-Tip:** To make assembly much easier and avoid the need for soldering (especially during prototyping), it's highly recommended to use **Dupont plug-in jumper wires**. These wires have connectors that plug directly into the ESP32, making the process simple, clean and reversible. however, the display should be soldered. 
 
 ### 3. Prepare the SD Card
 
