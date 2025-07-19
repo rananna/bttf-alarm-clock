@@ -69,28 +69,25 @@ This project is packed with features to create an authentic and highly functiona
 
 ## Bill of Materials (BOM)
 
-This project requires a handful of common electronics components. Below is a detailed Bill of Materials (BOM) for everything you'll need to assemble the clock. The links provided are examples; feel free to source components from your preferred supplier.
+This project requires a handful of common electronics components. Below is a consolidated Bill of Materials (BOM) for everything you'll need to assemble the clock. The links provided are examples; feel free to source components from your preferred supplier.
 
-### Core Components
-| Component | Qty | Notes |
-| :--- | :---: | :--- |
-| [ESP32 Dev Module](https://www.aliexpress.com/item/1005006212080137.html) | 1 | The brain of the project. Any ESP32 with enough GPIO pins will work. |
-| [DFPlayer Mini MP3 Module](https://www.aliexpress.com/item/1005008228039985.html) | 1 | For playing sound effects. |
-| [MicroSD Card](https://www.aliexpress.com/item/1005008978876553.html) | 1 | 10MB or larger, formatted to FAT16 or FAT32. For storing MP3 files. |
-
-### Displays & Indicators
-| Component | Qty | Notes |
-| :--- | :---: | :--- |
-| [TM1637 7-Segment Display](https://www.aliexpress.com/item/1005001582129952.html) | 3 | 4-digit displays for Day, Year, and Time. |
-| [Adafruit AlphaNum4 Display](https://www.aliexpress.com/item/1005001593666162.html) | 1 | 14-segment I2C display for the month. Any HT16K33-based display should work. |
-| [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html) | 2 | For the AM/PM indicators. |
-
-### Audio & User Input
-| Component | Qty | Notes |
-| :--- | :---: | :--- |
-| [20mm diameter Speaker](https://www.aliexpress.com/item/1005006682079525.html) | 1 | A small 8 Ohm speaker (e.g., 0.5W or 1W) for sound output. |
-| [Lighted Tactile Push Buttons](https://www.aliexpress.com/item/1005007163972572.html) | 2 | For Set/Stop and Sound/Toggle. The built-in LED is used for status. |
-| [Tactile Push Buttons](https://www.aliexpress.com/item/1005002622143638.html)  | 3 | For Hour, Minute, and Easter Egg.  /
+| Category | Component | Qty | Notes |
+| :--- | :--- | :---: | :--- |
+| **Microcontroller** | [ESP32 Dev Module](https://www.aliexpress.com/item/1005006212080137.html) | 1 | The brain of the project. Any ESP32 with enough GPIO pins will work. |
+| **Audio** | [DFPlayer Mini MP3 Module](https://www.aliexpress.com/item/1005008228039985.html) | 1 | For playing sound effects. |
+| | [MicroSD Card](https://www.aliexpress.com/item/1005008978876553.html) | 1 | 1GB or larger, formatted to FAT16 or FAT32. For storing MP3 files. |
+| | [Small Speaker](https://www.aliexpress.com/item/1005006682079525.html) | 1 | A small 8 Ohm speaker (e.g., 0.5W or 1W) for sound output. |
+| **Displays** | [TM1637 7-Segment Display](https://www.aliexpress.com/item/1005001582129952.html) | 3 | 4-digit displays for Day, Year, and Time. |
+| | [Adafruit AlphaNum4 Display](https://www.aliexpress.com/item/1005001593666162.html) | 1 | 14-segment I2C display for the month. Any HT16K33-based display should work. |
+| **User Input** | [Lighted Tactile Push Buttons](https://www.aliexpress.com/item/1005007163972572.html) | 2 | For Set/Stop and Sound/Toggle. |
+| | [Tactile Push Buttons](https://www.aliexpress.com/item/1005002622143638.html) | 2 | For Hour and Minute. |
+| **Indicators** | [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html) | 2 | For the AM/PM indicators. Any color. |
+| **Passive Components** | 10kΩ Resistors | 4 | Pull-down resistors for the buttons. |
+| | 220-330Ω Resistors | 4 | Current-limiting resistors for all LEDs (AM, PM, and button LEDs). |
+| **Prototyping** | Solderless Breadboard | 1 | For initial assembly and testing. |
+| | Jumper Wires | 1 set | Male-to-Male and Male-to-Female. |
+| | 5V Power Supply | 1 | Minimum 1A recommended, especially for the DFPlayer Mini. |
+| | Wago-style Lever Nuts | (Optional) | For cleaner power distribution. |
 
 ## Software & Libraries
 
