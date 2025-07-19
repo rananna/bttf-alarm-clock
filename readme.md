@@ -104,7 +104,7 @@ This project is built using the Arduino framework for the ESP32. You will need t
 | `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | [GitHub](https://github.com/DFRobot/DFRobotDFPlayerMini)                |
 | `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| [GitHub](https://github.com/me-no-dev/ESPAsyncWebServer)                |
 | `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        | [GitHub](https://github.com/me-no-dev/AsyncTCP)                         |
-| `  | Handles data for the web API.         | [GitHub](https://github.com/bblanchon/ArduinoJson)                      |
+| `arduinoJson`                  | bblanchon |        | Handles data for the web API.         | [GitHub](https://github.com/bblanchon/ArduinoJson)                      |
 | `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        | [GitHub](https://github.com/avishorp/TM1637)                            |
 
 ## Wiring Guide
