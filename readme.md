@@ -82,7 +82,7 @@ This project requires a handful of common electronics components. Below is a con
 | **User Input** | [Lighted Tactile Push Buttons](https://www.aliexpress.com/item/1005007163972572.html) | 2 | For Set/Stop and Sound/Toggle. |
 | | [Tactile Push Buttons](https://www.aliexpress.com/item/1005002622143638.html) | 2 | For Hour and Minute. |
 | **Indicators** | [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html) | 2 | For the AM/PM indicators. Any color. |
-| **Passive Components** | 10kΩ Resistors | 4 | Pull-down resistors for the buttons. |
+| **Passive Components** | [10kΩ Resistors](https://www.aliexpress.com/item/1005008722480918.html) | 4 | Pull-down resistors for the buttons. |
 | | [220-330Ω Resistors](https://www.aliexpress.com/item/1005002091320103.html) | 4 | Current-limiting resistors for all LEDs (AM, PM, and button LEDs). |
 | **Prototyping** | Solderless Breadboard | 1 | For initial assembly and testing. |
 | | [Dupont Jumper Wires](https://www.aliexpress.com/item/1005003641187997.html) | 1 set | Male-to-Male and Male-to-Female. |
