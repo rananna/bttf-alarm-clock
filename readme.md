@@ -84,7 +84,7 @@ This project requires a handful of common electronics components. Below is a con
 | **Indicators** | [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html) | 2 | For the AM/PM indicators. Any color. |
 | **Passive Components** | [10kΩ Resistors](https://www.aliexpress.com/item/1005008722480918.html) | 4 | Pull-down resistors for the buttons. |
 | | [220-330Ω Resistors](https://www.aliexpress.com/item/1005002091320103.html) | 4 | Current-limiting resistors for all LEDs (AM, PM, and button LEDs). |
-| **Prototyping** | Solderless Breadboard | 1 | For initial assembly and testing. |
+| **Prototyping** | Solderless Breadboard (optional) | 1 | For initial assembly and testing. |
 | | [Dupont Jumper Wires](https://www.aliexpress.com/item/1005003641187997.html) | 1 set | Male-to-Male and Male-to-Female. |
 | | 5V Power Supply | 1 | Minimum 1A recommended, especially for the DFPlayer Mini. |
 | | [Wago-style Lever Nuts](https://www.aliexpress.com/item/1005009152825193.html) | (Optional) | For cleaner power distribution. |
