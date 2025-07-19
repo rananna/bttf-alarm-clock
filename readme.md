@@ -7,7 +7,7 @@
 
 <p align="center">
   <!-- Replace with a GIF or image of your clock in action! -->
-  <img src="https://via.placeholder.com/600x300.png?text=Replace+with+a+GIF+of+your+clock!" alt="BTTF Alarm Clock">
+  <img src="https://via.placeholder.com/600x300.png?text=Your+Awesome+Clock+GIF+Here!" alt="BTTF Alarm Clock">
 </p>
 
 > **Great Scott!** It appears you've stumbled upon the schematics for a temporal displacement alarm clock. While this device can't actually travel through time (flux capacitor technology is still a bit tricky), it brings the iconic look and feel of the DeLorean's time circuits right to your nightstand. Using the power of an ESP32 and a little bit of 1.21-gigawatt... I mean, 5-volt... ingenuity, this clock connects to your local WiFi network to display the precise date and time. You can set a "Destination Time" alarm and a "Last Time Departed" sleep schedule, all configurable from a web interface. So, fire it up, but be warned: once this baby hits 88 miles per hour on the display, you're going to see some serious stuff!
@@ -15,7 +15,7 @@
 ---
 
 ### Table of Contents
-
+- [Quick Start](#quick-start)
 - [Features](#features)
 - [Bill of Materials (BOM)](#bill-of-materials-bom)
 - [Software & Libraries](#software--libraries)
@@ -26,8 +26,20 @@
   - [Physical Buttons](#physical-buttons)
 - [Troubleshooting](#troubleshooting)
 - [Example Usage](#example-usage)
+- [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
+
+## Quick Start
+
+For experienced makers:
+1.  **Gather Components**: Check the [Bill of Materials](#bill-of-materials-bom).
+2.  **Assemble Hardware**: Follow the [Wiring Guide](#wiring-guide).
+3.  **Prepare SD Card**: Format a MicroSD card (FAT32), create an `/mp3` folder, and copy sound files named `0001.mp3`, `0002.mp3`, etc., one by one in order.
+4.  **Flash Firmware**: Open the project in the Arduino IDE or PlatformIO, install the required libraries, and upload the code to your ESP32.
+5.  **Configure WiFi**: Connect to the `bttf-clock` WiFi network with your phone/PC, and a captive portal will appear to let you connect the clock to your home network.
+6.  **Configure Clock**: Access the web interface at `http://bttf-alarmclock.local` to set the time zone, alarm, and other features.
+
 ## Features
 
 This project is packed with features to create an authentic and highly functional alarm clock:
@@ -51,7 +63,7 @@ This project is packed with features to create an authentic and highly functiona
     *   **Time Travel Animations**: Watch the displays go haywire and the speedometer hit 88 MPH at configurable intervals!
 *   **Customization & Convenience**:
     *   **Power Saving Mode**: Displays automatically turn off during user-defined "sleep" hours to save power and avoid nighttime glare.
-    *   **Over-The-Air (OTA) Updates**: Update the firmware wirelessly without needing a physical connection.
+    *   **Over-The-Air (OTA) Updates**: Update the firmware wirelessly over your WiFi network.
     *   **Web UI Themes**: Change the color scheme of the web interface to match your favorite BTTF aesthetic.
     *   **Physical Button Controls**: Full control over core functions without needing the web UI.
 
@@ -59,7 +71,7 @@ This project is packed with features to create an authentic and highly functiona
 
 This project requires a handful of common electronics components. Below is a detailed Bill of Materials (BOM) for everything you'll need to assemble the clock. The links provided are examples; feel free to source components from your preferred supplier.
 
-| Component                    | Quantity | Notes                                                                                               |
+| Component                    | Quantity | Notes                                                                                               | Example Link |
 | ---------------------------- | :------: | --------------------------------------------------------------------------------------------------- |
 | **[ESP32 Dev Module](https://www.aliexpress.com/item/1005004571486357.html?spm=a2g0o.order_list.order_list_main.105.77ff1802BW3kIe)**         |    1     | The core of the project. A 30-pin or 38-pin version will work.                                      |
 | [TM1637 7-Segment Display](https://www.aliexpress.com/item/1005001582129952.html)     |    3     | 4-digit displays for Day, Year, and Time.                                                           |
@@ -79,24 +91,23 @@ This project requires a handful of common electronics components. Below is a det
 
 This project is built using the Arduino framework for the ESP32. You will need to install the following libraries through the Arduino IDE Library Manager or PlatformIO:
 
-| Library                       | Author              | Purpose                               | Link                                                              |
-| ----------------------------- | ------------------- | ------------------------------------- | ----------------------------------------------------------------- |
-| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | GitHub                    |
-| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | GitHub        |
-| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub       |
-| `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | GitHub          |
-| `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| GitHub          |
-| `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        | GitHub                   |
-| `ArduinoJson`                 | Benoit Blanchon     | Handles data for the web API.         | GitHub                |
-| `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        | GitHub                      |
+| Library                       | Author              | Purpose                               | Link                                                                    |
+| ----------------------------- | ------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
+| `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | GitHub                          |
+| `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | GitHub              |
+| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub     |
+| `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | GitHub                |
+| `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| GitHub                |
+| `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        | GitHub                         |
+| `ArduinoJson`                 | Benoit Blanchon     | Handles data for the web API.         | GitHub                      |
+| `TM1637`                      | Avishay Orpaz       | Drives the 7-segment displays.        | GitHub                            |
 
 ## Wiring Guide
 
 This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering.
 
 <p align="center">
-  <!-- TODO: Replace this placeholder with a real wiring diagram from Fritzing, a clear photo, or other schematic tool. -->
-  <img src="circuit.jpg" alt="Wiring Schematic" width="800">
+  <img src="circuit.jpg" alt="Wiring Schematic (Replace with your diagram!)" width="800">
 </p>
 
 ### Power Distribution
@@ -143,7 +154,7 @@ The DFPlayer Mini module communicates with the ESP32 using a serial (UART) conne
 The buttons require pull-down resistors (e.g., 10kΩ) to prevent floating inputs. The LEDs require current-limiting resistors (e.g., 220-330Ω) to prevent them from burning out.
 
 | Component          | ESP32 GPIO | Notes                                  |
-| ------------------ | :--------: | -------------------------------------- |
+| ------------------ | :--------: | ----------------------------------------------------------------------------------------------------------------- |
 | Set/Stop Button    |     34     | Connect one side to 3.3V and the other to the GPIO pin. Add a 10kΩ pull-down resistor from the GPIO pin to GND. |
 | Set/Sound Button   |     4      | Connect one side to 3.3V and the other to the GPIO pin. Add a 10kΩ pull-down resistor from the GPIO pin to GND. |
 | Hour Button        |     33     | Connect one side to 3.3V and the other to the GPIO pin. Add a 10kΩ pull-down resistor from the GPIO pin to GND. |
@@ -178,7 +189,7 @@ Wire all the components together as described in the **Wiring Guide**. Double-ch
 2.  Create a folder named `mp3` in the root of the SD card.
 3.  Copy your sound effect files into the `mp3` folder. The files must be named in a specific four-digit format: `0001.mp3`, `0002.mp3`, etc.
     *   **Important**: Due to how the DFPlayer Mini module indexes files, you must copy the files to the SD card **one by one, in numerical order**. Start with `0001.mp3`, then `0002.mp3`, and so on. Do not copy them all at once, as this can cause the wrong sounds to play.
-    *   `0002.mp3`: Time travel / primary alarm sound
+    *   `0002.mp3`: Time travel / primary alarm sound.
     *   `0008.mp3`: "Power of Love" easter egg sound
     *   `0010.mp3`: Sleep mode activation sound
     *   `0013.mp3`: "On" or positive confirmation sound
@@ -187,11 +198,12 @@ Wire all the components together as described in the **Wiring Guide**. Double-ch
 4.  Insert the SD card into the DFPlayer Mini module.
 
 ### 4. Flash the Firmware
-
-1.  **Install Your Development Environment**: You can compile and upload this sketch using either the traditional **Arduino IDE** or **Visual Studio Code** with the [Arduino Maker Workshop](https://marketplace.visualstudio.com/items?itemName=TheLastOutpostWorkshop.arduino-maker-workshop) extension. After setting up your chosen IDE, make sure to install the ESP32 board definitions.
-2.  **Install Libraries**: Using the Library Manager in your IDE, install all the libraries listed in the [Software & Libraries](#software--libraries) section.
-3.  **Configure Default Time Zone (Optional)**: The time zone can be set from the web interface later. However, to set the initial default, open the `.ino` file and find the `timezoneString` in the `defaultSettings` struct. Change it to match your local time zone. You can find a list of valid POSIX TZ strings online.
-4.  **Upload Code**: Select your ESP32 board and the correct COM port, then upload the sketch.
+1.  **Set Up Your IDE**: This project can be compiled using the **Arduino IDE** or **PlatformIO** (in an editor like VS Code).
+    *   **Arduino IDE**: Install the ESP32 board definitions.
+    *   **PlatformIO**: The `platformio.ini` file should handle the setup automatically.
+2.  **Install Libraries**: Using your IDE's Library Manager, install all the libraries listed in the Software & Libraries section.
+3.  **Configure Default Time Zone (Optional)**: The time zone can be set from the web interface later. However, to set the initial default, open the `.ino` file and find the `timezoneString` in the `defaultSettings` struct. Change it to match your local time zone. You can find a list of valid POSIX TZ strings here.
+4.  **Upload Code**: Select your ESP32 board model and the correct COM port, then compile and upload the sketch.
 ### 5. WiFi Configuration
 
 1.  On the first boot (or after resetting WiFi credentials), the clock will create its own WiFi network with the SSID `bttf-clock`.
@@ -277,6 +289,7 @@ Having trouble? Here are some common issues and their solutions.
     *   **Power**: Ensure all displays are receiving a stable 5V.
 
 *   **No Sound from DFPlayer Mini**
+    *   **Power Supply**: The DFPlayer can be sensitive to power fluctuations. Ensure you are using a stable 5V power supply capable of providing at least 1A. Powering everything directly from a computer's USB port might be insufficient.
     *   **Wiring**: The most common issue is swapping the RX/TX lines. The DFPlayer's `RX` pin must connect to the ESP32's **TX** pin (`GPIO 17`), and the DFPlayer's `TX` pin must connect to the ESP32's **RX** pin (`GPIO 16`).
     *   **SD Card Format**: The card **must** be formatted as FAT16 or FAT32.
     *   **File Structure**: Ensure there is a folder named `mp3` in the root of the SD card and that your sound files are inside it.
@@ -360,6 +373,14 @@ Here’s how you would configure this using the web interface at `http://bttf-al
 
 10. **All Set!**
     Your clock is now configured. It will wake you up at 7:30 AM, stay dark overnight, and provide some fun temporal displacement effects throughout the day.
+
+---
+
+## Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
 
 ---
 
