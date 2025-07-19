@@ -167,6 +167,8 @@ This project's housing is based on the incredible "Back to the Future Single Tim
 
 Wire all the components together as described in the **Wiring Guide**. Double-check all your connections, especially power and ground, before applying power.
 
+**Pro-Tip:** To make assembly much easier and avoid the need for soldering (especially during prototyping), it's highly recommended to use **Dupont plug-in jumper wires**. These wires have connectors that plug directly into the ESP32, breadboard, and most of the component modules, making the process clean and reversible.
+
 ### 3. Prepare the SD Card
 
 1.  Format a MicroSD card to **FAT16** or **FAT32**.
