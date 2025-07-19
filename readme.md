@@ -74,7 +74,7 @@ This project requires a handful of common electronics components. Below is a det
 ### Core Components
 | Component | Qty | Notes |
 | :--- | :---: | :--- |
-| [ESP32 Dev Module](https://www.aliexpress.com/item/1005005798934433.html) | 1 | The brain of the project. Any ESP32 with enough GPIO pins will work. |
+| [ESP32 Dev Module](https://www.aliexpress.com/item/1005006212080137.html) | 1 | The brain of the project. Any ESP32 with enough GPIO pins will work. |
 | [DFPlayer Mini MP3 Module](https://www.aliexpress.com/item/1005008228039985.html) | 1 | For playing sound effects. |
 | [MicroSD Card](https://www.aliexpress.com/item/1005008978876553.html) | 1 | 10MB or larger, formatted to FAT16 or FAT32. For storing MP3 files. |
 
