@@ -54,8 +54,9 @@ This project is packed with features to create an authentic and highly functiona
     *   **Over-The-Air (OTA) Updates**: Update the firmware wirelessly without needing a physical connection.
     *   **Web UI Themes**: Change the color scheme of the web interface to match your favorite BTTF aesthetic.
     *   **Physical Button Controls**: Full control over core functions without needing the web UI.
-    ## Hardware Requirements
-    
+
+## Bill of Materials (BOM)
+
 This project requires a handful of common electronics components. Below is a detailed Bill of Materials (BOM) for everything you'll need to assemble the clock. The links provided are examples; feel free to source components from your preferred supplier.
 
 | Component                    | Quantity | Notes                                                                                               |
@@ -94,13 +95,13 @@ This project is built using the Arduino framework for the ESP32. You will need t
 This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering.
 
 <p align="center">
-  <!-- TODO: Replace this placeholder with a real wiring diagram (e.g., from Fritzing or a clear photo) -->
+  <!-- TODO: Replace this placeholder with a real wiring diagram from Fritzing, a clear photo, or other schematic tool. -->
   <img src="circuit.jpg" alt="Wiring Schematic" width="800">
 </p>
 
 ### Power Distribution
 
-**Pro-Tip for Power Rails:** Managing multiple power and ground connections on a breadboard can get messy. For a much cleaner and more reliable setup, consider using **[Wago-style lever-nut connectors](https://www.aliexpress.com/item/1005006962828705.html)**. You can run a single wire from your 5V source to one connector, and another from your GND source to a second connector. Then, you can easily plug all the individual component VCC and GND wires into their respective connectors. This creates solid, secure power rails without soldering.
+**Pro-Tip for Power Rails:** Managing multiple power and ground connections on a breadboard can get messy. For a much cleaner and more reliable setup, consider using **Wago-style lever-nut connectors**. You can run a single wire from your 5V source to one connector and another from GND to a second. Then, simply plug all the individual component VCC and GND wires into their respective connectors. This creates solid, secure power rails without soldering.
 
 All components require a connection to power (VCC) and ground (GND).
 *   **5V Power**: Connect the **VIN** pin of the ESP32 to the positive (5V) rail of your power source. Connect the VCC pins of all three TM1637 displays, the Adafruit AlphaNum4 display, and the DFPlayer Mini to this 5V rail.
@@ -169,7 +170,7 @@ This project's housing is based on the incredible "Back to the Future Single Tim
 
 Wire all the components together as described in the **Wiring Guide**. Double-check all your connections, especially power and ground, before applying power.
 
-**Pro-Tip:** To make assembly much easier and avoid the need for soldering (especially during prototyping), it's highly recommended to use **Dupont plug-in jumper wires**. These wires have connectors that plug directly into the ESP32, making the process simple, clean and reversible. however, the display should be soldered. 
+**Pro-Tip:** For initial assembly and prototyping, **Dupont plug-in jumper wires** are highly recommended. They eliminate the need for soldering and make wiring much simpler and reversible. For a more permanent and robust final build, consider soldering components to a perfboard.
 
 ### 3. Prepare the SD Card
 
@@ -242,29 +243,30 @@ The clock can also be operated using the four physical buttons for core function
 
 *   **SET/STOP Button**:
     *   **Single Press**: Toggles the main alarm On or Off. A confirmation sound will play, and the corresponding LED will turn on or off.
-    *   **Press and Hold**: Enters alarm setting mode. The time display will show the current alarm time. While holding this button, use the **HOUR** and **MINUTE** buttons to adjust the alarm time. Release the button to save the new alarm time.
+    *   **Press and Hold**: Enters alarm setting mode.
+        *   The time display shows the current alarm time.
+        *   While holding, use the **HOUR** and **MINUTE** buttons to adjust the alarm.
+        *   Release to save the new alarm time.
     *   **During Alarm**: Stops the currently sounding alarm.
 
 *   **SET/SOUND Button**:
     *   **Single Press**: Toggles all sound effects On or Off. A confirmation sound will play, and the corresponding LED will turn on or off.
 
 *   **HOUR Button**:
-    *   **When Idle**: Decreases the sound effect volume by one step.
-    *   **In Alarm Setup Mode**: Increments the alarm hour.
-    *   **During Alarm**: Activates the **Snooze** function, silencing the alarm for the configured snooze duration.
+    *   **Default Mode**: Decreases the sound effect volume by one step.
+    *   **Alarm Setup Mode**: Increments the alarm hour.
+    *   **During Alarm**: Activates the **Snooze** function.
 
 *   **MINUTE Button**:
-    *   **When Idle**: Increases the sound effect volume by one step.
-    *   **In Alarm Setup Mode**: Increments the alarm minute.
+    *   **Default Mode**: Increases the sound effect volume by one step.
+    *   **Alarm Setup Mode**: Increments the alarm minute.
     *   **During Alarm**: Activates the **Snooze** function.
 
 *   **Easter Egg**:
     *   Press and hold the **HOUR** and **MINUTE** buttons simultaneously to trigger the "Power of Love" sound effect!
 
 ## Troubleshooting
-
-Having trouble? Here are some common issues and how to solve them.
-
+Having trouble? Here are some common issues and their solutions.
 *   **Web Interface Not Loading (`bttf-alarmclock.local` doesn't work)**
     *   **mDNS Issues**: Not all networks or operating systems handle `.local` addresses well. Find the clock's IP address from your router's connected devices list or by watching the Serial Monitor in the Arduino IDE when the clock boots up. You can then access the UI by typing the IP address directly into your browser.
     *   **WiFi Connection**: Ensure the ESP32 is connected to your WiFi. If not, it will revert to AP mode (`bttf-clock` network).
