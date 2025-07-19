@@ -71,9 +71,6 @@ This project is packed with features to create an authentic and highly functiona
 
 This project requires a handful of common electronics components. Below is a detailed Bill of Materials (BOM) for everything you'll need to assemble the clock. The links provided are examples; feel free to source components from your preferred supplier.
 
-| Component                    | Quantity | Notes                                                                                               | Example Link |
-| ---------------------------- | :------: | --------------------------------------------------------------------------------------------------- |
-| **[ESP32 Dev Module](https://www.aliexpress.com/item/1005004571486357.html?spm=a2g0o.order_list.order_list_main.105.77ff1802BW3kIe)**         |    1     | The core of the project. A 30-pin or 38-pin version will work.                                      |
 | [TM1637 7-Segment Display](https://www.aliexpress.com/item/1005001582129952.html)     |    3     | 4-digit displays for Day, Year, and Time.                                                           |
 | [Adafruit AlphaNum4 Display](https://www.aliexpress.com/item/1005001593666162.html)   |    1     | 14-segment I2C display for showing the month. Any HT16K33-based alphanumeric display should work.   |
 | [DFPlayer Mini MP3 Module](https://www.aliexpress.com/item/1005008228039985.html)     |    1     | For playing sound effects.                                                                          |
@@ -95,7 +92,7 @@ This project is built using the Arduino framework for the ESP32. You will need t
 | ----------------------------- | ------------------- | ------------------------------------- | ----------------------------------------------------------------------- |
 | `WiFiManager`                 | tzapu               | For the WiFi connection portal.       | GitHub                          |
 | `Adafruit GFX Library`        | Adafruit            | Core graphics library.                | GitHub              |
-| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub             |
+| `Adafruit LED Backpack Library` | Adafruit            | Drives the AlphaNum4 display.         | GitHub     |
 | `DFRobotDFPlayerMini`         | DFRobot             | Controls the MP3 player module.       | GitHub                |
 | `ESPAsyncWebServer`           | me-no-dev           | Hosts the web configuration interface.| GitHub                |
 | `AsyncTCP`                    | me-no-dev           | Required by ESPAsyncWebServer.        | GitHub                         |
