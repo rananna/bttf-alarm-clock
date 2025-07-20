@@ -41,6 +41,7 @@ For experienced makers:
 5.  **Configure WiFi**: After flashing, connect to the `bttf-clock` WiFi network with your phone/PC; a captive portal will appear, allowing you to connect the clock to your home network.
 6.  **Configure Clock**: Access the web interface at `http://bttf-alarmclock.local` to set the time zone, alarm, and other features.
 
+    *Note:* If the clock is in Access Point mode (i.e., it couldn't connect to a saved WiFi network), the alphanumeric display will show "AP" to indicate this mode.
 ## Features
 
 If you want to see a demo of what this project can accomplish, take a look at this video.
