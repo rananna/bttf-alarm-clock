@@ -385,28 +385,37 @@ const char* INDEX_HTML = R"raw(
             <h3>Temporal Controls</h3>
             <label for="timezoneSelect">Timezone:</label>
             <select id="timezoneSelect">
-                <option value="EST5EDT,M3.2.0,M11.1.0" selected>Canada/Eastern</option>
-                <option value="PST8PDT,M3.2.0,M11.1.0">USA/Pacific</option>
-                <option value="MST7MDT,M3.2.0,M11.1.0">USA/Mountain</option>
-                <option value="CST6CDT,M3.2.0,M11.1.0">USA/Central</option>
-                <option value="GMT0">Europe/London</option>
-                <option value="CET-1CEST,M3.5.0,M10.5.0">Europe/Berlin</option>
-                <option value="EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Athens</option>
-                <option value="WST-8">Australia/Perth</option>
-                <option value="CET-1CEST,M3.5.0,M10.5.0">Europe/Berlin</option>
-                <option value="EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Athens</option>
-                <option value="WST-8">Australia/Perth</option>
-                <option value="ACT-9:30AEDT-10:30,M10.1.0,M4.1.0">Australia/Adelaide</option>
-                <option value="AEST-10">Australia/Brisbane</option>
-                <option value="GST-10">Australia/Sydney</option>
-                <option value="NZST-12NZDT-13,M9.5.0,M4.1.0/3">New Zealand/Auckland</option>
-                <option value="HST10">US/Hawaii</option>
-                <option value="AKST9AKDT8,M3.2.0,M11.1.0">US/Alaska</option>
-                <option value="BRT3">America/Sao_Paulo</option>
-                <option value="GST-4">Asia/Dubai</option>
-                <option value="IST-5:30">Asia/Kolkata</option>
-                <option value="EET-2EEST,M4.5.5/0,M10.5.4/0">Africa/Cairo</option>
-                <option value="JST-9">Japan/Tokyo</option>
+                <optgroup label="North America">
+                    <option value="EST5EDT,M3.2.0,M11.1.0" selected>Canada/Eastern</option>
+                    <option value="PST8PDT,M3.2.0,M11.1.0">USA/Pacific</option>
+                    <option value="MST7MDT,M3.2.0,M11.1.0">USA/Mountain</option>
+                    <option value="CST6CDT,M3.2.0,M11.1.0">USA/Central</option>
+                    <option value="AKST9AKDT8,M3.2.0,M11.1.0">US/Alaska</option>
+                    <option value="HST10">US/Hawaii</option>
+                </optgroup>
+                <optgroup label="South America">
+                    <option value="BRT3">America/Sao_Paulo</option>
+                </optgroup>
+                <optgroup label="Europe">
+                    <option value="GMT0">Europe/London</option>
+                    <option value="CET-1CEST,M3.5.0,M10.5.0">Europe/Berlin</option>
+                    <option value="EET-2EEST,M3.5.0/3,M10.5.0/4">Europe/Athens</option>
+                </optgroup>
+                <optgroup label="Africa">
+                    <option value="EET-2EEST,M4.5.5/0,M10.5.4/0">Africa/Cairo</option>
+                </optgroup>
+                <optgroup label="Asia">
+                    <option value="GST-4">Asia/Dubai</option>
+                    <option value="IST-5:30">Asia/Kolkata</option>
+                    <option value="JST-9">Japan/Tokyo</option>
+                </optgroup>
+                <optgroup label="Australia/Oceania">
+                    <option value="WST-8">Australia/Perth</option>
+                    <option value="ACT-9:30AEDT-10:30,M10.1.0,M4.1.0">Australia/Adelaide</option>
+                    <option value="AEST-10">Australia/Brisbane</option>
+                    <option value="GST-10">Australia/Sydney</option>
+                    <option value="NZST-12NZDT-13,M9.5.0,M4.1.0/3">New Zealand/Auckland</option>
+                </optgroup>
             </select> 
 
 
@@ -1078,6 +1087,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 if (sliderInfo.hasBar) {
                     updateVisualBar(e.target.id, e.target.value, parseInt(e.target.max));
                 }
+                // Update slider fill
+                const percentage = (e.target.value - e.target.min) / (e.target.max - e.target.min) * 100;
+                e.target.style.setProperty('--slider-fill-percentage', percentage + '%');
             });
         }
     });
@@ -1262,6 +1274,9 @@ function fetchSettings() {
                     if (item.hasBar) {
                         updateVisualBar(item.id, data[item.prop], parseInt(slider.max));
                     }
+                    // Set initial slider fill
+                    const percentage = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+                    slider.style.setProperty('--slider-fill-percentage', percentage + '%');
                 }
             });
             
