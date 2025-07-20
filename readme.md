@@ -26,6 +26,7 @@
   - [Physical Buttons](#physical-buttons)
 - [Troubleshooting](#troubleshooting)
 - [Example Usage](#example-usage)
+ - [Video Demo](#video-demo)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
@@ -41,6 +42,12 @@ For experienced makers:
 6.  **Configure Clock**: Access the web interface at `http://bttf-alarmclock.local` to set the time zone, alarm, and other features.
 
 ## Features
+
+If you want to see a demo of what this project can accomplish, take a look at this video.
+
+### Video Demo
+
+You can see the BTTF clock in action [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 
 This project is packed with features to create an authentic and highly functional alarm clock:
 
