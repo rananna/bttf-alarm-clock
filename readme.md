@@ -34,10 +34,10 @@
 
 For experienced makers:
 1.  **Gather Components**: Check the [Bill of Materials](#bill-of-materials-bom).
-2.  **Assemble Hardware**: Follow the [Wiring Guide](#wiring-guide).
+2.  **Assemble Hardware**: Solder components and follow the [Wiring Guide](#wiring-guide).
 3.  **Prepare SD Card**: Format a MicroSD card (FAT32), create an `/mp3` folder, and copy sound files named `0001.mp3`, `0002.mp3`, etc., one by one in order.
 4.  **Flash Firmware**: Open the project in the Arduino IDE or PlatformIO, install the required libraries, and upload the code to your ESP32.
-5.  **Configure WiFi**: Connect to the `bttf-clock` WiFi network with your phone/PC, and a captive portal will appear to let you connect the clock to your home network.
+5.  **Configure WiFi**: After flashing, connect to the `bttf-clock` WiFi network with your phone/PC; a captive portal will appear, allowing you to connect the clock to your home network.
 6.  **Configure Clock**: Access the web interface at `http://bttf-alarmclock.local` to set the time zone, alarm, and other features.
 
 ## Features
@@ -84,6 +84,7 @@ This project requires a handful of common electronics components. Below is a con
 | **Indicators** | [5mm LEDs](https://www.aliexpress.com/item/1005003912454852.html) | 2 | For the AM/PM indicators. Any color. |
 | **Passive Components** | [10kΩ Resistors](https://www.aliexpress.com/item/1005008722480918.html) | 4 | Pull-down resistors for the buttons. |
 | | [220-330Ω Resistors](https://www.aliexpress.com/item/1005002091320103.html) | 4 | Current-limiting resistors for all LEDs (AM, PM, and button LEDs). |
+| | [Wago-style Lever Nuts](https://www.aliexpress.com/item/1005009152825193.html) | (Optional) | For cleaner power distribution. |
 | **Prototyping** | Solderless Breadboard (optional) | 1 | For initial assembly and testing. |
 | | [Dupont Jumper Wires](https://www.aliexpress.com/item/1005003641187997.html) | 1 set | Male-to-Male and Male-to-Female. |
 | | 5V Power Supply | 1 | Minimum 1A recommended, especially for the DFPlayer Mini. |
@@ -170,7 +171,7 @@ The buttons require pull-down resistors (e.g., 10kΩ) to prevent floating inputs
 ### 1. 3D Print the Housing
 
 A custom-designed housing is available to give your clock an authentic, finished look. The 3D model is provided as a Bambu Studio project file (`bambu studio clock.3mf`).
-
+#
 This project's housing is based on the incredible "Back to the Future Single Time Circuit" model by TerryB on MakerWorld. A huge thank you to to him for his original work and the mods he made at my request to the files! You can find the original model [here](https://makerworld.com/en/models/1154106-back-to-the-future-single-time-circuit#profileId-1537667).
 
 *   **File**: `bambu studio clock.3mf`
@@ -181,7 +182,7 @@ This project's housing is based on the incredible "Back to the Future Single Tim
 
 ### 2. Hardware Assembly
 
-Wire all the components together as described in the **Wiring Guide**. Double-check all your connections, especially power and ground, before applying power.
+Solder all the components together as described in the **Wiring Guide**. Double-check all your connections, especially power and ground, before applying power.
 
 **Pro-Tip:** For initial assembly and prototyping, **Dupont plug-in jumper wires** are highly recommended. They eliminate the need for soldering and make wiring much simpler and reversible. For a more permanent and robust final build, consider soldering components to a perfboard.
 
