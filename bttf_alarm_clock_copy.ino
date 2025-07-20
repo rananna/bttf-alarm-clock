@@ -205,8 +205,8 @@ ClockSettings defaultSettings = {
   .notificationVolume = 15,
   .timeTravelSoundToggle = true, // Default to true
   .powerOfLoveToggle = false, // Default to false
-  .timeTravelAnimationInterval = 10, // Default: Animate every 10 minutes
-  .displayFormat24h = true,
+  .timeTravelAnimationInterval = 30, // Default: Animate every 30 minutes
+  .displayFormat24h = false, // Default to 12-hour format, more common in North America
   .theme = 0,             // Default to the first theme (Green)
   .timezoneString = "EST5EDT,M3.2.0,M11.1.0"  // Default timezone Canada/Eastern
 };
@@ -1057,7 +1057,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         { id: 'departureHour', valueSpanId: 'departureHourValue' },
         { id: 'departureMinute', valueSpanId: 'departureMinuteValue' },
         { id: 'arrivalHour', valueSpanId: 'arrivalHourValue' },
-       
+        { id: 'arrivalMinute', valueSpanId: 'arrivalMinuteValue' },
         { id: 'brightness', valueSpanId: 'brightnessValue', hasBar: true },
         { id: 'notificationVolume', valueSpanId: 'volumeValue', hasBar: true },
         { id: 'timeTravelAnimationInterval', valueSpanId: 'timeTravelAnimationIntervalValue' }
