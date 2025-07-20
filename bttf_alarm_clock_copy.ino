@@ -206,7 +206,7 @@ ClockSettings defaultSettings = {
   .timeTravelSoundToggle = true, // Default to true
   .powerOfLoveToggle = false, // Default to false
   .timeTravelAnimationInterval = 10, // Default: Animate every 10 minutes
-  .displayFormat24h = true,
+  .displayFormat24h = false,
   .theme = 0,             // Default to the first theme (Green)
   .timezoneString = "EST5EDT,M3.2.0,M11.1.0"  // Default timezone Canada/Eastern
 };
@@ -2064,6 +2064,13 @@ server.addHandler(&events);
     // autoConnect() attempts to connect to a previously saved WiFi network.
     // If unsuccessful (e.g., no saved credentials, or connection times out after 120 seconds by default),
     // it will create an Access Point (AP) named MDNS_HOSTNAME (e.g., "bttf-clock")
+    
+    // Display "AP" on green1 if in AP mode
+    if (WiFi.status() == WIFI_AP) {
+        showMonth("AP ");  // Display "AP" on the alphanumeric display
+        Serial.println("Displaying 'AP' because the device is in Access Point mode.");
+    }
+
     // allowing a user to connect to it and configure WiFi credentials via a web portal.
     if (!wifiManager.autoConnect(MDNS_HOSTNAME)) {
         Serial.println("Failed to connect to WiFi and timed out. ESP will restart to try config mode.");
@@ -2071,7 +2078,7 @@ server.addHandler(&events);
         ESP.restart(); // Restart the ESP to retry auto-connect or ensure a clean entry into config mode.
     }
     
-    Serial.println("WiFi connected!");
+   Serial.println("WiFi connected!");
     Serial.print("IP Address: ");
     Serial.println(WiFi.localIP());     // Print the IP address assigned to the ESP32
     Serial.print("Gateway IP: ");
@@ -2644,6 +2651,7 @@ for (int value : updateValues) {
             lastAnimationTriggerTime = currentMillis; 
         }
 
+   
     }
 
     if (myDFPlayer.available())
