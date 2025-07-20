@@ -205,8 +205,8 @@ ClockSettings defaultSettings = {
   .notificationVolume = 15,
   .timeTravelSoundToggle = true, // Default to true
   .powerOfLoveToggle = false, // Default to false
-  .timeTravelAnimationInterval = 30, // Default: Animate every 30 minutes
-  .displayFormat24h = false, // Default to 12-hour format, more common in North America
+  .timeTravelAnimationInterval = 10, // Default: Animate every 10 minutes
+  .displayFormat24h = true,
   .theme = 0,             // Default to the first theme (Green)
   .timezoneString = "EST5EDT,M3.2.0,M11.1.0"  // Default timezone Canada/Eastern
 };
@@ -331,7 +331,7 @@ const char* INDEX_HTML = R"raw(
         </div>
 
         <div class="setting-group">
-            <h3>Console Controls (Display & Sound)</h3>
+            <h3>Display & Theme</h3>
             <label for="brightness">
                 Display Brightness:
                 <div class="slider-with-bar">
@@ -340,21 +340,31 @@ const char* INDEX_HTML = R"raw(
                     <span id="brightnessValue">5</span>
                 </div>
             </label>
+            <label for="timeTravelAnimationInterval">
+                Time Travel Animation Every (min, 0=Off):
+                <div class="slider-with-bar">
+                    <input type="range" id="timeTravelAnimationInterval" min="0" max="60">
+                    <span id="timeTravelAnimationIntervalValue">30</span>
+                </div>
+            </label>
+            <label for="themeSelect">Theme:</label>
+            <select id="themeSelect">
+                <option value="0">Time Circuits (Green)</option>
+                <option value="1">Biff Tannen (Red)</option>
+                <option value="2">1955 (Amber)</option>
+                <option value="3">DeLorean (Blue)</option>
+                <option value="4">Doc Brown (Gold)</option>
+            </select>
+        </div>
 
+        <div class="setting-group">
+            <h3>Sound & Effects</h3>
             <label for="notificationVolume">
                 Notification Volume:
                 <div class="slider-with-bar">
                     <input type="range" id="notificationVolume" min="0" max="30">
                     <div id="volumeBar" class="visual-bar volume-bar"></div>
                     <span id="volumeValue">15</span>
-                </div>
-            </label>
-            
-            <label for="timeTravelAnimationInterval">
-                Time Travel Animation Every (min, 0=Off):
-                <div class="slider-with-bar">
-                    <input type="range" id="timeTravelAnimationInterval" min="0" max="60">
-                    <span id="timeTravelAnimationIntervalValue">30</span>
                 </div>
             </label>
             
@@ -369,16 +379,6 @@ const char* INDEX_HTML = R"raw(
                 <input type="checkbox" id="powerOfLoveToggle">
                 <span class="slider round"></span>
             </label><br>
-
-
-
-            <label for="themeSelect">Theme:</label>
-            <select id="themeSelect">
-                <option value="0">Time Circuits (Green)</option>
-                <option value="1">Biff Tannen (Red)</option>
-                <option value="2">1955 (Amber)</option>
-                <option value="3">DeLorean (Blue)</option>
-            </select>
         </div>
 
         <div class="setting-group">
@@ -763,6 +763,11 @@ button {
     text-shadow: 0 0 3px var(--shadow-color);
 }
 
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 5px var(--button-hover-shadow);
+}
+
 button:hover {
     background-color: var(--button-hover-bg);
     box-shadow: 0 0 10px var(--button-hover-shadow);
@@ -1044,26 +1049,27 @@ const char* SCRIPT_JS = R"raw(
 // Global variable to track if any input is invalid (less relevant now with sliders, but keeping for structure)
 let anyInputInvalid = false;
 
+// --- Master Slider Configuration ---
+// A single source of truth for all sliders to reduce code duplication.
+const sliderConfig = [
+    { id: 'destinationHour', valueSpanId: 'destinationHourValue', prop: 'destinationHour' },
+    { id: 'destinationMinute', valueSpanId: 'destinationMinuteValue', prop: 'destinationMinute' },
+    { id: 'snoozeMinutes', valueSpanId: 'snoozeMinutesValue', prop: 'snoozeMinutes' },
+    { id: 'departureHour', valueSpanId: 'departureHourValue', prop: 'departureHour' },
+    { id: 'departureMinute', valueSpanId: 'departureMinuteValue', prop: 'departureMinute' },
+    { id: 'arrivalHour', valueSpanId: 'arrivalHourValue', prop: 'arrivalHour' },
+    { id: 'arrivalMinute', valueSpanId: 'arrivalMinuteValue', prop: 'arrivalMinute' },
+    { id: 'brightness', valueSpanId: 'brightnessValue', prop: 'brightness', hasBar: true },
+    { id: 'notificationVolume', valueSpanId: 'volumeValue', prop: 'notificationVolume', hasBar: true },
+    { id: 'timeTravelAnimationInterval', valueSpanId: 'timeTravelAnimationIntervalValue', prop: 'timeTravelAnimationInterval' }
+];
+
 document.addEventListener('DOMContentLoaded', (event) => {
     fetchTime();
     fetchSettings();
     setInterval(fetchTime, 1000); // Update time every second
 
-    // Event listeners for ALL range sliders to update their displayed values and visual bars
-    const sliders = [
-        { id: 'destinationHour', valueSpanId: 'destinationHourValue' },
-        { id: 'destinationMinute', valueSpanId: 'destinationMinuteValue' },
-        { id: 'snoozeMinutes', valueSpanId: 'snoozeMinutesValue' },
-        { id: 'departureHour', valueSpanId: 'departureHourValue' },
-        { id: 'departureMinute', valueSpanId: 'departureMinuteValue' },
-        { id: 'arrivalHour', valueSpanId: 'arrivalHourValue' },
-        { id: 'arrivalMinute', valueSpanId: 'arrivalMinuteValue' },
-        { id: 'brightness', valueSpanId: 'brightnessValue', hasBar: true },
-        { id: 'notificationVolume', valueSpanId: 'volumeValue', hasBar: true },
-        { id: 'timeTravelAnimationInterval', valueSpanId: 'timeTravelAnimationIntervalValue' }
-    ];
-
-    sliders.forEach(sliderInfo => {
+    sliderConfig.forEach(sliderInfo => {
         const sliderElement = document.getElementById(sliderInfo.id);
         const valueSpanElement = document.getElementById(sliderInfo.valueSpanId);
         if (sliderElement && valueSpanElement) {
@@ -1205,13 +1211,14 @@ function validateAllNumberInputs() {
 function applyTheme(themeIndex) {
     const body = document.body;
     // Remove all possible theme classes to ensure a clean slate
-    body.classList.remove('theme-biff-tannen', 'theme-1955', 'theme-delorean');
+    body.classList.remove('theme-biff-tannen', 'theme-1955', 'theme-delorean', 'theme-doc-brown');
 
     switch(parseInt(themeIndex)) { // Use parseInt for safety
         // case 0 is the default (Green) and requires no class.
         case 1: body.classList.add('theme-biff-tannen'); break;
         case 2: body.classList.add('theme-1955'); break;
         case 3: body.classList.add('theme-delorean'); break;
+        case 4: body.classList.add('theme-doc-brown'); break;
     }
 }
 
@@ -1245,22 +1252,8 @@ function fetchSettings() {
     fetch('/api/settings')
         .then(response => response.json())
         .then(data => {
-            // Define all slider IDs and their corresponding value span IDs for easier iteration
-            const sliderUpdateMap = [
-                { id: 'destinationHour', valueSpanId: 'destinationHourValue', prop: 'destinationHour' },
-                { id: 'destinationMinute', valueSpanId: 'destinationMinuteValue', prop: 'destinationMinute' },
-                { id: 'snoozeMinutes', valueSpanId: 'snoozeMinutesValue', prop: 'snoozeMinutes' },
-                { id: 'departureHour', valueSpanId: 'departureHourValue', prop: 'departureHour' },
-                { id: 'departureMinute', valueSpanId: 'departureMinuteValue', prop: 'departureMinute' },
-               { id: 'arrivalHour', valueSpanId: 'arrivalHourValue', prop: 'arrivalHour' },
-                { id: 'arrivalMinute', valueSpanId: 'arrivalMinuteValue', prop: 'arrivalMinute' },
-                { id: 'brightness', valueSpanId: 'brightnessValue', prop: 'brightness', hasBar: true },
-                { id: 'notificationVolume', valueSpanId: 'volumeValue', prop: 'notificationVolume', hasBar: true },
-                { id: 'timeTravelAnimationInterval', valueSpanId: 'timeTravelAnimationIntervalValue', prop: 'timeTravelAnimationInterval' }
-            ];
-
             // Loop through map to update sliders and their values
-            sliderUpdateMap.forEach(item => {
+            sliderConfig.forEach(item => {
                 const slider = document.getElementById(item.id);
                 const valueSpan = document.getElementById(item.valueSpanId);
                 if (slider && valueSpan && data.hasOwnProperty(item.prop)) {
@@ -1313,6 +1306,7 @@ function saveSettings() {
     showLoading('saveSettingsBtn', true);
 
     const settings = {
+        brightness: document.getElementById('brightness').value,
         destinationHour: document.getElementById('destinationHour').value,
         destinationMinute: document.getElementById('destinationMinute').value,
         alarmOnOff: document.getElementById('alarmOnOff').checked,
