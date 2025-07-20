@@ -107,15 +107,15 @@ This project is built using the Arduino framework for the ESP32. You will need t
 
 ## Wiring Guide
 
-This guide provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test all connections before soldering.
+This section provides a detailed overview of how to connect all components to the ESP32. It's highly recommended to assemble the circuit on a breadboard first to test the connections before soldering.
 
 <p align="center">
   <img src="circuit.jpg" alt="Wiring Schematic " width="800">
 </p>
 
 ### Power Distribution
-
 **Pro-Tip for Power Rails:** Managing multiple power and ground connections on a breadboard can get messy. For a much cleaner and more reliable setup, consider using **Wago-style lever-nut connectors**. You can run a single wire from your 5V source to one connector and another from GND to a second. Then, simply plug all the individual component VCC and GND wires into their respective connectors. This creates solid, secure power rails without soldering.
+
 
 All components require a connection to power (VCC) and ground (GND).
 *   **5V Power**: Connect the **VIN** pin of the ESP32 to the positive (5V) rail of your power source. Connect the VCC pins of all three TM1637 displays, the Adafruit AlphaNum4 display, and the DFPlayer Mini to this 5V rail.
@@ -124,7 +124,7 @@ All components require a connection to power (VCC) and ground (GND).
 
 The clock uses four separate displays that are controlled differently.
 
-#### TM1637 7-Segment Displays
+### TM1637 7-Segment Displays
 These three displays share a common clock (CLK) line to save pins, but each has a unique data (DIO) line.
 
 | Display Function            | Pin | ESP32 GPIO |
@@ -134,7 +134,7 @@ These three displays share a common clock (CLK) line to save pins, but each has 
 | Year                        | DIO |    15    |
 | Time (HH:MM)                | DIO |    14    |
 
-#### Adafruit AlphaNum4 Alphanumeric Display
+### Adafruit AlphaNum4 Alphanumeric Display
 This display uses the I2C communication protocol.
 
 | Component                 | Pin | ESP32 GPIO |
@@ -183,6 +183,7 @@ This project's housing is based on the incredible "Back to the Future Single Tim
 ### 2. Hardware Assembly
 
 Solder all the components together as described in the **Wiring Guide**. Double-check all your connections, especially power and ground, before applying power.
+
 
 **Pro-Tip:** For initial assembly and prototyping, **Dupont plug-in jumper wires** are highly recommended. They eliminate the need for soldering and make wiring much simpler and reversible. For a more permanent and robust final build, consider soldering components to a perfboard.
 
