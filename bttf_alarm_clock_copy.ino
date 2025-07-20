@@ -2483,7 +2483,8 @@ void loop()
   }
 
   //CHECK TO SEE IF timeTravelSoundToggle HAS CHANGED, IF SO CHANGE THE LED STATUS
-  if(currentSettings.timeTravelSoundToggle==1) {
+  if (currentSettings.timeTravelSoundToggle) {
+    digitalWrite(SET_SOUND_LED, HIGH);
      }
   else {
        digitalWrite(SET_SOUND_LED,LOW);
@@ -3056,9 +3057,12 @@ void alarm() {
 
   // --- Cleanup after alarm is fully stopped ---
   myDFPlayer.stop();
+  currentSettings.alarmOnOff = false; // Disarm the alarm
+  saveSettings();                     // Save the new state
+  triggerBrowserRefresh();            // Update the web UI
   digitalWrite(SET_STOP_LED, LOW);
   Serial.println("Alarm stopped.");
-  while (digitalRead(SET_STOP_BUTTON) == true) {
+  while (digitalRead(SET_STOP_BUTTON) == true) { // Wait for button release
     delay(20);
   }
 }
