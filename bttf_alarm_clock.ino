@@ -2377,7 +2377,7 @@ void loop()
     unsigned long currenttestMillis = millis();
     unsigned long lastYieldTime = millis();
     static bool colonState = false;
-    
+    MDNS.update();
   // Handle watchdog
   if (millis() - lastYieldTime > 50) {
     yield();
