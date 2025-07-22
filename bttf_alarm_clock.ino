@@ -2283,6 +2283,8 @@ if (currentSettings.timeTravelSoundToggle==0) {
     monthdayupdate(random(1, 30));
     green2.showNumberDecEx(random(1000, 8000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
+    digitalWrite(greenAM, random(0,1));
+    digitalWrite(greenPM, !digitalread(greenAM));
    delay(10);
   }
 
@@ -2293,6 +2295,9 @@ if (currentSettings.timeTravelSoundToggle==0) {
       monthdayupdate(random(1, 30));
     green2.showNumberDecEx(random(500, 3000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
+      digitalWrite(greenAM, random(0,1));
+      digitalWrite(greenPM, !digitalread(greenAM));
+
    delay(500);
   }
 
@@ -2596,6 +2601,8 @@ void loop()
     monthdayupdate(random(1,30));
     green2.showNumberDecEx(random(1000, 8000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
+      digitalWrite(greenAM, random(0,1));
+    digitalWrite(greenPM, !digitalread(greenAM));
    delay(10);
   }
 
@@ -2850,7 +2857,7 @@ showMonth(months[12]);
 
     if (nighttimeonlyonce) {
 
-      if (currentSettings.timeTravelSoundToggle==1) myDFPlayer.play(10); //play only once
+    myDFPlayer.play(10); //play only once
     digitalWrite(greenAM, 0);
    // Serial.println("27");
 
