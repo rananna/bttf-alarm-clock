@@ -2284,7 +2284,7 @@ if (currentSettings.timeTravelSoundToggle==0) {
     green2.showNumberDecEx(random(1000, 8000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
     digitalWrite(greenAM, random(0,1));
-    digitalWrite(greenPM, !digitalread(greenAM));
+    digitalWrite(greenPM,!digitalRead(greenAM));
    delay(10);
   }
 
@@ -2296,7 +2296,7 @@ if (currentSettings.timeTravelSoundToggle==0) {
     green2.showNumberDecEx(random(500, 3000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
       digitalWrite(greenAM, random(0,1));
-      digitalWrite(greenPM, !digitalread(greenAM));
+      digitalWrite(greenPM,!digitalRead(greenAM));
 
    delay(500);
   }
@@ -2602,7 +2602,7 @@ void loop()
     green2.showNumberDecEx(random(1000, 8000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
       digitalWrite(greenAM, random(0,1));
-    digitalWrite(greenPM, !digitalread(greenAM));
+    digitalWrite(greenPM,!digitalRead(greenAM));
    delay(10);
   }
 
