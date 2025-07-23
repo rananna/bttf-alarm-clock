@@ -7,7 +7,7 @@
 
 <p align="center">
   <!-- Replace with a GIF or image of your clock in action! -->
-  <img src="circuit.jpg" alt="Wiring Schematic " width="800">
+  <img src="20250722_134713.jpg" alt="Wiring Schematic " width="800">
 </p>
 
 > **Great Scott!** It appears you've stumbled upon the schematics for a temporal displacement alarm clock. While this device can't actually travel through time (flux capacitor technology is still a bit tricky), it brings the iconic look and feel of the DeLorean's time circuits right to your nightstand. Using the power of an ESP32 and a little bit of 1.21-gigawatt... I mean, 5-volt... ingenuity, this clock connects to your local WiFi network to display the precise date and time. You can set a "Destination Time" alarm and a "Last Time Departed" sleep schedule, all configurable from a web interface. So, fire it up, but be warned: once this baby hits 88 miles per hour on the display, you're going to see some serious stuff!
