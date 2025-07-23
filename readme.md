@@ -44,7 +44,11 @@ For experienced makers:
     *Note:* If the clock is in Access Point mode (i.e., it couldn't connect to a saved WiFi network), the alphanumeric display will show "AP" to indicate this mode.
 ## Features
 
-If you want to see a demo of what this project can accomplish, take a look at this video.
+<p align="center">
+  <!-- Replace with a GIF or image of your clock in action! -->
+  <img src="20250722_134700~2.jpg" alt="Wiring Schematic " width="800">
+</p>
+
 
 ### Video Demo
 
