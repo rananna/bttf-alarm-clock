@@ -52,7 +52,7 @@ For experienced makers:
 
 ### Video Demo
 
-You can see the BTTF clock booting up [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+You can see the BTTF clock booting up [here](https://youtu.be/V0ri4ddPnqE?si=vd6oWths4MbNTJP2)
 
 This project is packed with features to create an authentic and highly functional alarm clock:
 
