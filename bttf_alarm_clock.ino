@@ -56,7 +56,7 @@
 
 static bool nighttimeonlyonce=true;
 struct tm timeinfo;
-
+bool sleeptimeactive = false;
 const byte RXD2 = 16;           // RX pin connected to the DFPlayer Mini's TX pin
 const byte TXD2 = 17;           // TX pin connected to the DFPlayer Mini's RX pin
 
@@ -2244,7 +2244,7 @@ if (currentSettings.timeTravelSoundToggle==0) {
   Play_finished = 0; 
 
   Serial.println("\n Starting");
- myDFPlayer.play(2);
+ if (!sleeptimeactive) myDFPlayer.play(2);
   
 
     digitalWrite(greenAM, 0);
@@ -2283,7 +2283,8 @@ if (currentSettings.timeTravelSoundToggle==0) {
     monthdayupdate(random(1, 30));
     green2.showNumberDecEx(random(1000, 8000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
-    digitalWrite(greenAM, random(0,1));
+    digitalWrite(greenAM, random(0,2));
+    
     digitalWrite(greenPM,!digitalRead(greenAM));
    delay(10);
   }
@@ -2295,7 +2296,8 @@ if (currentSettings.timeTravelSoundToggle==0) {
       monthdayupdate(random(1, 30));
     green2.showNumberDecEx(random(500, 3000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
-      digitalWrite(greenAM, random(0,1));
+      digitalWrite(greenAM, random(0,2));
+     
       digitalWrite(greenPM,!digitalRead(greenAM));
 
    delay(500);
@@ -2437,7 +2439,7 @@ void loop()
   
  
    // set time variables
-    bool sleeptimeactive = false;
+  
 
     if (timeSynchronized) {
         // Create a time_t value for the current time
@@ -2528,7 +2530,7 @@ void loop()
                 // Example: `activateFluxCapacitorLEDs();`
                 // This would control specific LEDs or other visual elements.
                
-                 myDFPlayer.play(8);
+                if (!sleeptimeactive) myDFPlayer.play(8);
                  currentSettings.powerOfLoveToggle=false;
                 saveSettings();
                 triggerBrowserRefresh();
@@ -2601,7 +2603,8 @@ void loop()
     monthdayupdate(random(1,30));
     green2.showNumberDecEx(random(1000, 8000), 0b00000000, false);
     green3.showNumberDecEx(random(1000, 1900), 0b00000000, false);
-      digitalWrite(greenAM, random(0,1));
+      digitalWrite(greenAM, random(0,2));
+       delay(10);
     digitalWrite(greenPM,!digitalRead(greenAM));
    delay(10);
   }
@@ -2670,14 +2673,14 @@ for (int value : updateValues) {
     saveSettings();
     triggerBrowserRefresh();
       myDFPlayer.stop();
-     myDFPlayer.play(14);
+    if (!sleeptimeactive) myDFPlayer.play(14);
     }
   else {
     currentSettings.alarmOnOff = 1;
     saveSettings();
     triggerBrowserRefresh();
     myDFPlayer.stop();
-  myDFPlayer.play(13);
+  if (!sleeptimeactive) myDFPlayer.play(13);
   }
   monthdayupdate(currentSettings.alarmOnOff);  
   showMonth(months[14]);
@@ -2721,7 +2724,7 @@ if(digitalRead(MINUTE_BUTTON) == true && digitalRead(HOUR_BUTTON) == true ) // P
         easter_egg=1;
          if (currentSettings.timeTravelSoundToggle==1) {
           myDFPlayer.stop();
-          myDFPlayer.play(8);
+        if (!sleeptimeactive)  myDFPlayer.play(8);
          }
 
       }
@@ -2753,7 +2756,7 @@ if (digitalRead(HOUR_BUTTON) == true ) // Push hour butoon for volume down
  saveSettings();
   triggerBrowserRefresh();
   myDFPlayer.volume(currentSettings.notificationVolume);  
-  myDFPlayer.play(14);
+  if (!sleeptimeactive) myDFPlayer.play(14);
 
  monthdayupdate(currentSettings.notificationVolume);
  showMonth(months[12]);
@@ -2772,7 +2775,7 @@ if (digitalRead(HOUR_BUTTON) == true ) // Push hour butoon for volume down
   myDFPlayer.volume(currentSettings.notificationVolume);  
                   saveSettings();
                 triggerBrowserRefresh();
-  myDFPlayer.play(13);
+  if (!sleeptimeactive) myDFPlayer.play(13);
 
 monthdayupdate(currentSettings.notificationVolume);
 showMonth(months[12]);
@@ -3016,7 +3019,7 @@ void alarm() {
 
     // --- Start of Alarm Sequence ---
     showMonth(months[14]); // Display "alm"
-    myDFPlayer.play(2);    // Play the initial alarm sound
+    if (!sleeptimeactive) myDFPlayer.play(2);    // Play the initial alarm sound
 
     // --- 88 MPH Acceleration Sequence (Now fully responsive) ---
     for (int u = 0; u < 89; u++) {
@@ -3057,12 +3060,12 @@ void alarm() {
 
     // --- Main Alarm Loop (already quite responsive, no change needed here) ---
     digitalWrite(SET_STOP_LED, HIGH);
-    myDFPlayer.play(random(1, 9));
+    if (!sleeptimeactive) myDFPlayer.play(random(1, 9));
 
     while (true) {
       show_hour();
       if (myDFPlayer.available() && myDFPlayer.readType() == DFPlayerPlayFinished) {
-        myDFPlayer.play(random(1, 9));
+       if (!sleeptimeactive) myDFPlayer.play(random(1, 9));
       }
 
       buttonState = checkButtons();
@@ -3149,14 +3152,14 @@ if (currentSettings.timeTravelSoundToggle==0) {
  triggerBrowserRefresh();
   monthdayupdate(currentSettings.timeTravelSoundToggle);  
   showMonth(months[13]);
-  myDFPlayer.play(13);
+  if (!sleeptimeactive) myDFPlayer.play(13);
  }
 else {
   currentSettings.timeTravelSoundToggle=0;
   saveSettings();
   triggerBrowserRefresh();
   digitalWrite(SET_SOUND_LED,LOW); // added to turn on led on button press
-  myDFPlayer.play(14);
+  if (!sleeptimeactive) myDFPlayer.play(14);
   monthdayupdate(currentSettings.timeTravelSoundToggle); 
   showMonth(months[13]);
  }
